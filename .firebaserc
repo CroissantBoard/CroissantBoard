@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "croissantboard-f6382": {
+      "hosting": {
+        "CroissantBoar": [
+          "croissantboard-f6382"
+        ]
+      }
+    }
+  }
+}
