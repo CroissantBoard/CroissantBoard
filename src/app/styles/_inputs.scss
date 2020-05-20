@@ -1,0 +1,70 @@
+@import "_variables.scss";
+
+.common-input {
+    padding: 15px 22px 16px;
+    background-color: $white;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    outline: none;
+    font-size: $font-main;
+    line-height: 1.5;
+    color: $black;
+    &::placeholder {
+        color: $font-grey-placeholder;
+        font-size: $font-main;
+    }
+
+    &:focus {
+        border-color: $border-focus;
+    }
+
+    &:disabled {
+        border-color: $border-color;
+        background-color: $input-disabled;
+        color: $font-grey-placeholder;
+        &::placeholder {
+            color: $font-grey-placeholder;
+        }
+    }
+
+    &.error {
+        border-color: $border-error;
+    }
+
+    &.common-input-fullwidth {
+        width: 100%;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+
+    .label {
+        font-weight: 500;
+        font-size: $font-small;
+        color: $font-grey-disabled;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        width: 100%;
+
+        & ~ .error {
+            display: none;
+        }
+
+        &.ng-invalid.ng-touched {
+            border: 1px solid $border-error;
+            & ~ .error {
+                display: block;
+            }
+        }
+    }
+
+    .error {
+        color: $error;
+        font-size: $font-small;
+    }
+}
