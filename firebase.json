@@ -1,13 +1,9 @@
 {
   "hosting": [
     {
-      "target": "CroissantBoar",
-      "public": "dist/CroissantBoar",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "target": "CroissantBoard",
+      "public": "dist/CroissantBoard",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "**",

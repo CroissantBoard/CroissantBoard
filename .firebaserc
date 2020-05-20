@@ -2,7 +2,7 @@
   "targets": {
     "croissantboard-f6382": {
       "hosting": {
-        "CroissantBoar": [
+        "CroissantBoard": [
           "croissantboard-f6382"
         ]
       }
