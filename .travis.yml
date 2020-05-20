@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "14.2.0"
+
+branches:
+  only:
+    - master
+
+before_script:
+  - npm install -g firebase-tools
+
+script:
+  - npm run build.prod
+
+after_success:
+  - firebase deploy --only hosting --token "1//0cfjcT9Vj2izbCgYIARAAGAwSNwF-L9IrDzUer7_4yeiMW9t63bG3HFFfr4ZaYjmoCZttfuNjojUNYo2ALY2blGF__uZX8RTQ21w"
