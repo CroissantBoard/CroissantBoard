@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LogoComponent } from './components/logo/logo.component';
+import {ExampleSvgIconComponent} from './icons/example-svg-icon.component';
 
 @NgModule({
-  declarations: [LogoComponent],
+  declarations: [ExampleSvgIconComponent],
   imports: [RouterModule],
-  exports: [LogoComponent]
+  exports: [ExampleSvgIconComponent]
 })
 export class SharedModule {}

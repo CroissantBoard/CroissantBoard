@@ -8,7 +8,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment.prod';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
+import { MaterialModule } from './shared/modules/material.module';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
