@@ -8,21 +8,29 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment.prod';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from "./material/material.module";
+import { MaterialModule } from "./modules/material/material.module";
+
+import {HomeModule} from "./modules/home/home.module";
+import {HomeRoutingModule} from "./modules/home/home-routing.module";
+
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    BrowserAnimationsModule,
-    MaterialModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HomeRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HomeModule
+    ],
+    providers: [],
+    exports: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
