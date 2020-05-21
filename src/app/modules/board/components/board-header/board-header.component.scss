@@ -1,0 +1,33 @@
+@import 'variables';
+
+.board-header {
+    padding: 16px 30px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+
+    &__left {
+        display: flex;
+        align-items: center;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: $font-subheading;
+    }
+
+    &__actions {
+        display: flex;
+        align-self: center;
+    }
+
+    &__user-menu {
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+        margin-left: 20px;
+        border: 1px solid grey;
+        border-radius: 30px;
+    }
+}
