@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-board-page',
   templateUrl: './board-page.component.html',
   styleUrls: ['./board-page.component.scss']
 })
-export class BoardPageComponent implements OnInit {
+export class BoardPageComponent {
+  showSidebar = true;
 
   constructor() { }
 
-  ngOnInit(): void {
+  toggleSidebar(): void {
+    this.showSidebar = !this.showSidebar;
   }
 
 }

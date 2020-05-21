@@ -1,0 +1,23 @@
+<div class="board-header">
+    <div class="board-header__left">
+        <button
+            *ngIf="showButton"
+            mat-icon-button
+            aria-label="Hide"
+            class="hide-button"
+            (click)="hideSidebar()">
+            <span class="board-header__hide-button icon-menu"></span>
+        </button>
+        <h1 class="board-header__title">{{ title }}</h1>
+    </div>
+    <div class="board-header__actions">
+        <app-search></app-search>
+        <button
+            color="primary"
+            (click)="handleAddMenu()"
+            mat-flat-button>Add</button>
+        <div class="board-header__user-menu">
+            US
+        </div>
+    </div>
+</div>
