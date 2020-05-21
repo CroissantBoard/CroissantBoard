@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import {MaterialModule} from "../material/material.module";
+import { MaterialModule } from '../../shared/modules/material.module';
 import { LandingComponent } from './pages/landing/landing.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -12,10 +12,6 @@ import {HomeRoutingModule} from "./home-routing.module";
 import { HowToStartComponent } from './pages/how-to-start/how-to-start.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import {CommonModule} from "@angular/common";
-
-
-
-
 
 
 @NgModule({
