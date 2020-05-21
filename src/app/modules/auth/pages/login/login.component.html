@@ -1,0 +1,22 @@
+<div class="login">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+    <span>Log in</span>
+    <label for="email">
+      Email
+    </label>
+    <input id="email" name="email" type="email" formControlName="email" />
+    <label for="password">
+      Password
+    </label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      formControlName="password"
+    />
+    <div *ngIf="error">
+      {{ error }}
+    </div>
+    <button class="button" type="submit">Continue</button>
+  </form>
+</div>
