@@ -31,11 +31,11 @@
 <!--                </mat-select>-->
             </li>
             <li class="nav__menu-item">Contact Sales</li>
-            <li class="nav__menu-item"><a [routerLink]="['/log-in']" class="nav__menu-item-link">Log In</a></li>
-            <li class="nav__menu-item"><a [routerLink]="['/sign-up']" class="nav__menu-item-link">Sign Up</a></li>
+            <li class="nav__menu-item"><a routerLink="/auth/login" class="nav__menu-item-link">Log In</a></li>
+            <li class="nav__menu-item"><a routerLink="/auth/register" class="nav__menu-item-link">Sign Up</a></li>
             <li class="nav__menu-item">
                 <button class="header__settings-menu-item-button" mat-raised-button>
-                    <a [routerLink]="['/free-trial']" class="nav__menu-item-link">Try for free</a>
+                    <a routerLink="/board/home" class="nav__menu-item-link">Try for free</a>
                 </button>
             </li>
         </ul>
