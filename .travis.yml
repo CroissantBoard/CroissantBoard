@@ -13,4 +13,4 @@ script:
   - npm run build.prod
 
 after_success:
-  - firebase deploy --project croissantboard --only hosting --token "1//0cfjcT9Vj2izbCgYIARAAGAwSNwF-L9IrDzUer7_4yeiMW9t63bG3HFFfr4ZaYjmoCZttfuNjojUNYo2ALY2blGF__uZX8RTQ21w"
+  - firebase deploy --project croissantboard --token "1//0cfjcT9Vj2izbCgYIARAAGAwSNwF-L9IrDzUer7_4yeiMW9t63bG3HFFfr4ZaYjmoCZttfuNjojUNYo2ALY2blGF__uZX8RTQ21w"
