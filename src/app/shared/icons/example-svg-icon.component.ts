@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-svg',
+  selector: 'app-example-svg-icon',
   templateUrl: './example-svg-icon.component.svg',
   styleUrls: ['./example-svg-icon.component.scss']
 })
