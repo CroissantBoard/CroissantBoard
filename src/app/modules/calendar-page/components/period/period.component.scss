@@ -1,0 +1,13 @@
+@import "_variables";
+
+p {
+    text-align: center;
+    margin-top: 1.5%;
+
+        span {
+            color: $black;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+}

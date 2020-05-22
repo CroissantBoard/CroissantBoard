@@ -1,0 +1,30 @@
+<section>
+
+    <div>
+        Schedule
+        <strong>{{dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+    </div>
+
+    <main>
+        <ul>
+            <li>
+                <span>
+                    <strong></strong>
+
+                </span>
+                <button>Rem ove</button>
+            </li>
+        </ul>
+    </main>
+
+    <div>
+        <form (ngSubmit)="submit()">
+            <input type="text">
+
+            <button 
+            type="submit"
+            [disabled]="form.invalid"
+            >Add</button>
+        </form>
+    </div>
+</section>
