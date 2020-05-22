@@ -1,0 +1,43 @@
+<header class="header">
+    <nav class="nav header__nav">
+        <div class="header__logo">
+            <a [routerLink]="['/']" class="logo">
+                <mat-icon class="logo__icon" aria-hidden="false" aria-label="Croissant Board Logo">scatter_plot</mat-icon>
+                <span class="logo__text">Croissant<span class="logo__text--color">Board</span></span>
+            </a>
+        </div>
+        <ul class="nav__menu">
+            <li class="nav__menu-item"><a [routerLink]="['/why-us']" class="nav__menu-item-link">Why CroissantBoard?</a></li>
+            <li class="nav__menu-item"><a [routerLink]="['/how-to-start']" class="nav__menu-item-link">How to start</a></li>
+            <li class="nav__menu-item"><a  [routerLink]="['/pricing']" class="nav__menu-item-link">Pricing</a></li>
+        </ul>
+    </nav>
+    <div class="header__setting">
+        <ul class="nav__menu">
+            <li class="nav__menu-item">
+                <div >
+                    <mat-icon class="header__language-icon" aria-hidden="false" aria-label="Example home icon">language</mat-icon>
+                </div>
+<!--                <mat-select class="header__language-bar" >-->
+<!--                    <mat-option>-->
+<!--                        English-->
+<!--                    </mat-option>-->
+<!--                    <mat-option>-->
+<!--                        Ukrainian-->
+<!--                    </mat-option>-->
+<!--                    <mat-option>-->
+<!--                        German-->
+<!--                    </mat-option>-->
+<!--                </mat-select>-->
+            </li>
+            <li class="nav__menu-item">Contact Sales</li>
+            <li class="nav__menu-item"><a routerLink="/auth/login" class="nav__menu-item-link">Log In</a></li>
+            <li class="nav__menu-item"><a routerLink="/auth/register" class="nav__menu-item-link">Sign Up</a></li>
+            <li class="nav__menu-item">
+                <button class="header__settings-menu-item-button" mat-raised-button>
+                    <a routerLink="/board/home" class="nav__menu-item-link">Try for free</a>
+                </button>
+            </li>
+        </ul>
+    </div>
+</header>

@@ -1,13 +1,15 @@
 <div class="board">
-    <aside class="board__sidebar">
-        <!-- Sidebar wil be here -->
-        <a routerLink="/board/home">Home</a><br/><br/>
-        <a routerLink="/board/tasks">Tasks</a><br/><br/>
-        <a routerLink="/board/users">Users</a><br/><br/>
-        <a routerLink="/board/meetings">Meetings</a><br/><br/>
+    <aside class="board__sidebar"
+        [ngClass]="{sidebar: showSidebar}">
+        <app-sidebar
+            [showSidebar]="showSidebar"
+            (toggleSidebar)="toggleSidebar()"></app-sidebar>
     </aside>
     <div class="board__content">
-        <!-- header will be here -->
+        <app-board-header
+            (toggleSidebar)="toggleSidebar()"
+            [showButton]="!showSidebar">
+        </app-board-header>
         <router-outlet></router-outlet>
     </div>
 </div>

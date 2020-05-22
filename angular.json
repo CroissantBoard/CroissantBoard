@@ -26,6 +26,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/app/styles/theme.scss",
+              "src/app/styles/icomoon.scss",
               "src/app/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -91,6 +92,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/theme.scss",
+              "src/icomoon.scss",
               "src/styles.scss"
             ],
             "scripts": []
