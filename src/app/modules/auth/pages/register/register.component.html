@@ -84,8 +84,16 @@
         Confirm your password please
       </mat-error>
     </mat-form-field>
-    <button class="form__button" mat-flat-button color="primary">
+    <button
+      class="form__button form__button--submit"
+      mat-flat-button
+      color="primary"
+    >
       Sign Up
     </button>
+    <span class="form__text">
+      Already have an account?
+      <a class="form__link" [routerLink]="['/auth/login']">Sign in</a>
+    </span>
   </form>
 </div>

@@ -54,8 +54,16 @@
         Wrong password
       </mat-error>
     </mat-form-field>
-    <button class="form__button" mat-flat-button color="primary">
+    <button
+      class="form__button form__button--submit"
+      mat-flat-button
+      color="primary"
+    >
       Log In
     </button>
+    <span class="form__text">
+      Don’t have an account?
+      <a class="form__link" [routerLink]="['/auth/register']">Sign up</a>
+    </span>
   </form>
 </div>
