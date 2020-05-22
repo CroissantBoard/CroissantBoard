@@ -1,0 +1,20 @@
+<div class="task">
+  <ng-template #showTask>
+  <div class="task__info"  (dblclick)="editTask($event, task)">
+    <div class="task__block">
+      <mat-icon class="task__icon">more_vert</mat-icon>
+      <mat-checkbox class="task__checkbox" [(ngModel)]="task.completed" (change)="doneEdit(task)"></mat-checkbox>
+      <span class="task__name">{{ task.name }}</span>
+    </div>
+
+    <div class="task__block">
+      <span class="task__deadline" *ngIf="task.deadline"> {{ task.deadline | date:'LLL d' }}</span>
+      <mat-icon class="task__icon">keyboard_arrow_right</mat-icon>
+    </div>
+  </div>
+</ng-template>
+  <div class="task__edit" *ngIf="editState && taskToEdit.id == task.id; else showTask" >
+    <app-task-edit [task]="task"></app-task-edit>
+    <div (click)="clearState()">X</div>
+  </div>
+</div>

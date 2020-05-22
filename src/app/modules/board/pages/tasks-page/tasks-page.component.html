@@ -1,1 +1,16 @@
-<p>tasks-page works!</p>
+<div class="task-page">
+  <div class="task-page__container">
+    <div class="task-page__header">
+      <button (click)="showAddMenu()" mat-flat-button color="primary">
+        <mat-icon>add_circle_outline</mat-icon>
+        Add Task
+      </button>
+    </div>
+    <mat-divider></mat-divider>
+    <app-task-list></app-task-list>
+  </div>
+
+  <div *ngIf="isShown" class="task-page__container task-page__add-block">
+    <app-task-add (isShown)="showAddMenu()"></app-task-add>
+  </div>
+</div>

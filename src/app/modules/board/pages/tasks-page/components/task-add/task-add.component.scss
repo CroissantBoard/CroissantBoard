@@ -1,0 +1,42 @@
+@import "variables";
+@import "mixins";
+
+.form {
+  width: 100%;
+  @include dis-flex(center, flex-start);
+  flex-direction: column;
+
+  &__header {
+    width: calc(100% - 52px);
+    @include dis-flex(space-between, center);
+    padding: 10px 26px;
+    border-bottom: 1px solid $border-color;
+    color: $font-grey;
+  }
+
+  &__checkbox {
+    border: 1px solid $font-grey;
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+
+  &__container{
+    padding: 10px 26px;
+  }
+
+  &__title {
+    font-size: $font-subheading;
+    @include flex-center;
+    
+  }
+
+  &__wrapper {
+    @include dis-flex(center, flex-start);
+    flex-direction: column;
+    align-self: flex-start;
+  }
+
+  &__button{
+    align-self: center;
+  }
+}

@@ -1,0 +1,81 @@
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
+import User from 'src/app/shared/interfaces/User';
+import { AuthService } from 'src/app/core/authentification/auth.service';
+import { TaskService } from 'src/app/shared/services/task.service';
+import Task from 'src/app/shared/interfaces/Task';
+
+@Component({
+  selector: 'app-task-add',
+  templateUrl: './task-add.component.html',
+  styleUrls: ['./task-add.component.scss']
+})
+export class TaskAddComponent implements OnInit {
+
+  task: Task = {}
+  user$: Observable<User>;
+  user: User;
+  form: FormGroup;
+  @Output() isShown = new EventEmitter<boolean>();;
+  @Output() added = new EventEmitter();
+
+  minDate: Date;
+  current = new Date();
+  followingDay = +(new Date(this.current.getTime() + 86400000));
+  isAdd: boolean = true
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private taskService: TaskService
+  ) {
+    this.form = this.formBuilder.group({
+      name: '',
+      deadline: null,
+      priority: 'low',
+      description: '',
+      assignee: '',
+      project: '',
+      completed: null
+    });
+    this.minDate = new Date();
+  }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  onSubmit({ name, deadline, priority, description, assignee, project, completed }): void {
+    this.taskService.addTask({
+      name,
+      deadline: new Date(deadline).getTime(),
+      priority,
+      dateOfCreate: Date.now(),
+      createdBy: this.user.uid,
+      completed: false,
+      description,
+      assignee,
+      project,
+      
+    });
+
+    this.added.emit();
+
+    this.form.controls['name'].setValue('')
+    this.form.controls['deadline'].setValue('')
+    this.form.controls['completed'].setValue('')
+    this.form.controls['assignee'].setValue('')
+    this.form.controls['project'].setValue('')
+    this.form.controls['description'].setValue('')
+  }
+  
+  closeWindow(){
+    this.isShown.emit(false)
+  }
+  isFieldValid(field: string) {
+    return (!this.form.get(field).valid && this.form.get(field).touched);
+  }
+}

@@ -1,0 +1,54 @@
+<div class="add-task">
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <div class="form__header">
+      <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
+      <div class="form__icon" (click)="closeWindow()">X</div>
+    </div>
+
+    <div class="form__container">
+      <mat-form-field class="form__title">
+        <mat-label class="form__title--label">Write a task name</mat-label>
+        <input class="form__title--input" matInput placeholder="Write a task name" name="name" formControlName="name"
+          id="name">
+      </mat-form-field>
+
+      <div class="form__wrapper">
+        <mat-form-field class="form__field">
+          <mat-label>Assignee</mat-label>
+          <input matInput placeholder="Ann" name="assignee" formControlName="assignee" id="assignee">
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <mat-label>Choose a deadline</mat-label>
+          <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="deadline" id="deadline"
+            name="deadline">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <mat-label>Priority</mat-label>
+          <select matNativeControl formControlName="priority" id="priority">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <mat-label>Add to project</mat-label>
+          <input matInput placeholder="Ann" name="project" formControlName="project" id="project">
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Description" name="description" formControlName="description" id="description">
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <button class="form__button" type="submit" mat-raised-button color="primary">Add task</button>
+
+  </form>
+</div>

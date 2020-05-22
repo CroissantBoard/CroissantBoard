@@ -1,0 +1,26 @@
+@import 'variables';
+@import 'mixins';
+
+.task-page{
+  background-color: $light;
+  @include dis-flex(center, stretch);
+  padding: 16px;
+  height: 80vh;
+
+  &__container{
+    flex: 0 1 1000px;
+    min-width: 405px;
+    background-color: $white;
+    box-shadow: $shadow-main;
+  }
+
+  &__add-block{
+    margin-left: 16px;
+    flex: 0 1 675px;
+    min-width: 495px;
+  }
+
+  &__header{
+    padding: 10px 0 10px 32px;
+  }
+}

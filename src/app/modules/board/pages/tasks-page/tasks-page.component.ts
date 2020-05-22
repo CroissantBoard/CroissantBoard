@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tasks-page',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tasks-page.component.scss']
 })
 export class TasksPageComponent implements OnInit {
+ 
+  isShown: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  showAddMenu() {
+    this.isShown = !this.isShown;
+  }
 }

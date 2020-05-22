@@ -1,0 +1,42 @@
+<div class="add-task">
+  <form class="form" (ngSubmit)="updateItem(task)">
+    <div class="add-task__header">
+      <mat-checkbox class="task__checkbox" [(ngModel)]="task.completed" name="completed">Mark complete</mat-checkbox>
+    </div>
+
+    <mat-form-field class="form__wrapper">
+      <mat-label>Write a task name</mat-label>
+      <input matInput placeholder="Ann" [(ngModel)]="task.name" name="name">
+    </mat-form-field>
+
+    <mat-form-field class="form__wrapper">
+      <mat-label>Assignee</mat-label>
+      <input matInput placeholder="Ann" [(ngModel)]="task.assignee" name="assignee">
+    </mat-form-field>
+
+    <mat-form-field class="form__wrapper">
+      <mat-label>Deadline</mat-label>
+      <input matInput class="form__input" type="date" [(ngModel)]="task.deadline" name="deadline">
+    </mat-form-field>
+
+    <label class="form__label" for="priority">Priority</label>
+    <select class="form__input" [(ngModel)]="task.priority" name="priority">
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+
+    <mat-form-field class="form__wrapper">
+      <mat-label>Project</mat-label>
+      <input matInput placeholder="Ann" [(ngModel)]="task.project" name="project">
+    </mat-form-field>
+
+    <mat-form-field class="form__wrapper">
+      <mat-label>Description</mat-label>
+      <input matInput placeholder="Description" [(ngModel)]="task.description" name="description">
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <mat-icon (click)="deleteTask($event, task)">delete_outline</mat-icon>
+  </form>
+</div>

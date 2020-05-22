@@ -1,0 +1,19 @@
+@import "variables";
+@import "mixins";
+
+.task-list {
+  padding: 0;
+
+  &__item {
+    background-color: $white;
+    padding: 10px 0;
+    border-bottom: 1px solid $border-color;
+    &:hover {
+      background-color: $light;
+    }
+  }
+}
+
+.cdk-drop-list {
+  padding: 0;
+}

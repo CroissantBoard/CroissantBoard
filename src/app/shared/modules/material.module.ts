@@ -4,13 +4,25 @@ import { MatInputModule } from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const MaterialComponents = [
     MatButtonModule,
     MatInputModule,
     MatIconModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    DragDropModule,
+    MatDatepickerModule,
+    MatButtonToggleModule,
+    MatNativeDateModule,
 ];
 
 @NgModule({
