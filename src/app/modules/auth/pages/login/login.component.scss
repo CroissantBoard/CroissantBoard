@@ -1,15 +1,1 @@
-.form {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  max-width: 900px;
-  padding: 40px 200px;
-  background-color: #f6f8f9;
-
-  &__title {
-    display: flex;
-    justify-content: center;
-    color: #151b26;
-    font-size: 46px;
-  }
-}
+@import '../../shared/styles/form';
