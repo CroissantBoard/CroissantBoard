@@ -5,38 +5,89 @@
   width: 100%;
   @include dis-flex(center, flex-start);
   flex-direction: column;
+  color: $font-grey;
 
   &__header {
     width: calc(100% - 52px);
     @include dis-flex(space-between, center);
     padding: 10px 26px;
     border-bottom: 1px solid $border-color;
-    color: $font-grey;
+  }
+
+  &__sub-header {
+    width: calc(100% - 52px);
+    padding: 10px 26px;
+    @include dis-flex(space-between, center);
+    background-color: $light;
+    color: $dark;
+
+    &--underline {
+      border-bottom: 1px dotted $font-grey;
+    }
   }
 
   &__checkbox {
     border: 1px solid $font-grey;
     padding: 2px 4px;
     border-radius: 3px;
+    font-size: $font-extra-small;
   }
 
-  &__container{
+  &__container {
     padding: 10px 26px;
+    width: calc(100% - 52px);
   }
 
   &__title {
     font-size: $font-subheading;
     @include flex-center;
-    
+
+    &--input {
+      padding: 6px 0 6px 6px;
+      border-radius: 3px;
+      border: 1px solid transparent;
+
+      &:hover {
+        border: 1px solid $border-color;
+      }
+
+      &:focus {
+        border: 1px solid $border-focus;
+        box-shadow: $shadow-main;
+      }
+    }
   }
 
   &__wrapper {
     @include dis-flex(center, flex-start);
     flex-direction: column;
     align-self: flex-start;
+    margin: 10px 0;
   }
 
-  &__button{
+  &__field {
+    @include dis-flex(flex-start, center);
+  }
+
+  &__label {
+    width: 100px;
+    font-size: $font-extra-small;
+  }
+
+  &__button {
     align-self: center;
   }
+
+  &__icon {
+    font-size: $font-large;
+    margin: 0 4px;
+
+    &:hover:not(.icon-lock) {
+      cursor: pointer;
+    }
+  }
+}
+
+::ng-deep .private.mat-checkbox .mat-checkbox-inner-container {
+  display: none;
 }

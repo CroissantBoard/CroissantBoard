@@ -22,16 +22,6 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  editTask(event, task: Task) {
-    this.editState = true;
-    this.taskToEdit = task;
-  }
-
-  clearState() {
-    this.editState = false;
-    this.taskToEdit = null;
-  }
-
   doneEdit(task: Task) {
     this.taskService.updateTask(task);
   }

@@ -2,15 +2,19 @@
   <div class="task-page__container">
     <div class="task-page__header">
       <button (click)="showAddMenu()" mat-flat-button color="primary">
-        <mat-icon>add_circle_outline</mat-icon>
+        <span class="form__icon icon-plus"></span>
         Add Task
       </button>
     </div>
     <mat-divider></mat-divider>
-    <app-task-list></app-task-list>
+    <app-task-list (oneTask)="pasteTask($event, $event)"></app-task-list>
   </div>
 
   <div *ngIf="isShown" class="task-page__container task-page__add-block">
     <app-task-add (isShown)="showAddMenu()"></app-task-add>
+  </div>
+
+  <div *ngIf="editShown" class="task-page__container task-page__add-block">
+    <app-task-edit [task]="oneTask" (isShown)="showEditMenu()"></app-task-edit>
   </div>
 </div>

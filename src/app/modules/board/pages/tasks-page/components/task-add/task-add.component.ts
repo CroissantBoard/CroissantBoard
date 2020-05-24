@@ -17,13 +17,14 @@ export class TaskAddComponent implements OnInit {
   user$: Observable<User>;
   user: User;
   form: FormGroup;
-  @Output() isShown = new EventEmitter<boolean>();;
+  @Output() isShown = new EventEmitter<boolean>();
   @Output() added = new EventEmitter();
 
   minDate: Date;
   current = new Date();
   followingDay = +(new Date(this.current.getTime() + 86400000));
-  isAdd: boolean = true
+  isAdd: boolean = true;
+  isPublic: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,7 +38,8 @@ export class TaskAddComponent implements OnInit {
       description: '',
       assignee: '',
       project: '',
-      completed: null
+      completed: false,
+      IsPrivate: true,
     });
     this.minDate = new Date();
   }
@@ -48,18 +50,18 @@ export class TaskAddComponent implements OnInit {
     });
   }
 
-  onSubmit({ name, deadline, priority, description, assignee, project, completed }): void {
+  onSubmit({ name, deadline, priority, description, assignee, project, completed, IsPrivate }): void {
     this.taskService.addTask({
       name,
       deadline: new Date(deadline).getTime(),
       priority,
       dateOfCreate: Date.now(),
       createdBy: this.user.uid,
-      completed: false,
+      completed,
       description,
       assignee,
       project,
-      
+      IsPrivate,
     });
 
     this.added.emit();
@@ -70,12 +72,18 @@ export class TaskAddComponent implements OnInit {
     this.form.controls['assignee'].setValue('')
     this.form.controls['project'].setValue('')
     this.form.controls['description'].setValue('')
+    this.form.controls['priority'].setValue('low')
   }
-  
-  closeWindow(){
-    this.isShown.emit(false)
+
+  closeWindow() {
+    this.isShown.emit();
   }
+
   isFieldValid(field: string) {
     return (!this.form.get(field).valid && this.form.get(field).touched);
+  }
+
+  test() {
+    this.isPublic = !this.isPublic;
   }
 }

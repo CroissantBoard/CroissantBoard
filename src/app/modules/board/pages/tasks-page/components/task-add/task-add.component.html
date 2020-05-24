@@ -2,51 +2,80 @@
   <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
     <div class="form__header">
       <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
-      <div class="form__icon" (click)="closeWindow()">X</div>
-    </div>
-
-    <div class="form__container">
-      <mat-form-field class="form__title">
-        <mat-label class="form__title--label">Write a task name</mat-label>
-        <input class="form__title--input" matInput placeholder="Write a task name" name="name" formControlName="name"
-          id="name">
-      </mat-form-field>
-
-      <div class="form__wrapper">
-        <mat-form-field class="form__field">
-          <mat-label>Assignee</mat-label>
-          <input matInput placeholder="Ann" name="assignee" formControlName="assignee" id="assignee">
-        </mat-form-field>
-
-        <mat-form-field class="form__field">
-          <mat-label>Choose a deadline</mat-label>
-          <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="deadline" id="deadline"
-            name="deadline">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field class="form__field">
-          <mat-label>Priority</mat-label>
-          <select matNativeControl formControlName="priority" id="priority">
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </mat-form-field>
-
-        <mat-form-field class="form__field">
-          <mat-label>Add to project</mat-label>
-          <input matInput placeholder="Ann" name="project" formControlName="project" id="project">
-        </mat-form-field>
-
-        <mat-form-field class="form__field">
-          <mat-label>Description</mat-label>
-          <input matInput placeholder="Description" name="description" formControlName="description" id="description">
-        </mat-form-field>
+      <div>
+        <span class="form__icon icon-more-horizontal"></span>
+        <span class="form__icon icon-x" (click)="closeWindow()"></span>
       </div>
     </div>
 
+    <div class="form__sub-header">
+      <div *ngIf="!isPublic; else isPrivate">
+        <span class="form__icon icon-lock"></span>
+        <span>This task is private to you.</span>
+      </div>
+      <ng-template #isPrivate>
+        <div>
+          <span>This task is visible to everyone.</span>
+        </div>
+      </ng-template>
+
+      <mat-checkbox class="private" formControlName="IsPrivate" (click)="test()">
+        <span class="form__sub-header--underline" *ngIf="!isPublic"> Make public</span>
+        <span class="form__sub-header--underline" *ngIf="isPublic">Make private</span>
+      </mat-checkbox>
+    </div>
+
+    <div class="form__container">
+      <div class="form__title">
+        <input class="form__title--input" matInput placeholder="Write a task name" name="name" formControlName="name"
+          id="name">
+      </div>
+
+      <div class="form__wrapper">
+        <div class="form__field">
+          <label class="form__label">Assignee</label>
+          <mat-form-field>
+            <input matInput placeholder="Name" name="assignee" formControlName="assignee" id="assignee">
+          </mat-form-field>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label">Due date</label>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="deadline" id="deadline"
+              name="deadline">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label">Priority</label>
+          <mat-form-field>
+            <select matNativeControl formControlName="priority" id="priority">
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </mat-form-field>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label">Project</label>
+          <mat-form-field>
+            <input matInput placeholder="Project" name="project" formControlName="project" id="project">
+          </mat-form-field>
+        </div>
+
+        <div class="form__field form__field--description">
+          <label class="form__label">Description</label>
+          <mat-form-field>
+            <textarea class="form__textarea" matInput placeholder="Add more details.." name="description"
+              formControlName="description" id="description"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
 
     <button class="form__button" type="submit" mat-raised-button color="primary">Add task</button>
 

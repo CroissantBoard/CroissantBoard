@@ -9,4 +9,5 @@ export default interface Task {
   description?: string; 
   assignee?: string;
   project?: string;
+  IsPrivate?: boolean;
 }

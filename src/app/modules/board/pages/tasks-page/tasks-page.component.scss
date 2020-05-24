@@ -5,7 +5,7 @@
   background-color: $light;
   @include dis-flex(center, stretch);
   padding: 16px;
-  height: 80vh;
+  height: calc(100vh - 100px);
 
   &__container{
     flex: 0 1 1000px;

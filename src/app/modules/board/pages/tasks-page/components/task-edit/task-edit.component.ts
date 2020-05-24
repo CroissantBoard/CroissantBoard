@@ -14,10 +14,12 @@ import * as moment from 'moment';
 })
 export class TaskEditComponent implements OnInit {
 
+  isPublic: boolean = false;
   user$: Observable<User>;
   user: User;
   @Input() task: Task;
   @Output() edited = new EventEmitter();
+  @Output() isShown = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService,
@@ -29,11 +31,21 @@ export class TaskEditComponent implements OnInit {
       this.user = user;
     });
   }
+
   updateItem(task: Task) {
     this.taskService.updateTask(task);
   }
 
   deleteTask(event, task: Task) {
     this.taskService.deleteTask(task);
+    this.closeWindow();
+  }
+
+  closeWindow() {
+    this.isShown.emit();
+  }
+
+  test(){
+    this.isPublic = !this.isPublic;
   }
 }
