@@ -1,0 +1,51 @@
+@import "_variables";
+
+.schedule {
+    max-width: 100%;
+    background: transparent;
+}
+
+.schedule__header {
+    max-width: 100%;
+    margin: 0 1.5px;
+    padding: 1rem;
+    background: $primary-dark;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .schedule__header_title {
+        color: $white;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .schedule__header_date {
+        margin-left: 1rem;
+        color: $white;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}
+
+.schedule__body {
+    max-width: 100%;
+    margin: 1.5px 1.5px;
+    padding: 1rem;
+    background: $primary-light;
+    display: flex;
+    justify-content: space-between;
+
+        .schedule__list_task {
+            width: 100%;
+            padding: 0;
+            border: 1px solid $black;
+            background: $primary-light;
+
+            .schedule__item_task {
+                list-style: none;
+                width: 100%;
+                background: $accent-dark;
+            }
+        }
+}

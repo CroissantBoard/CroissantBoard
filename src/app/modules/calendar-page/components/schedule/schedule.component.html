@@ -1,30 +1,16 @@
-<section>
+<section class="schedule">
 
-    <div>
-        Schedule
-        <strong>{{dateService.date | async | moment: 'DD.MM.YYYY'}}</strong>
+    <div class="schedule__header">
+        <span class="schedule__header_title">Schedule</span>
+        <span class="schedule__header_date">{{dateService.date | async | moment: 'DD.MM.YYYY'}}</span>
     </div>
 
-    <main>
-        <ul>
-            <li>
-                <span>
-                    <strong></strong>
-
-                </span>
-                <button>Rem ove</button>
+    <div class="schedule__body">
+        <ul class="schedule__list_task">
+            <li class="schedule__item_task">
+                task item
             </li>
         </ul>
-    </main>
-
-    <div>
-        <form (ngSubmit)="submit()">
-            <input type="text">
-
-            <button 
-            type="submit"
-            [disabled]="form.invalid"
-            >Add</button>
-        </form>
     </div>
+
 </section>

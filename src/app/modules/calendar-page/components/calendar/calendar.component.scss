@@ -91,6 +91,15 @@
             margin: 4px 4px;
             min-height: 60%;
             max-height: 80%;
+            align-items: center;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+            font-size: 11px;
+            line-height: 16px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            flex-wrap: wrap;
         }
 
 }
