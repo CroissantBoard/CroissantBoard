@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingsPageComponent implements OnInit {
 
-  timelineRows = new Array(24).fill(null);
+  timelineRuler = new Array(24).fill(null);
+
+  allTimelines = [
+    { addingDropListId: 'addingDropListId_0' },
+    { addingDropListId: 'addingDropListId_1' },
+    { addingDropListId: 'addingDropListId_2' },
+  ];
+
+  timelineBarId: string = 'addingItemsList';
 
   constructor() { }
 

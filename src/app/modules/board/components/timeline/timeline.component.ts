@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, CdkDragMove } from '@angular/cdk/drag-drop';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, CdkDragMove, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { flatten } from 'lodash';
 
@@ -13,7 +13,10 @@ import { TimelineSwapsItem } from 'src/app/shared/interfaces/timeline/timeline-s
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnChanges {
+
+  @Input() addingDropListId: string;
+  @Input() timelineBarId: string;
 
   mainContainers: MainContainer[] = [
     {
@@ -74,13 +77,20 @@ export class TimelineComponent implements OnInit {
 
   timelineStarts: TimelineEndpoint[] = new Array(24).fill(null);
   timelineEnds: TimelineEndpoint[] = new Array(24).fill(null);
-  timelineSwaps: TimelineSwapsItem[];
+  timelineSwaps: TimelineSwapsItem[] = new Array(24).fill(null);
+
+  timelineAddingItems: string[] = new Array(this.timelineSwaps.length - 1).fill(null);
 
   movingItem: TimelineEndpoint | TimelineSwapsItem = null;
 
-  timelinePointWidth: number = 100 / this.timelineStarts.length;
+  timelinePointWidth: number = 100 / this.timelineSwaps.length;
 
   constructor() { }
+
+  ngOnChanges() {
+    if (this.addingDropListId && this.timelineBarId) {
+    }
+  }
 
   ngOnInit(): void {
     this.timelineStarts[5] = { id: 0, value: 'start' };
@@ -127,7 +137,7 @@ export class TimelineComponent implements OnInit {
 
   moveItem(array: TimelineEndpoint[], prevIndex: number, currIndex: number, value: string): void {
     moveItemInArray(array, prevIndex, currIndex);
-    
+
     this.changeContainerSizeByPoint(array[currIndex].id, value, currIndex);
   }
 
@@ -135,8 +145,13 @@ export class TimelineComponent implements OnInit {
     let oldTarget = array[prevIndex];
     array[prevIndex] = array[currIndex];
     array[currIndex] = oldTarget;
-    
+
     this.changeContainerSizeByPoint(array[currIndex].id, value, currIndex);
+  }
+
+  addItem(array: TimelineEndpoint[] | TimelineSwapsItem[], currIndex: number, item: TimelineEndpoint | TimelineSwapsItem): void {
+    array[currIndex] = item;
+    this.changeContainerSizeByPoint(array[currIndex].id, item.value, currIndex);
   }
 
   drop($event: CdkDragDrop<TimelineEndpoint[]>): void {
@@ -186,6 +201,46 @@ export class TimelineComponent implements OnInit {
     this.stopMoving();
   }
 
+  addDrop($event: CdkDragDrop<string[]>): void {
+
+    if (this.checkAdd($event.currentIndex)) {
+
+      const id = Math.max(...this.mainContainers.map(cont => cont.id)) + 1;
+
+      this.mainContainers.push({
+        id,
+        indexes: [$event.currentIndex, $event.currentIndex],
+        width: 0,
+        startX: 0,
+        endX: 0,
+        totalHours: 0,
+        status: $event.previousContainer.data[$event.previousIndex]
+      });
+
+      this.ghostContainers.push({
+        id,
+        width: 0,
+        prevStartX: 0,
+        startX: 0,
+        prevEndX: 0,
+        endX: 0,
+      });
+
+      const startItem: TimelineEndpoint = { id, value: 'start' };
+      const endItem: TimelineEndpoint = { id, value: 'end' };
+      const swapItem: TimelineSwapsItem = {
+        id,
+        value: 'swap',
+        indexes: [$event.currentIndex, $event.currentIndex],
+        isStart: true,
+      };
+
+      this.addItem(this.timelineStarts, $event.currentIndex, startItem);
+      this.addItem(this.timelineEnds, $event.currentIndex, endItem);
+      this.addItem(this.timelineSwaps, $event.currentIndex, swapItem);
+    }
+  }
+
   onDragMove($event: CdkDragMove, item: TimelineEndpoint | TimelineSwapsItem): void {
     const containerIndex = this.ghostContainers.findIndex(cont => cont.id === item.id);
 
@@ -205,24 +260,12 @@ export class TimelineComponent implements OnInit {
     if (item.value === 'swap') {
       const newStartX = this.ghostContainers[containerIndex].prevStartX + delta;
       const newEndX = this.ghostContainers[containerIndex].prevEndX + delta;
-  
+
       this.ghostContainers[containerIndex].startX = newStartX;
       this.ghostContainers[containerIndex].endX = newEndX;
     }
 
     this.changeContainerSize(this.ghostContainers, containerIndex);
-  }
-
-  checkSwap(widthPoints: number, id: number, currIndex: number): boolean {
-    const lastIndex = currIndex + widthPoints;
-
-    if (lastIndex >= this.timelineSwaps.length) return false;
-
-    for (let i = currIndex; i <= lastIndex; i++) {
-      if (this.timelineSwaps[i] !== null && this.timelineSwaps[i].id !== id) return false;
-    }
-
-    return true;
   }
 
   checkEndpoint(previousIndex: number, currentIndex: number, value: string): boolean {
@@ -237,6 +280,26 @@ export class TimelineComponent implements OnInit {
       && currentIndex >= (closestLeft === -Infinity ? previousIndex : closestLeft);
 
     return false;
+  }
+
+  checkSwap(widthPoints: number, id: number, currIndex: number): boolean {
+    const lastIndex = currIndex + widthPoints;
+
+    if (lastIndex >= this.timelineSwaps.length) return false;
+
+    for (let i = currIndex; i <= lastIndex; i++) {
+      if (this.timelineSwaps[i] !== null && this.timelineSwaps[i].id !== id) return false;
+    }
+
+    return true;
+  }
+
+  checkAdd(index: number): boolean {
+    if (this.timelineSwaps[index]) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   changeContainerSizeByPoint(id: number, value: string, index: number): void {

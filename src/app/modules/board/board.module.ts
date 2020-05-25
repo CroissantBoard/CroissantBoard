@@ -15,6 +15,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
+import { TimelineBarComponent } from './components/timeline-bar/timeline-bar.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     BoardHeaderComponent,
     SearchComponent,
     TimelineComponent,
+    TimelineBarComponent,
   ],
   imports: [
     BoardRoutingModule,

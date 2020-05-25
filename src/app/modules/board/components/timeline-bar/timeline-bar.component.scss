@@ -29,10 +29,6 @@
   &__list {
     @include dis-flex(stretch, stretch);
     width: 100%;
-
-    &--add {
-      opacity: 0;
-    }
   }
 
   &__container {
@@ -51,6 +47,8 @@
     user-select: none;
 
     z-index: 5;
+
+    cursor: move;
 
     &--ghost {
       opacity: 0.5;
@@ -141,15 +139,6 @@
 
     &--right {
       align-self: flex-end;
-    }
-
-    &--add {
-      // z-index: 10000;
-      // background-color: purple;
-      // opacity: 0.7;
-      cursor: default;
-      // border: 1px solid salmon;
-      // box-sizing: border-box;
     }
 
   }

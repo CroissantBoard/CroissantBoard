@@ -1,0 +1,26 @@
+<div class="timeline">
+  <div
+    cdkDropList
+    id="{{timelineBarId}}"
+    [cdkDropListConnectedTo]="addingDropListIds"
+    cdkDropListSortingDisabled
+    [cdkDropListData]="timelineAddingItems"
+    cdkDropListOrientation="horizontal"
+    class="timeline__list"
+  >
+
+    <div *ngFor="let item of timelineAddingItems; index as index" class="timeline__item timeline__item--swap" cdkDrag
+      (mousedown)="startMoving(item)" (mouseup)="stopMoving()" (cdkDragEnded)="log($event)">
+
+      <div class="timeline__container" 
+        [class.timeline__container--busy]="item === 'busy'"
+        [class.timeline__container--free]="item === 'free'"
+        [class.timeline__container--undesirable]="item === 'undesirable'">
+
+        <span class="timeline__content">{{item}}</span>
+
+      </div>
+
+    </div>
+  </div>
+</div>
