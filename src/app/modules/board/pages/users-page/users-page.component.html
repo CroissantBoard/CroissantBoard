@@ -1,1 +1,11 @@
-<p>users-page works!</p>
+<div class="users-page">
+    <div class="users-page__container">
+        <div class="users-page__header">
+            <h2 class="users-page__title">List of users</h2>
+            <button mat-flat-button
+                color="accent"
+                (click)="openDialog()">Invite</button>
+        </div>
+        <app-users-list></app-users-list>
+    </div>
+</div>

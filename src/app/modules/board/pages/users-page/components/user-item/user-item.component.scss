@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'mixins';
+
+.user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__name {
+        color: $black;
+        font-size: $font-small;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    &__email {
+        color: $font-grey-disabled;
+        font-size: $font-small;
+        font-weight: 400;
+        margin-bottom: 0;
+    }
+}

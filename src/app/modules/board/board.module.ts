@@ -14,6 +14,9 @@ import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.compo
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
+import { UsersListComponent } from './pages/users-page/components/users-list/users-list.component';
+import { UserItemComponent } from './pages/users-page/components/user-item/user-item.component';
+import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { SearchComponent } from './components/board-header/search/search.compone
   SidebarComponent,
   BoardHeaderComponent,
   SearchComponent,
+  UsersListComponent,
+  UserItemComponent,
+  InviteDialogComponent,
 ],
   imports: [
     MaterialModule,

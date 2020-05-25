@@ -1,0 +1,11 @@
+<div class="user-item">
+    <div class="user-item__info">
+        <p class="user-item__name">{{ user.name }}</p>
+        <p class="user-item__email">{{ user.email }}</p>
+    </div>
+    <button
+        mat-icon-button aria-label="Remove"
+        (click)="handelRemove(user.uid)">
+        <span class="icon-trash-2"></span>
+    </button>
+</div>
