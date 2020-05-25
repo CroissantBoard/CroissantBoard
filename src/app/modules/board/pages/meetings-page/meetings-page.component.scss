@@ -1,0 +1,28 @@
+@import '../../../../styles/mixins';
+
+.vr {
+  @include dis-flex-column(flex-end, center);
+
+  height: 100%;
+
+  border: 1px solid blue;
+  box-sizing: border-box;
+
+  width: 100%;
+
+  &-wrapper {
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+
+    @include dis-flex(stretch, stretch);
+  }
+}
+
+.meetings {
+  position: relative;
+
+  height: 100%;
+  width: 100%;
+}

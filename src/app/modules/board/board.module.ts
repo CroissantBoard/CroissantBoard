@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { MaterialModule } from '../../shared/modules/material.module';
 import { BoardRoutingModule } from './board-routing.module';
-import { FormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { CDKModule } from 'src/app/shared/modules/cdk.module';
 
 import { BoardPageComponent } from './board-page.component';
 import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
@@ -14,25 +14,27 @@ import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.compo
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 @NgModule({
   declarations: [
-  BoardPageComponent,
-  TasksPageComponent,
-  HomePageComponent,
-  UsersPageComponent,
-  MeetingsPageComponent,
-  SidebarComponent,
-  BoardHeaderComponent,
-  SearchComponent,
-],
+    BoardPageComponent,
+    TasksPageComponent,
+    HomePageComponent,
+    UsersPageComponent,
+    MeetingsPageComponent,
+    SidebarComponent,
+    BoardHeaderComponent,
+    SearchComponent,
+    TimelineComponent,
+  ],
   imports: [
-    MaterialModule,
-    ReactiveFormsModule,
     BoardRoutingModule,
     CommonModule,
+    MaterialModule,
+    CDKModule,
     FormsModule,
     ReactiveFormsModule,
   ]
 })
-export class BoardModule {}
+export class BoardModule { }

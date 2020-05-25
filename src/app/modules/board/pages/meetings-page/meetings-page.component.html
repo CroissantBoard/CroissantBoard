@@ -1,1 +1,10 @@
-<p>meetings-page works!</p>
+<div class="meetings">
+  <div class="vr-wrapper">
+    <div class="vr" *ngFor="let item of timelineRows; index as index">
+      <div class="vr__row"></div>
+      <span>{{index}}</span>
+    </div>
+  </div>
+  <app-timeline></app-timeline>
+  <app-timeline></app-timeline>
+</div>

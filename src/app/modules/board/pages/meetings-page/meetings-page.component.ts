@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingsPageComponent implements OnInit {
 
+  timelineRows = new Array(24).fill(null);
+
   constructor() { }
 
   ngOnInit(): void {
