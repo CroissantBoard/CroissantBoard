@@ -1,0 +1,26 @@
+<div class="search">
+  <ais-instantsearch class="search__instantsearch" [config]="config">
+    <app-search-box></app-search-box>
+    <ais-hits>
+      <ng-template let-hits="hits" let-results="results">
+        <ol
+          class="search__hits ais-Hits-list"
+          *ngIf="results.query !== '' && hits.length > 0"
+        >
+          <li *ngFor="let hit of hits" class="ais-Hits-item search__hit">
+            <span
+              class="search__icon search__icon--completed icon-check-circle"
+              *ngIf="hit.completed; else incomplete"
+            ></span>
+            <ng-template #incomplete>
+              <span
+                class="search__icon search__icon--incompleted icon-check-circle"
+              ></span>
+            </ng-template>
+            <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+          </li>
+        </ol>
+      </ng-template>
+    </ais-hits>
+  </ais-instantsearch>
+</div>
