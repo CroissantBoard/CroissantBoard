@@ -2,12 +2,25 @@
   <div class="task-page__container">
     <div class="task-page__header">
       <button (click)="showAddMenu()" mat-flat-button color="primary">
-        <span class="form__icon icon-plus"></span>
+        <span class="task-page__icon icon-plus"></span>
         Add Task
       </button>
     </div>
     <mat-divider></mat-divider>
-    <app-task-list (oneTask)="pasteTask($event, $event)"></app-task-list>
+    <div *ngIf="tasks?.length>0; else noTasks">
+      <div class="task-page__icon task-page__tree">
+        <span  *ngIf="showTaskList; else hiddenTasks " class="task-page__icon icon-chevron-down" (click)="showTasks()"></span>
+        <ng-template #hiddenTasks>
+          <span class="task-page__icon icon-chevron-right" (click)="showTasks()"></span>
+        </ng-template>
+        <span class="task-page__title">Resently added</span>
+      </div>
+      <app-task-list *ngIf="showTaskList" (oneTask)="pasteTask($event, $event)"></app-task-list>
+    </div>
+    
+    <ng-template #noTasks>
+      <span class="task-page__empty">There are no tasks for today. Hurry up and create some!</span>
+    </ng-template>
   </div>
 
   <div *ngIf="isShown" class="task-page__container task-page__add-block">

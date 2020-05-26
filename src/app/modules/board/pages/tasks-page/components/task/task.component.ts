@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void { }
 
   doneEdit(task: Task) {
-    this.taskService.updateTask(task);
+    this.taskService.updateTask(this.task.id, task);
   }
 }
 

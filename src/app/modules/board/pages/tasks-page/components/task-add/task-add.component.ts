@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import User from 'src/app/shared/interfaces/User';
 import { AuthService } from 'src/app/core/authentification/auth.service';
@@ -9,7 +9,8 @@ import Task from 'src/app/shared/interfaces/Task';
 @Component({
   selector: 'app-task-add',
   templateUrl: './task-add.component.html',
-  styleUrls: ['./task-add.component.scss']
+  styleUrls: ['./task-add.component.scss',
+    '../../tasks-page.component.scss']
 })
 export class TaskAddComponent implements OnInit {
 
@@ -32,8 +33,13 @@ export class TaskAddComponent implements OnInit {
     private taskService: TaskService
   ) {
     this.form = this.formBuilder.group({
-      name: '',
-      deadline: null,
+      name: new FormControl('', [
+        Validators.minLength(2),
+        Validators.required
+      ]),
+      deadline: new FormControl('', [
+        Validators.required
+      ]),
       priority: 'low',
       description: '',
       assignee: '',
@@ -51,18 +57,24 @@ export class TaskAddComponent implements OnInit {
   }
 
   onSubmit({ name, deadline, priority, description, assignee, project, completed, IsPrivate }): void {
-    this.taskService.addTask({
-      name,
-      deadline: new Date(deadline).getTime(),
-      priority,
-      dateOfCreate: Date.now(),
-      createdBy: this.user.uid,
-      completed,
-      description,
-      assignee,
-      project,
-      IsPrivate,
-    });
+    if (this.form.valid) {
+      const formData = { ...this.form.value };
+    }
+
+    if (this.task.name != '') {
+      this.taskService.addTask({
+        name,
+        deadline: new Date(deadline).getTime(),
+        priority,
+        dateOfCreate: Date.now(),
+        createdBy: this.user.uid,
+        completed,
+        description,
+        assignee,
+        project,
+        IsPrivate
+      })
+    }
 
     this.added.emit();
 
@@ -73,6 +85,8 @@ export class TaskAddComponent implements OnInit {
     this.form.controls['project'].setValue('')
     this.form.controls['description'].setValue('')
     this.form.controls['priority'].setValue('low')
+    this.form.controls['name'].setErrors(null);
+    this.form.controls['deadline'].setErrors(null);
   }
 
   closeWindow() {
@@ -83,7 +97,7 @@ export class TaskAddComponent implements OnInit {
     return (!this.form.get(field).valid && this.form.get(field).touched);
   }
 
-  test() {
+  togglePublic() {
     this.isPublic = !this.isPublic;
   }
 }

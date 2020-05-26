@@ -1,5 +1,5 @@
 <div class="container">
-  <ul class="task-list" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <ul class="task-list" cdkDropList (cdkDropListDropped)="drop($event)">
     <li class="task-list__item" *ngFor="let task of tasks" (dblclick)="editTask($event, task)" cdkDrag>
       <app-task [task]="task"></app-task>
     </li>

@@ -39,7 +39,7 @@ export class TaskService {
       .collection('tasks', (ref) => ref.where('createdBy', '==', userId))
       .valueChanges({ idField: 'id' });
   }
-  
+
   addTask(task: Task) {
     this.taskCollection.add(task)
   }
@@ -49,8 +49,8 @@ export class TaskService {
     this.taskDoc.delete()
   }
 
-  updateTask(task: Task) {
-    this.taskDoc = this.afs.doc(`tasks/${task.id}`)
+  updateTask( id: string, task: Task,) {
+    this.taskDoc = this.afs.doc(`tasks/${id}`)
     this.taskDoc.update(task)
   }
 }

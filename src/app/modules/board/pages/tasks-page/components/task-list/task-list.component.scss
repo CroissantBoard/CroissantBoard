@@ -3,6 +3,8 @@
 
 .task-list {
   padding: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 600px);
 
   &__item {
     background-color: $white;
@@ -12,6 +14,11 @@
       background-color: $light;
     }
   }
+}
+
+.container {
+  height: 30rem;
+  overflow: auto;
 }
 
 .cdk-drop-list {
