@@ -7,16 +7,21 @@
   height: calc(100vh - 70px);
   flex-direction: column;
 
-  &__filter{
+  &__filter {
     width: 100%;
   }
 
-  &__main{
+  &__main {
     padding: 16px;
     background-color: $light;
     @include dis-flex(center, stretch);
-    height: calc(100vh - 70px);
-    overflow: hidden;
+  }
+
+  &__scroll {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   &__container {
@@ -25,7 +30,10 @@
     background-color: $white;
     box-shadow: $shadow-main;
     position: relative;
-    min-height: calc(100vh - 200px);
+    height: calc(100vh - 150px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   &__add-block {
@@ -47,11 +55,11 @@
     font-size: $font-large;
   }
 
-  &__label{
+  &__label {
     font-size: $font-large;
   }
 
-  &__empty{
+  &__empty {
     display: block;
     padding: 20px 0 0 32px;
     font-size: $font-large;
@@ -63,7 +71,7 @@
   @include dis-flex(center, flex-start);
   flex-direction: column;
   position: relative;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 150px);
 
   &__header {
     width: calc(100% - 52px);
@@ -153,7 +161,7 @@
     }
   }
 
-  &__error{
+  &__error {
     font-size: $font-extra-small;
   }
 }

@@ -16,7 +16,8 @@ export class TasksPageComponent implements OnInit {
   editShown: boolean = false;
   showTaskList: boolean = true;
   oneTask
-  sortVal
+  sortVal: string;
+  filter: string;
 
   constructor(private authService: AuthService, private taskService: TaskService) { }
 
@@ -50,7 +51,12 @@ export class TasksPageComponent implements OnInit {
 
   pickSortVal(data) {
     this.sortVal = data;
-    return this.sortVal
+    return this.sortVal;
+  }
+
+  pickFilterVal(data) {
+    this.filter = data;
+    return this.filter;
   }
 
   showTasks() {

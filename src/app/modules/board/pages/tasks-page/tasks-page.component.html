@@ -1,6 +1,6 @@
 <div class="task-page">
   <div class="task-page__filter">
-    <app-task-filter (sortVal)="pickSortVal($event)" [tasks]="tasks"></app-task-filter>
+    <app-task-filter (sortVal)="pickSortVal($event)" (filter)=pickFilterVal($event) [tasks]="tasks"></app-task-filter>
   </div>
 
   <div class="task-page__main">
@@ -12,7 +12,7 @@
         </button>
       </div>
       <mat-divider></mat-divider>
-      <div *ngIf="tasks?.length>0; else noTasks">
+      <div *ngIf="tasks?.length>0; else noTasks" class="task-page__scroll">
         <div class="task-page__icon task-page__tree">
           <span *ngIf="showTaskList; else hiddenTasks " class="task-page__icon icon-chevron-down"
             (click)="showTasks()"></span>
@@ -21,7 +21,7 @@
           </ng-template>
           <span class="task-page__title">Resently added</span>
         </div>
-        <app-task-list *ngIf="showTaskList" [sortVal]="sortVal" (oneTask)="pasteTask($event, $event)"></app-task-list>
+        <app-task-list *ngIf="showTaskList" [sortVal]="sortVal" [filter]="filter" (oneTask)="pasteTask($event, $event)"></app-task-list>
       </div>
 
       <ng-template #noTasks>

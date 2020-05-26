@@ -7,21 +7,26 @@ import Task from 'src/app/shared/interfaces/Task';
   styleUrls: ['./task-filter.component.scss']
 })
 export class TaskFilterComponent implements OnInit, OnChanges {
-  @Output() sortVal= new EventEmitter();
+  @Output() sortVal = new EventEmitter();
+  @Output() filter = new EventEmitter<string>();
   @Input() tasks: Task[];
   count
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.remaining();
   }
 
   sortByCategories(event) {
     this.sortVal.emit((<HTMLInputElement>event.target).value);
+  }
+
+  filterItems(event) {
+    this.filter.emit((<HTMLInputElement>event.target).value);
   }
 
   remaining() {

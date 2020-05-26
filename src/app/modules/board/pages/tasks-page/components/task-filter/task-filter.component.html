@@ -4,7 +4,15 @@
   </div>
   <div class="task-filter__column">
 
-    <mat-form-field class="form__wrapper">
+    <mat-form-field class="task-filter__filter">
+      <select matNativeControl (change)="filterItems($event)">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+    </mat-form-field>
+
+    <mat-form-field class="task-filter__filter">
       <select matNativeControl (change)="sortByCategories($event)">
         <option value="name">Name</option>
         <option value="dateOfCreate">Date</option>

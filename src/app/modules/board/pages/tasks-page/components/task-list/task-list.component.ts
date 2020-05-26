@@ -16,7 +16,8 @@ export class TaskListComponent implements OnInit {
   @Output() editShown = new EventEmitter<boolean>();
   @Output() oneTask = new EventEmitter();
   @Input() sortVal;
-  sortPriorVal = 'asc'
+  @Input() filter;
+  sortPriorVal = 'asc';
 
   constructor(
     private authService: AuthService,
@@ -33,7 +34,7 @@ export class TaskListComponent implements OnInit {
       .subscribe((tasks) => {
         return this.tasks = tasks;
       });
-
+      this.filter = 'all';
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -43,5 +44,16 @@ export class TaskListComponent implements OnInit {
   editTask(event, task: Task) {
     this.editShown.emit(true);
     this.oneTask.emit(task);
+  }
+
+  todosFiltered(): Task[] {
+    if (this.filter === 'all') {
+      return this.tasks
+    } else if (this.filter === 'active') {
+      return this.tasks.filter(todo => !todo.completed)
+    } else if (this.filter === 'completed') {
+      return this.tasks.filter(todo => todo.completed)
+    }
+    return this.tasks
   }
 }
