@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-timeline-bar',
   templateUrl: './timeline-bar.component.html',
   styleUrls: ['./timeline-bar.component.scss']
 })
-export class TimelineBarComponent implements OnInit, OnChanges {
+export class TimelineBarComponent implements OnChanges {
 
   @Input() allTimelines: any[] = [];
   @Input() timelineBarId: string;
@@ -21,12 +21,7 @@ export class TimelineBarComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if (this.allTimelines && this.timelineBarId) {
       this.addingDropListIds = this.allTimelines.map(item => item.addingDropListId);
-      console.log(this.addingDropListIds)
-      console.log(this.timelineBarId)
     }
-  }
-
-  ngOnInit(): void {
   }
 
   startMoving(item: string): void {
@@ -35,10 +30,6 @@ export class TimelineBarComponent implements OnInit, OnChanges {
 
   stopMoving(): void {
     this.movingItem = '';
-  }
-
-  log($event): void {
-    console.log($event);
   }
 
 }

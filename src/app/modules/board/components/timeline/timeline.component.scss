@@ -144,12 +144,7 @@
     }
 
     &--add {
-      // z-index: 10000;
-      // background-color: purple;
-      // opacity: 0.7;
       cursor: default;
-      // border: 1px solid salmon;
-      // box-sizing: border-box;
     }
 
   }
@@ -163,5 +158,19 @@
     pointer-events: none;
     user-select: none;
     cursor: pointer;
+  }
+
+  &__delete {
+    @include basicSquare(10px);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background-color: crimson;
+
+    cursor: pointer;
+
+    transform: translateX(-20px);
   }
 }

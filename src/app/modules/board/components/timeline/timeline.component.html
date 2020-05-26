@@ -70,6 +70,8 @@
 
     <span class="timeline__hours">{{container.totalHours}}</span>
 
+    <div class="timeline__delete" *ngIf="container.width > timelinePointWidth" (click)="deleteContainer(container.id)"></div>
+
     <div class="timeline__item timeline__item--static timeline__item--right"></div>
 
   </div>

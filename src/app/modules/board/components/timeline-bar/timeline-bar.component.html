@@ -10,7 +10,7 @@
   >
 
     <div *ngFor="let item of timelineAddingItems; index as index" class="timeline__item timeline__item--swap" cdkDrag
-      (mousedown)="startMoving(item)" (mouseup)="stopMoving()" (cdkDragEnded)="log($event)">
+      (mousedown)="startMoving(item)" (mouseup)="stopMoving()">
 
       <div class="timeline__container" 
         [class.timeline__container--busy]="item === 'busy'"

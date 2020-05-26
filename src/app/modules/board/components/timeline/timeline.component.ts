@@ -205,7 +205,9 @@ export class TimelineComponent implements OnInit, OnChanges {
 
     if (this.checkAdd($event.currentIndex)) {
 
-      const id = Math.max(...this.mainContainers.map(cont => cont.id)) + 1;
+      const id = this.mainContainers.length
+        ? Math.max(...this.mainContainers.map(cont => cont.id)) + 1
+        : 0;
 
       this.mainContainers.push({
         id,
@@ -349,6 +351,30 @@ export class TimelineComponent implements OnInit, OnChanges {
         return;
       }
     });
+  }
+
+  deleteContainer(id: number): void {
+    const deleteInContainers = (arrays: Array<MainContainer[] | GhostContainer[]>) =>
+      arrays.forEach(array =>
+        array.forEach((cont: MainContainer | GhostContainer, index: number) => {
+          if (cont.id === id) {
+            array.splice(index, 1);
+            return
+          }
+        })
+      );
+
+    const deleteInTimelines = (timelines: Array<TimelineEndpoint[] | TimelineSwapsItem[]>) =>
+      timelines.forEach(line =>
+        line.forEach((item, index) => {
+          if (item) {
+            if (item.id === id) line[index] = null;
+          }
+        })
+      );
+
+    deleteInContainers([this.mainContainers, this.ghostContainers]);
+    deleteInTimelines([this.timelineStarts, this.timelineEnds, this.timelineSwaps]);
   }
 
   calculatePosition(index: number, startOrEnd: string): number {
