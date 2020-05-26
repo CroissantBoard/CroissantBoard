@@ -2,7 +2,7 @@
 
 :host {
   @include absolute-0-0-left;
-  height: 100%;
+  @include fill-parent;
 
   transition: 0.25s ease-out;
 }
@@ -63,5 +63,9 @@
     cursor: pointer;
 
     transform: translateX(-20px);
+  }
+
+  &__content {
+    @include marpad-0-0;
   }
 }

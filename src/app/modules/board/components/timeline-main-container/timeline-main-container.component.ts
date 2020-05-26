@@ -9,10 +9,13 @@ import { MainContainer } from 'src/app/shared/interfaces/timeline/main-container
 })
 export class TimelineMainContainerComponent implements OnChanges {
 
+  @Input() isTimelineBarItem: boolean = false;
+  @Input() status: string = '';
+
   @Input() container: MainContainer;
 
-  @Input() percentWidth: string = '0';
-  @Input() percentMarginLeft: string = '0';
+  @Input() percentWidth: string;
+  @Input() percentMarginLeft: string;
 
   @Output() deleteContainerEvent: EventEmitter<number> = new EventEmitter();
 

@@ -1,13 +1,13 @@
-<div class="main-container"
+<div class="main-container" *ngIf="!isTimelineBarItem else timelineBarItem"
   [class.main-container--busy]="container.status === 'busy'"
   [class.main-container--free]="container.status === 'free'"
   [class.main-container--undesirable]="container.status === 'undesirable'">
 
   <div class="main-container__handle main-container__handle--left"></div>
 
-  <span class="main-container__hours">
+  <h4 class="main-container__content">
     {{container.totalHours}}
-  </span>
+  </h4>
 
   <!-- *ngIf="container.width > timelinePointWidth" -->
   <div class="main-container__delete" (click)="emitDeleteContainerEvent()"></div>
@@ -15,3 +15,14 @@
   <div class="main-container__handle main-container__handle--right"></div>
 
 </div>
+
+<ng-template #timelineBarItem>
+  <div class="main-container" 
+    [class.main-container--busy]="status === 'busy'"
+    [class.main-container--free]="status === 'free'"
+    [class.main-container--undesirable]="status === 'undesirable'">
+
+    <h4 class="main-container__content">{{status}}</h4>
+
+  </div>
+</ng-template>

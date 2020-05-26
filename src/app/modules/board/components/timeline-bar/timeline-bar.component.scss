@@ -12,61 +12,15 @@
   transition: transform 0.25s ease-out;
 }
 
-.timeline {
+.timeline-bar {
   position: relative;
 
   height: 50px;
   width: 100%;
 
-  z-index: 2;
-
-  &__list,
-  &__container {
-    @include absolute-0-0-left;
-    height: 100%;
-  }
-
   &__list {
-    @include dis-flex(stretch, stretch);
-    width: 100%;
-  }
-
-  &__container {
-    @include dis-flex(center, center);
-
-    width: 100%;
-    
-    background-color: black;
-    color: white;
-
-    border: 5px solid;
-    box-sizing: border-box;
-
-    transition: 0.25s ease-out;
-
-    user-select: none;
-
-    z-index: 5;
-
-    cursor: move;
-
-    &--ghost {
-      opacity: 0.5;
-
-      z-index: 4;
-    }
-
-    &--busy {
-      border-color: red;
-    }
-
-    &--undesirable {
-      border-color: yellow;
-    }
-
-    &--free {
-      border-color: green;
-    }
+    @include dis-flex(space-evenly, stretch);
+    @include fill-parent;
   }
 
   &__item {
@@ -75,82 +29,8 @@
     position: relative;
 
     height: 100%;
-    width: 100%;
+    width: 25%;
 
-    &--static {
-      position: absolute;
-
-      top: 0;
-
-      width: 15px;
-
-      background-color: orange;
-
-      flex-grow: unset;
-
-      z-index: 10;
-    }
-
-    &--left {
-      left: 0;
-    }
-
-    &--right {
-      right: 0;
-    }
-  }
-
-  &__handle {
-    @include basic(100%, 50%);
-
-    background-color: red;
-
-    opacity: 0;
-
-    cursor: pointer;
-
-    transition: 0.125s ease-out;
-
-    z-index: 100;
-    
-    &--swap {
-      @include basic-square(50%);
-
-      align-self: flex-end;
-
-      cursor: move;
-
-      z-index: 100;
-      
-      background-color: blue;
-
-      opacity: 0;
-
-      transition: 0.125s ease-out;
-    }
-
-    &--show {
-      opacity: 1;
-    }
-
-    &--left {
-      align-self: flex-start;
-    }
-
-    &--right {
-      align-self: flex-end;
-    }
-
-  }
-
-  &__swap {
-    @include basic-square(100%);
-    @include absolute-0-0-left;
-
-    height: 100%;
-
-    pointer-events: none;
-    user-select: none;
-    cursor: pointer;
+    cursor: move;
   }
 }
