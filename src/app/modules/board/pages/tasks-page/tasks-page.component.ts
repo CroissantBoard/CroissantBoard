@@ -16,21 +16,22 @@ export class TasksPageComponent implements OnInit {
   editShown: boolean = false;
   showTaskList: boolean = true;
   oneTask
+  sortVal
 
   constructor(private authService: AuthService, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.authService.user$
-    .pipe(
-      switchMap((user) => {
-        return this.taskService.getTasks(user.uid);
-      })
-    )
-    .subscribe((tasks) => {
-      return this.tasks = tasks;
-    });
+      .pipe(
+        switchMap((user) => {
+          return this.taskService.getTasks(user.uid);
+        })
+      )
+      .subscribe((tasks) => {
+        return this.tasks = tasks;
+      });
 
-   }
+  }
 
   showAddMenu(): void {
     this.editShown = false
@@ -45,6 +46,11 @@ export class TasksPageComponent implements OnInit {
     this.isShown = false
     this.oneTask = data
     this.editShown = edit;
+  }
+
+  pickSortVal(data) {
+    this.sortVal = data;
+    return this.sortVal
   }
 
   showTasks() {

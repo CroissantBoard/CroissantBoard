@@ -3,10 +3,21 @@
 
 .task-page {
   background-color: $light;
-  @include dis-flex(center, stretch);
-  padding: 16px;
-  height: calc(100vh - 100px);
-  overflow: hidden;
+  display: flex;
+  height: calc(100vh - 70px);
+  flex-direction: column;
+
+  &__filter{
+    width: 100%;
+  }
+
+  &__main{
+    padding: 16px;
+    background-color: $light;
+    @include dis-flex(center, stretch);
+    height: calc(100vh - 70px);
+    overflow: hidden;
+  }
 
   &__container {
     flex: 0 1 1000px;
@@ -14,8 +25,7 @@
     background-color: $white;
     box-shadow: $shadow-main;
     position: relative;
-    max-height: calc(100vh - 100px);
-    overflow: hidden;
+    min-height: calc(100vh - 200px);
   }
 
   &__add-block {

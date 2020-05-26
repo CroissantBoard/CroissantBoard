@@ -19,6 +19,8 @@ import { TaskEditComponent } from './pages/tasks-page/components/task-edit/task-
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
+import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
+import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { SearchComponent } from './components/board-header/search/search.compone
   SidebarComponent,
   BoardHeaderComponent,
   SearchComponent,
+  TaskFilterComponent,
+  SortPipe
 ],
   imports: [
     MaterialModule,

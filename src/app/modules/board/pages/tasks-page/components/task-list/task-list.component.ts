@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Task from 'src/app/shared/interfaces/Task';
 import { TaskService } from 'src/app/shared/services/task.service';
 import { AuthService } from 'src/app/core/authentification/auth.service';
@@ -15,6 +15,8 @@ export class TaskListComponent implements OnInit {
   isEdit: boolean = false;
   @Output() editShown = new EventEmitter<boolean>();
   @Output() oneTask = new EventEmitter();
+  @Input() sortVal;
+  sortPriorVal = 'asc'
 
   constructor(
     private authService: AuthService,
