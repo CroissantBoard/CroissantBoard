@@ -1,0 +1,24 @@
+<div class="search-box">
+  <input
+    class="search-box__input common-input"
+    type="text"
+    placeholder="Search..."
+    #input
+    (keyup)="this.state.refine(input.value)"
+    [value]="this.state.query"
+  />
+  <span
+    *ngIf="this.state.query === ''; else clear"
+    class="search-box__icon icon-search"
+  ></span>
+  <ng-template #clear>
+    <button
+      class="search-clear"
+      aria-label="Clear"
+      mat-icon-button
+      (click)="this.state.clear()"
+    >
+      <span class="icon-x"></span>
+    </button>
+  </ng-template>
+</div>
