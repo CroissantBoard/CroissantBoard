@@ -11,9 +11,16 @@ import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
 import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.component';
+import { TaskComponent } from './pages/tasks-page/components/task/task.component';
+import { TaskAddComponent } from './pages/tasks-page/components/task-add/task-add.component';
+import { TaskListComponent } from './pages/tasks-page/components/task-list/task-list.component';
+import { TaskEditComponent } from './pages/tasks-page/components/task-edit/task-edit.component';
+
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
+import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
+import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -22,13 +29,20 @@ import { SearchComponent } from './components/board-header/search/search.compone
   HomePageComponent,
   UsersPageComponent,
   MeetingsPageComponent,
+  TaskComponent,
+  TaskAddComponent,
+  TaskListComponent,
+  TaskEditComponent,
   SidebarComponent,
   BoardHeaderComponent,
   SearchComponent,
+  TaskFilterComponent,
+  SortPipe
 ],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
     BoardRoutingModule,
     CommonModule,
     FormsModule,
