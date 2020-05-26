@@ -11,6 +11,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatMenuModule } from '@angular/material/menu';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -25,6 +27,8 @@ const MaterialComponents = [
     MatDatepickerModule,
     MatButtonToggleModule,
     MatNativeDateModule,
+    MatStepperModule,
+    MatMenuModule
 ];
 
 @NgModule({
