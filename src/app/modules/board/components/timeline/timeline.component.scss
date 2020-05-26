@@ -22,7 +22,7 @@
 
   &__list,
   &__container {
-    @include absolute-0-0;
+    @include absolute-0-0-left;
     height: 100%;
   }
 
@@ -116,7 +116,7 @@
     z-index: 100;
     
     &--swap {
-      @include basicSquare(50%);
+      @include basic-square(50%);
 
       align-self: flex-end;
 
@@ -150,8 +150,8 @@
   }
 
   &__swap {
-    @include basicSquare(100%);
-    @include absolute-0-0;
+    @include basic-square(100%);
+    @include absolute-0-0-left;
 
     height: 100%;
 
@@ -161,7 +161,7 @@
   }
 
   &__delete {
-    @include basicSquare(10px);
+    @include basic-square(10px);
 
     position: absolute;
     top: 0;

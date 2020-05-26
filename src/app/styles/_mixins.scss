@@ -3,9 +3,14 @@
   width: $width;
 }
 
-@mixin basicSquare($size) {
+@mixin basic-square($size) {
   height: $size;
   width: $size;
+}
+
+@mixin fill-parent {
+  height: 100%;
+  width: 100%;
 }
 
 @mixin flex-center {
@@ -27,10 +32,16 @@
   align-items: $align-items;
 }
 
-@mixin absolute-0-0 {
+@mixin absolute-0-0-left {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+@mixin absolute-0-0-right {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 @mixin marpad-0-0 {

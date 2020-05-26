@@ -16,6 +16,8 @@ import { BoardHeaderComponent } from './components/board-header/board-header.com
 import { SearchComponent } from './components/board-header/search/search.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { TimelineBarComponent } from './components/timeline-bar/timeline-bar.component';
+import { TimelineMainContainerComponent } from './components/timeline-main-container/timeline-main-container.component';
+import { TimelineGhostContainerComponent } from './components/timeline-ghost-container/timeline-ghost-container.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { TimelineBarComponent } from './components/timeline-bar/timeline-bar.com
     SearchComponent,
     TimelineComponent,
     TimelineBarComponent,
+    TimelineMainContainerComponent,
+    TimelineGhostContainerComponent,
   ],
   imports: [
     BoardRoutingModule,

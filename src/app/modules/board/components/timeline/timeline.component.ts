@@ -246,13 +246,10 @@ export class TimelineComponent implements OnInit, OnChanges {
   onDragMove($event: CdkDragMove, item: TimelineEndpoint | TimelineSwapsItem): void {
     const containerIndex = this.ghostContainers.findIndex(cont => cont.id === item.id);
 
-    const delta = 100 / $event.source.element.nativeElement.parentElement.offsetWidth * $event.distance.x;
+    const delta = 100 / $event.source.dropContainer.element.nativeElement.offsetWidth * $event.distance.x;
 
     if (item.value === 'start') {
-      const prevX = this.ghostContainers[containerIndex].prevStartX;
-      const newStartX = this.ghostContainers[containerIndex].prevStartX + delta;
-
-      this.ghostContainers[containerIndex].startX = newStartX < prevX ? newStartX : prevX;
+      this.ghostContainers[containerIndex].startX = this.ghostContainers[containerIndex].prevStartX + delta;
     }
 
     if (item.value === 'end') {
@@ -260,11 +257,8 @@ export class TimelineComponent implements OnInit, OnChanges {
     }
 
     if (item.value === 'swap') {
-      const newStartX = this.ghostContainers[containerIndex].prevStartX + delta;
-      const newEndX = this.ghostContainers[containerIndex].prevEndX + delta;
-
-      this.ghostContainers[containerIndex].startX = newStartX;
-      this.ghostContainers[containerIndex].endX = newEndX;
+      this.ghostContainers[containerIndex].startX = this.ghostContainers[containerIndex].prevStartX + delta;
+      this.ghostContainers[containerIndex].endX = this.ghostContainers[containerIndex].prevEndX + delta;
     }
 
     this.changeContainerSize(this.ghostContainers, containerIndex);

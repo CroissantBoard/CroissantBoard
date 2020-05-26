@@ -58,27 +58,16 @@
     <div class="timeline__handle timeline__handle--add" *ngFor="let item of timelineAddingItems" cdkDragDisabled cdkDrag></div>
   </div>
 
-  <div class="timeline__container" *ngFor="let container of mainContainers"
-    [class.timeline__container--busy]="container.status === 'busy'"
-    [class.timeline__container--free]="container.status === 'free'"
-    [class.timeline__container--undesirable]="container.status === 'undesirable'" [style]="{
-      width: percentString(container.width),
-      marginLeft: percentString(container.startX)
-    }">
+  <app-timeline-ghost-container *ngFor="let ghost of ghostContainers"
+    [percentWidth]="percentString(ghost.width)"
+    [percentMarginLeft]="percentString(ghost.startX)"
+  ></app-timeline-ghost-container>
 
-    <div class="timeline__item timeline__item--static timeline__item--left"></div>
-
-    <span class="timeline__hours">{{container.totalHours}}</span>
-
-    <div class="timeline__delete" *ngIf="container.width > timelinePointWidth" (click)="deleteContainer(container.id)"></div>
-
-    <div class="timeline__item timeline__item--static timeline__item--right"></div>
-
-  </div>
-
-  <div class="timeline__container timeline__container--ghost" *ngFor="let ghost of ghostContainers" [style]="{
-    width: percentString(ghost.width),
-    marginLeft: percentString(ghost.startX)
-  }"></div>
+  <app-timeline-main-container *ngFor="let container of mainContainers"
+    [container]="container"
+    [percentWidth]="percentString(container.width)"
+    [percentMarginLeft]="percentString(container.startX)"
+    (deleteContainerEvent)="deleteContainer($event)"
+  ></app-timeline-main-container>
 
 </div>
