@@ -21,12 +21,16 @@ export class SearchService {
   }
 
   getSearchParameters(index: string) {
+    const hitsPerPage = 5;
+
     if (this.user && this.user.role === 'admin') {
       return {
+        hitsPerPage,
         query: this.query
       };
     } else if (this.user) {
       return {
+        hitsPerPage,
         filters: this.createFilter(index),
         query: this.query
       };
