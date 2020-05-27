@@ -61,3 +61,15 @@ ul {
     display: block;
   }
 }
+
+.mat-chip.mat-standard-chip.invite-chip {
+  background-color: $grey-background;
+  font-size: $font-small;
+  font-weight: 400;
+}
+
+.mat-chip.mat-standard-chip.invalid {
+  background-color: $white;
+  border: 1px solid $border-error;
+  color: $error;
+}

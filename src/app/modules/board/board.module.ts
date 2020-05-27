@@ -19,6 +19,9 @@ import { TaskEditComponent } from './pages/tasks-page/components/task-edit/task-
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/board-header/search/search.component';
+import { UsersListComponent } from './pages/users-page/components/users-list/users-list.component';
+import { UserItemComponent } from './pages/users-page/components/user-item/user-item.component';
+import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
 import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
@@ -36,8 +39,11 @@ import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
   SidebarComponent,
   BoardHeaderComponent,
   SearchComponent,
+  UsersListComponent,
+  UserItemComponent,
+  InviteDialogComponent,
   TaskFilterComponent,
-  SortPipe
+  SortPipe,
 ],
   imports: [
     MaterialModule,
