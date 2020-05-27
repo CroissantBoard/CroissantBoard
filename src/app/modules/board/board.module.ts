@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgAisModule, NgAisInstantSearch } from 'angular-instantsearch';
 
 import { MaterialModule } from '../../shared/modules/material.module';
 import { BoardRoutingModule } from './board-routing.module';
@@ -18,7 +19,7 @@ import { TaskEditComponent } from './pages/tasks-page/components/task-edit/task-
 
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
-import { SearchComponent } from './components/board-header/search/search.component';
+import { SearchComponent } from './components/search/search.component';
 import { UsersListComponent } from './pages/users-page/components/users-list/users-list.component';
 import { UserItemComponent } from './pages/users-page/components/user-item/user-item.component';
 import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
@@ -53,6 +54,8 @@ import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-  ]
+    NgAisModule
+  ],
+  providers: [NgAisInstantSearch]
 })
 export class BoardModule {}

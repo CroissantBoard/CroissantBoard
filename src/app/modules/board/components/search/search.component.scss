@@ -1,0 +1,134 @@
+@import 'variables';
+
+.search {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 330px;
+  align-items: center;
+  margin-right: 20px;
+
+  &__input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 40px 7px 14px;
+  }
+
+  &__instantsearch {
+    width: 100%;
+  }
+
+  &__title {
+    display: block;
+    padding-top: 14px;
+    padding-left: 20px;
+    font-size: $font-extra-small;
+    color: $font-grey;
+    font-weight: 500;
+  }
+
+  &__results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: $shadow-popover-search;
+    background-color: $white;
+  }
+
+  &__hits {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: $white;
+  }
+
+  &__hit {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 20px 10px 50px;
+    font-size: $font-small;
+
+    &:last-child {
+      border-bottom: 1px solid $border-color;
+
+      .search__instantsearch:last-child & {
+        border-bottom: none;
+      }
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: 20px;
+    font-size: 18px;
+    color: $font-light-grey;
+
+    &--completed {
+      color: $primary-dark;
+    }
+  }
+
+  &__note {
+    margin-left: 10px;
+    color: $font-grey;
+    font-size: $font-extra-extra-small;
+  }
+
+  &__link {
+    color: $black;
+  }
+}
+
+.icon-user {
+  &--available {
+    color: $green;
+  }
+
+  &--busy {
+    color: $accent-red;
+  }
+
+  &--offline {
+    color: $font-light-grey;
+  }
+}
+
+.icon-check-circle {
+  &--completed {
+    color: $primary-dark;
+  }
+
+  &--not-completed {
+    color: $font-light-grey;
+  }
+}
+
+.icon-folder {
+  &--active {
+    color: $primary-dark;
+  }
+
+  &--not-active {
+    color: $font-light-grey;
+  }
+}
+
+.icon-grid {
+  &--finished {
+    color: $font-light-grey;
+  }
+  
+  &--not-finished {
+    color: $primary-dark;
+  }
+}

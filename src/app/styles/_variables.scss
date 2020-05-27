@@ -1,4 +1,5 @@
 // Fonts
+$font-extra-extra-small: 11px;
 $font-extra-small: 12px;
 $font-small: 13px;
 $font-main: 14px;
@@ -20,6 +21,7 @@ $primary-dark: #4d2c91;
 $accent: #ffa000;
 $accent-light: #ffd149;
 $accent-dark: #c67100;
+$green: #0ac60a;
 
 // Fonts colors
 $font-grey: #6f7782;
@@ -42,6 +44,7 @@ $light: #F6F8F9;
 // Shadows
 $shadow-main: 0 1px 3px 0 rgba(21,27,38,.15);
 $shadow-popover: 0 0 0 1px rgba(111,119,130,.15), 0 5px 20px 0 rgba(21,27,38,.08);
+$shadow-popover-search: 0 5px 20px 0 rgba(21,27,38,.08);
 
 // side bar width
 $sidebar-width: 240px;

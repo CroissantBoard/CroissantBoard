@@ -62,6 +62,9 @@ ul {
   }
 }
 
+.ais-Highlight mark {
+  background-color: $accent-light;
+}
 .mat-chip.mat-standard-chip.invite-chip {
   background-color: $grey-background;
   font-size: $font-small;
