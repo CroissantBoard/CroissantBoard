@@ -1,26 +1,205 @@
 <div class="search">
-  <ais-instantsearch class="search__instantsearch" [config]="config">
-    <app-search-box></app-search-box>
-    <ais-hits>
-      <ng-template let-hits="hits" let-results="results">
-        <ol
-          class="search__hits ais-Hits-list"
-          *ngIf="results.query !== '' && hits.length > 0"
-        >
-          <li *ngFor="let hit of hits" class="ais-Hits-item search__hit">
-            <span
-              class="search__icon search__icon--completed icon-check-circle"
-              *ngIf="hit.completed; else incomplete"
-            ></span>
-            <ng-template #incomplete>
-              <span
-                class="search__icon search__icon--incompleted icon-check-circle"
-              ></span>
-            </ng-template>
-            <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
-          </li>
-        </ol>
-      </ng-template>
-    </ais-hits>
-  </ais-instantsearch>
+  <!-- <app-search-box></app-search-box> -->
+  <input
+    type="text"
+    class="search__input common-input"
+    (keyup)="searchService.onQuery($event)"
+  />
+  <div class="search__results" *ngIf="authService.user$ | async as user">
+    <ais-instantsearch
+      class="search__instantsearch"
+      [config]="searchService.createConfig('projects')"
+    >
+      <ais-configure
+        [searchParameters]="searchService.getSearchParameters('projects')"
+      ></ais-configure>
+      <ais-hits>
+        <ng-template let-hits="hits" let-results="results">
+          <span
+            class="search__title"
+            *ngIf="results.query !== '' && hits.length > 0"
+            >Projects</span
+          >
+          <ol
+            class="search__hits ais-Hits-list"
+            *ngIf="results.query !== '' && hits.length > 0"
+          >
+            <li
+              class="ais-Hits-item search__hit"
+              *ngFor="let hit of hits"
+              [ngSwitch]="hit.active"
+            >
+              <a
+                class="search__link"
+                [routerLink]="['/board/projects/', hit.objectID]"
+              >
+                <span
+                  class="search__icon icon-folder icon-folder--active"
+                  *ngSwitchCase="true"
+                ></span>
+                <span
+                  class="search__icon icon-folder icon-folder--not-active"
+                  *ngSwitchCase="false"
+                ></span>
+                <span
+                  class="search__icon icon-folder icon-folder--not-active"
+                  *ngSwitchCase="undefined"
+                ></span>
+                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+              </a>
+            </li>
+          </ol>
+        </ng-template>
+      </ais-hits>
+    </ais-instantsearch>
+
+    <ais-instantsearch
+      class="search__instantsearch"
+      [config]="searchService.createConfig('tasks')"
+    >
+      <ais-configure
+        [searchParameters]="searchService.getSearchParameters('tasks')"
+      ></ais-configure>
+      <ais-hits>
+        <ng-template let-hits="hits" let-results="results">
+          <span
+            class="search__title"
+            *ngIf="results.query !== '' && hits.length > 0"
+            >Tasks</span
+          >
+          <ol
+            class="search__hits ais-Hits-list"
+            *ngIf="results.query !== '' && hits.length > 0"
+          >
+            <li
+              class="ais-Hits-item search__hit"
+              *ngFor="let hit of hits"
+              [ngSwitch]="hit.completed"
+            >
+              <a
+                class="search__link"
+                [routerLink]="['/board/tasks/', hit.objectID]"
+              >
+                <span
+                  class="search__icon icon-check-circle icon-check-circle--completed"
+                  *ngSwitchCase="true"
+                ></span>
+                <span
+                  class="search__icon icon-check-circle icon-check-circle--not-completed"
+                  *ngSwitchCase="false"
+                ></span>
+                <span
+                  class="search__icon icon-check-circle icon-check-circle--not-completed"
+                  *ngSwitchCase="undefined"
+                ></span>
+                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+                <span class="search__note">{{ hit.project }}</span>
+              </a>
+            </li>
+          </ol>
+        </ng-template>
+      </ais-hits>
+    </ais-instantsearch>
+
+    <ais-instantsearch
+      class="search__instantsearch"
+      [config]="searchService.createConfig('meetings')"
+    >
+      <ais-configure
+        [searchParameters]="searchService.getSearchParameters('meetings')"
+      ></ais-configure>
+      <ais-hits>
+        <ng-template let-hits="hits" let-results="results">
+          <span
+            class="search__title"
+            *ngIf="results.query !== '' && hits.length > 0"
+            >Meetings</span
+          >
+          <ol
+            class="search__hits ais-Hits-list"
+            *ngIf="results.query !== '' && hits.length > 0"
+          >
+            <li
+              class="ais-Hits-item search__hit"
+              *ngFor="let hit of hits"
+              [ngSwitch]="hit.isFinished"
+            >
+              <a
+                class="search__link"
+                [routerLink]="['/board/meetings/', hit.objectID]"
+              >
+                <span
+                  class="search__icon icon-grid icon-grid--finished"
+                  *ngSwitchCase="true"
+                ></span>
+                <span
+                  class="search__icon icon-grid icon-grid--not-finished"
+                  *ngSwitchCase="false"
+                ></span>
+                <span
+                  class="search__icon icon-grid icon-grid--not-finished"
+                  *ngSwitchCase="undefined"
+                ></span>
+                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+              </a>
+            </li>
+          </ol>
+        </ng-template>
+      </ais-hits>
+    </ais-instantsearch>
+
+    <ais-instantsearch
+      class="search__instantsearch"
+      [config]="searchService.createConfig('users')"
+      *ngIf="
+        user.role === 'admin' || (user.projects && user.projects.length > 0)
+      "
+    >
+      <ais-configure
+        [searchParameters]="searchService.getSearchParameters('users')"
+      ></ais-configure>
+      <ais-hits>
+        <ng-template let-hits="hits" let-results="results">
+          <span
+            class="search__title"
+            *ngIf="results.query !== '' && hits.length > 0"
+            >Users</span
+          >
+          <ol
+            class="search__hits ais-Hits-list"
+            *ngIf="results.query !== '' && hits.length > 0"
+          >
+            <li
+              class="ais-Hits-item search__hit"
+              *ngFor="let hit of hits"
+              [ngSwitch]="hit.status"
+            >
+              <a
+                class="search__link"
+                [routerLink]="['/board/users/', hit.objectID]"
+              >
+                <span
+                  class="search__icon icon-user icon-user--available"
+                  *ngSwitchCase="'available'"
+                ></span>
+                <span
+                  class="search__icon icon-user icon-user--busy"
+                  *ngSwitchCase="'busy'"
+                ></span>
+                <span
+                  class="search__icon icon-user icon-user-offline"
+                  *ngSwitchCase="'offline'"
+                ></span>
+                <span
+                  class="search__icon icon-user icon-user-offline"
+                  *ngSwitchCase="undefined"
+                ></span>
+                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+              </a>
+            </li>
+          </ol>
+        </ng-template>
+      </ais-hits>
+    </ais-instantsearch>
+  </div>
 </div>

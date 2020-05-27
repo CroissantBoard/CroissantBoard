@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NgAisModule } from 'angular-instantsearch';
+import { NgAisModule, NgAisInstantSearch } from 'angular-instantsearch';
 
 import { MaterialModule } from '../../shared/modules/material.module';
 import { BoardRoutingModule } from './board-routing.module';
@@ -15,7 +15,6 @@ import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.compo
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
 import { SearchComponent } from './components/search/search.component';
-import { SearchBoxComponent } from './components/search-box/search-box.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
     MeetingsPageComponent,
     SidebarComponent,
     BoardHeaderComponent,
-    SearchComponent,
-    SearchBoxComponent
+    SearchComponent
   ],
   imports: [
     MaterialModule,
@@ -37,6 +35,7 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
     FormsModule,
     ReactiveFormsModule,
     NgAisModule
-  ]
+  ],
+  providers: [NgAisInstantSearch]
 })
 export class BoardModule {}
