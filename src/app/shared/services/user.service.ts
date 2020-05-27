@@ -6,6 +6,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+
 import User from '../interfaces/User';
 
 @Injectable({
@@ -25,11 +26,14 @@ export class UserService {
           data.uid = a.payload.doc.id
           return data
         })
-      }),
-      tap((data) => console.log(data))
+      })
     )
 
     this.users.subscribe();
+  }
+
+  getAllUsers(): Observable<any> {
+    return this.users;
   }
 
   getUsers(workspaceId: string): Observable<any> {
@@ -49,8 +53,8 @@ export class UserService {
     batch.commit()
   }
 
-  removeUser(user: User) {
-    this.userDoc = this.afs.doc(`users/${user.uid}`)
+  removeUser(uid: string) {
+    this.userDoc = this.afs.doc(`users/${uid}`)
     this.userDoc.delete()
   }
 }

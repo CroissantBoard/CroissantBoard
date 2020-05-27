@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
 
-const usersArr = [
-  {uid: 1, name: 'Admin User', email: 'test@mail.com', role: 'admin'},
-  {uid: 2, name: 'Oliver Green', email: 'oliver.green@mail.com', role: 'user'},
-  {uid: 3, name: 'Samantha Clark', email: 'samantha.clark@mail.com', role: 'user'},
-  {uid: 4, name: 'Tom Bauer', email: 'tom.bauer@mail.com', role: 'user'},
-  {uid: 5, name: 'Robin Chase', email: 'robi.chase@mail.com', role: 'user'}
-];
+import { UserService } from 'src/app/shared/services/user.service';
+import { AuthService } from 'src/app/core/authentification/auth.service';
 
 @Component({
   selector: 'app-users-list',
@@ -17,12 +13,26 @@ export class UsersListComponent implements OnInit {
   users: any[];
   loading = true;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) { }
 
   ngOnInit(): void {
-    this.loading = false;
-    this.users = usersArr;
-  }
-  
+    // this.authService.user$
+    //   .pipe(
+    //     switchMap((user) => {
+    //       return this.userService.getUsers(user.workspaceId);
+    //     })
+    //   )
+    //   .subscribe((users) => {
+    //     return this.users = users;
+    //   });
 
+    this.userService.getAllUsers()
+      .subscribe((users) => {
+        this.users = users;
+        this.loading = false;
+      })
+  }
 }

@@ -19,4 +19,21 @@
         font-weight: 400;
         margin-bottom: 0;
     }
+
+    &__info {
+        position: relative;
+        padding-right: 30px;
+    }
+
+    &__icon {
+        top: 50%;
+        right: 0;
+        position: absolute;
+        transform: translateY(-50%);
+        font-size: 16px;
+
+        &.pending {
+            color: $font-grey;
+        }
+    }
 }

@@ -4,7 +4,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { UserService } from '../../../../../../shared/services/user.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 
 interface IEmail {
@@ -26,15 +26,29 @@ export class InviteDialogComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  private workspaceId: string;
+  private bdUsers: any[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<InviteDialogComponent>,
     private usersService: UserService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
+     // this.authService.user$
+    //   .pipe(
+    //     switchMap((user) => {
+    //       this.workspaceId = user.workspaceId;
+    //       return this.userService.getUsers(user.workspaceId);
+    //     })
+    //   )
+    //   .subscribe((users) => {
+    //     return this.dbUsers = users;
+    //   });
+
     this.inviteForm = this.buildForm();
   }
 
@@ -70,14 +84,13 @@ export class InviteDialogComponent {
 
   handleInvite(): void {
     this.notValidEmails = this.emails.filter((el) => !el.valid );
-
     this.validateEmails();
 
     if (this.valid) {
       const usersList = this.emails.map((el) => el.value);
-      console.log('emails', usersList);
 
       this.usersService.setUsers(usersList);
+      this.dialogRef.close();
     }
   }
 

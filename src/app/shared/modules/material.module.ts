@@ -15,6 +15,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -33,6 +34,7 @@ const MaterialComponents = [
     MatNativeDateModule,
     MatStepperModule,
     MatMenuModule,
+    MatTooltipModule,
 ];
 
 @NgModule({

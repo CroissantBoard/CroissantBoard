@@ -1,21 +1,35 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+
+import User from 'src/app/shared/interfaces/User';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-user-item',
   templateUrl: './user-item.component.html',
   styleUrls: ['./user-item.component.scss']
 })
-export class UserItemComponent implements OnInit {
+export class UserItemComponent implements OnInit{
+  pending: boolean;
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+  ) { }
 
-  @Input() user;
+  @Input() user: User;
 
-  ngOnInit(): void {    
+  ngOnInit() {
+    this.pending = this.isUserRegister(this.user);
   }
 
   handelRemove(uid: string):void {
-    console.log('delete user with id: ', uid);
+    this.userService.removeUser(uid);
   }
 
+  private isUserRegister(user: User): boolean {
+    if(this.user.name){
+      return false;
+    }
+
+    return true;
+  }
 }

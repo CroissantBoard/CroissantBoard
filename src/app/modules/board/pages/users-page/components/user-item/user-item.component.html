@@ -2,6 +2,11 @@
     <div class="user-item__info">
         <p class="user-item__name">{{ user.name }}</p>
         <p class="user-item__email">{{ user.email }}</p>
+        <span *ngIf="pending"
+            #tooltip="matTooltip"
+            matTooltip="User is not registered in application"
+            class="icon-alert-circle user-item__icon pending">
+        </span>
     </div>
     <button
         mat-icon-button aria-label="Remove"
