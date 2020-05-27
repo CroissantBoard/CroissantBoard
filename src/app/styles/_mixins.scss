@@ -1,0 +1,16 @@
+@mixin basic($height, $width) {
+  height: $height;
+  width: $width;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin dis-flex($justify-content, $align-items) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}

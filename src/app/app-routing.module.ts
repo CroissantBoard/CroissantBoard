@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 const routes: Routes = [
  {
@@ -15,9 +18,19 @@ const routes: Routes = [
   {
     path: 'board',
     loadChildren: () =>
-      import('./modules/board/board.module').then(m => m.BoardModule)
+      import('./modules/board/board.module').then(m => m.BoardModule),
+    // canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'calendar',
+    loadChildren: () =>
+      import('./modules/calendar-page/calendar-page.module').then(m => m.CalendarPageModule)
   }
 ];
+
+// https://github.com/angular/angularfire/issues/2452
+// Pending resolve issue with AngularFireAuthGuard.
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

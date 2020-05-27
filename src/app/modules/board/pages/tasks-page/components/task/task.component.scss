@@ -1,0 +1,35 @@
+@import "variables";
+@import "mixins";
+
+.task {
+  transition: 0.3s all ease-in-out;
+
+  &__info {
+    @include dis-flex(space-between, center);
+  }
+
+  &__block {
+    @include dis-flex(space-between, center);
+  }
+
+  &__checkbox {
+    margin: 0 8px 0 0;
+  }
+
+  &__icon {
+    margin: 0 10px;
+    visibility: hidden;
+    color: $font-grey;
+  }
+
+  &__deadline {
+    color: $font-grey;
+  }
+
+  &:hover {
+    .task__icon {
+      transition: 0.3s all ease-in-out;
+      visibility: visible;
+    }
+  }
+}

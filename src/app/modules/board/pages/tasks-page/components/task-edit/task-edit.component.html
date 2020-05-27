@@ -1,0 +1,94 @@
+<div class="add-task">
+  <form class="form" [formGroup]="form" (ngSubmit)="updateItem(task, form.value)">
+    <div class="form__header">
+      <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
+      <div>
+        <span class="form__icon icon-trash-2" (click)="deleteTask($event, task)"></span>
+        <span class="form__icon icon-more-horizontal"></span>
+        <span class="form__icon icon-x" (click)="closeWindow()"></span>
+      </div>
+    </div>
+    <div class="form__scroll">
+      <div class="form__sub-header">
+        <div *ngIf="!isPublic; else isPrivate">
+          <span class="form__icon icon-lock"></span>
+          <span>This task is private to you.</span>
+        </div>
+        <ng-template #isPrivate>
+          <div>
+            <span>This task is visible to everyone.</span>
+          </div>
+        </ng-template>
+
+        <mat-checkbox class="private" formControlName="IsPrivate" (click)="togglePublic()">
+          <span class="form__sub-header--underline" *ngIf="!isPublic"> Make public</span>
+          <span class="form__sub-header--underline" *ngIf="isPublic">Make private</span>
+        </mat-checkbox>
+      </div>
+
+      <div class="form__container">
+        <div class="form__title">
+          <input class="form__title--input" matInput placeholder="Write a task name*" formControlName="name">
+        </div>
+        <mat-error class="form__error" *ngIf="isFieldValid('name')">
+          <span *ngIf="form.get('name').errors.required">Name cant be empty</span>
+          <span *ngIf="form.get('name').errors.minlength">
+            Unvalid name(too short). Need at least {{form.get('name').errors.minlength.requiredLength}} symbols.
+          </span>
+        </mat-error>
+
+        <div class="form__wrapper">
+          <div class="form__field">
+            <label class="form__label">Assignee</label>
+            <mat-form-field>
+              <input matInput placeholder="Name" formControlName="assignee">
+            </mat-form-field>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label">Due date*</label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="deadline" id="deadline"
+                name="deadline">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error class="form__error" *ngIf="isFieldValid('deadline')">
+                <span *ngIf="form.get('deadline').errors.required">Deadline cant be empty</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label">Priority</label>
+            <mat-form-field>
+              <select matNativeControl formControlName="priority" id="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </mat-form-field>
+          </div>
+
+          <div class="form__field">
+            <label class="form__label">Project</label>
+            <mat-form-field>
+              <input matInput placeholder="Project" formControlName="project" id="project">
+            </mat-form-field>
+          </div>
+
+          <div class="form__field form__field--description">
+            <label class="form__label">Description</label>
+            <mat-form-field>
+              <textarea class="form__textarea" matInput placeholder="Add more details.."
+                formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <button class="form__button" [disabled]="form.invalid" type="submit" mat-raised-button color="primary">Edit
+        task</button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,1 @@
+import { Component } from '@angular/core';@Component({    selector: 'app-line-separator-icon',    templateUrl: './line-separator.component.svg',    styleUrls: ['./line-separator.component.scss']})export class LineSeparatorComponent {}
