@@ -21,6 +21,11 @@ const routes: Routes = [
       import('./modules/board/board.module').then(m => m.BoardModule),
     // canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'calendar',
+    loadChildren: () =>
+      import('./modules/calendar-page/calendar-page.module').then(m => m.CalendarPageModule)
   }
 ];
 

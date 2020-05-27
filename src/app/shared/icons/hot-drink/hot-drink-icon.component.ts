@@ -1,0 +1,1 @@
+import { Component } from '@angular/core';@Component({    selector: 'app-hot-drink-icon',    templateUrl: './hot-drink-icon.component.svg',    styleUrls: ['./hot-drink-icon.component.scss']})export class HotDrinkIconComponent {}

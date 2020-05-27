@@ -1,0 +1,38 @@
+<section class="stepper-section stepper">
+    <h1 class="stepper__title">Follow 3 simple steps to begin</h1>
+    <mat-horizontal-stepper labelPosition="bottom" #stepper>
+        <mat-step >
+            <ng-template matStepLabel>Register Account</ng-template>
+            <p class="stepper__description">
+                First you need to register new account. Sign Up if you still don't have an account with us
+                or simply log in. You can use either basic form registration or access via your google or
+                facebook account! Pretty simple:)
+            </p>
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Create meeting</ng-template>
+            <p class="stepper__description">
+                In your personal account find a control bar to your left. Here you can create new meetings,
+                schedule them and invite people to join it.
+            </p>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Communicate</ng-template>
+            <p class="stepper__description">
+                At the due time just enter the meeting and start discussing things with your colleagues.
+                See - it's as easy as possible! Enjoy;)
+            </p>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</section>
