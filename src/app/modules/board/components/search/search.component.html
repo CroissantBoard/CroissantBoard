@@ -1,11 +1,29 @@
 <div class="search">
-  <!-- <app-search-box></app-search-box> -->
-  <input
-    type="text"
-    class="search__input common-input"
-    (keyup)="searchService.onQuery($event)"
-  />
-  <div class="search__results" *ngIf="authService.user$ | async as user">
+  <div class="search__box">
+    <input
+      class="search__input common-input"
+      type="text"
+      [value]="searchService.query"
+      (click)="showResults = true"
+      (keyup)="searchService.onQuery($event)"
+      (blur)="showResults = false"
+    />
+    <span class="icon-search" *ngIf="!searchService.query; else clear"></span>
+    <ng-template #clear>
+      <button
+        class="search-clear"
+        aria-label="Clear"
+        mat-icon-button
+        (click)="searchService.clear()"
+      >
+        <span class="icon-x"></span>
+      </button>
+    </ng-template>
+  </div>
+  <div
+    class="search__results"
+    *ngIf="showResults && authService.user$ | async as user"
+  >
     <ais-instantsearch
       class="search__instantsearch"
       [config]="searchService.createConfig('projects')"
@@ -45,7 +63,12 @@
                   class="search__icon icon-folder icon-folder--not-active"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                >
+                </ais-highlight>
               </a>
             </li>
           </ol>
@@ -92,7 +115,12 @@
                   class="search__icon icon-check-circle icon-check-circle--not-completed"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                >
+                </ais-highlight>
                 <span class="search__note">{{ hit.project }}</span>
               </a>
             </li>
@@ -140,7 +168,12 @@
                   class="search__icon icon-grid icon-grid--not-finished"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                ></ais-highlight>
+                <span class="search__note">{{ hit.project }}</span>
               </a>
             </li>
           </ol>
@@ -194,7 +227,11 @@
                   class="search__icon icon-user icon-user-offline"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                ></ais-highlight>
               </a>
             </li>
           </ol>

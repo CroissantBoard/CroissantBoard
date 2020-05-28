@@ -8,16 +8,22 @@ import { searchClient } from '../../../configs/algolia';
 })
 export class SearchService {
   private user: User;
-  private query: string;
+  query: string;
 
   constructor(private authService: AuthService) {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+    this.query = '';
+    console.log(this.query);
   }
 
   onQuery($event) {
     this.query = $event.target.value;
+  }
+
+  clear() {
+    this.query = '';
   }
 
   getSearchParameters(index: string) {
