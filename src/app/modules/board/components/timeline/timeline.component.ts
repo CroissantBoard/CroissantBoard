@@ -114,7 +114,7 @@ export class TimelineComponent implements OnChanges {
   }
 
   drop($event: CdkDragDrop<TimelineEndpoint[]>): void {
-    const value: string = $event.container.data.filter(item => item)[0].value;
+    const value: string = $event.item.data.value;
 
     if (this.checkEndpoint($event.previousIndex, $event.currentIndex, value)) {
 
@@ -129,8 +129,8 @@ export class TimelineComponent implements OnChanges {
 
     } else {
       this.returnGhostContainerSize(value === "start"
-        ? this.timelineStarts[$event.previousIndex].id
-        : this.timelineEnds[$event.previousIndex].id);
+        ? $event.item.data.id
+        : $event.item.data.id);
     }
 
     this.stopMoving();
@@ -138,11 +138,11 @@ export class TimelineComponent implements OnChanges {
 
   swapDrop($event: CdkDragDrop<TimelineSwapsItem[]>): void {
 
-    const widthPoints = this.timelineSwaps[$event.previousIndex].indexes[1] - this.timelineSwaps[$event.previousIndex].indexes[0];
+    const widthPoints = $event.item.data.indexes[1] - $event.item.data.indexes[0];
 
-    this.returnGhostContainerSize(this.timelineSwaps[$event.previousIndex].id);
+    this.returnGhostContainerSize($event.item.data.id);
 
-    if (this.checkSwap(widthPoints, this.timelineSwaps[$event.previousIndex].id, $event.currentIndex)) {
+    if (this.checkSwap(widthPoints, $event.item.data.id, $event.currentIndex)) {
 
       this.replaceItem(
         this.timelineStarts,
@@ -165,7 +165,7 @@ export class TimelineComponent implements OnChanges {
   }
 
   addDrop($event: CdkDragDrop<string[]>): void {
-
+    console.log($event)
     if (this.checkAdd($event.currentIndex)) {
 
       const id = this.mainContainers.length
@@ -179,7 +179,7 @@ export class TimelineComponent implements OnChanges {
         startX: 0,
         endX: 0,
         totalHours: 0,
-        status: $event.previousContainer.data[$event.previousIndex]
+        status: $event.item.data
       });
 
       this.ghostContainers.push({

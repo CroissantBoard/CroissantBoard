@@ -10,6 +10,7 @@
     <div *ngFor="let item of timeline; index as index"
       class="timeline__item"
       cdkDrag
+      [cdkDragData]="item"
       [cdkDragDisabled]="!item"
       cdkDragBoundary=".timeline"
       cdkDragLockAxis="x"
@@ -40,6 +41,7 @@
     <div *ngFor="let item of timelineSwaps; index as index"
       class="timeline__item timeline__item--swap"
       cdkDrag
+      [cdkDragData]="item"
       [cdkDragDisabled]="!item || !item.isStart"
       cdkDragBoundary=".timeline"
       cdkDragLockAxis="x"
