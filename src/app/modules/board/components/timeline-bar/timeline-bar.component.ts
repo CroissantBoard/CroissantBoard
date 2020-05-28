@@ -1,28 +1,20 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-timeline-bar',
   templateUrl: './timeline-bar.component.html',
   styleUrls: ['./timeline-bar.component.scss']
 })
-export class TimelineBarComponent implements OnChanges {
+export class TimelineBarComponent {
 
-  @Input() allTimelines: any[] = [];
+  @Input() addingDropListIds: string[] = [];
   @Input() timelineBarId: string;
-
-  addingDropListIds: string[] = [];
   
   timelineAddingItems: string[] = ['busy', 'free', 'undesirable'];
 
   movingItem: string = '';
 
   constructor() { }
-
-  ngOnChanges(): void {
-    if (this.allTimelines && this.timelineBarId) {
-      this.addingDropListIds = this.allTimelines.map(item => item.addingDropListId);
-    }
-  }
 
   startMoving(item: string): void {
     this.movingItem = item;

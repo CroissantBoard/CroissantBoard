@@ -1,61 +1,87 @@
 <div class="timeline">
 
-  <div cdkDropList [cdkDropListData]="timelineStarts" cdkDropListOrientation="horizontal" class="timeline__list"
+  <div *ngFor="let timeline of [timelineStarts, timelineEnds]"
+    class="timeline__list"
+    cdkDropList
+    [cdkDropListData]="timeline"
+    cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="drop($event)">
 
-    <div *ngFor="let item of timelineStarts; index as index" class="timeline__item" [cdkDragDisabled]="!item"
-      cdkDragBoundary=".timeline" cdkDragLockAxis="x" cdkDrag (cdkDragMoved)="onDragMove($event, item)">
+    <div *ngFor="let item of timeline; index as index"
+      class="timeline__item"
+      cdkDrag
+      [cdkDragDisabled]="!item"
+      cdkDragBoundary=".timeline"
+      cdkDragLockAxis="x"
+      (cdkDragMoved)="onDragMove($event, item)">
 
-      <div *ngIf="item" class="timeline__handle timeline__handle--left" [class.timeline__handle--show]="
+      <div *ngIf="item" 
+        class="timeline__handle"
+        [class.timeline__handle--left]="item.value === 'start'"
+        [class.timeline__handle--right]="item.value === 'end'"
+        [class.timeline__handle--show]="
           item.value === (movingItem ? movingItem.value : null)
           && item.id === (movingItem ? movingItem.id : null)
-        " cdkDragHandle (mousedown)="startMoving(item)" (mouseup)="stopMoving()">
+        "
+        cdkDragHandle
+        (mousedown)="startMoving(item)"
+        (mouseup)="stopMoving()">
       </div>
 
     </div>
   </div>
 
-  <div cdkDropList [cdkDropListData]="timelineEnds" cdkDropListOrientation="horizontal" class="timeline__list"
-    (cdkDropListDropped)="drop($event)">
+  <div class="timeline__list timeline__list--swaps"
+    cdkDropList
+    [cdkDropListData]="timelineSwaps"
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="swapDrop($event)">
 
-    <div *ngFor="let item of timelineEnds; index as index" class="timeline__item" [cdkDragDisabled]="!item"
-      cdkDragBoundary=".timeline" cdkDragLockAxis="x" cdkDrag (cdkDragMoved)="onDragMove($event, item)">
+    <div *ngFor="let item of timelineSwaps; index as index"
+      class="timeline__item timeline__item--swap"
+      cdkDrag
+      [cdkDragDisabled]="!item || !item.isStart"
+      cdkDragBoundary=".timeline"
+      cdkDragLockAxis="x"
+      (cdkDragMoved)="onDragMove($event, item)"
+      (mousedown)="startMoving(item)"
+      (mouseup)="stopMoving()">
 
-      <div *ngIf="item" class="timeline__handle timeline__handle--right" [class.timeline__handle--show]="
+      <div *ngIf="item && item.isStart"
+        class="timeline__swap"
+        [class.timeline__swap--show]="
           item.value === (movingItem ? movingItem.value : null)
           && item.id === (movingItem ? movingItem.id : null)
-        " cdkDragHandle (mousedown)="startMoving(item)" (mouseup)="stopMoving()">
-      </div>
-
-    </div>
-  </div>
-
-  <div cdkDropList [cdkDropListData]="timelineSwaps" cdkDropListOrientation="horizontal"
-    class="timeline__list timeline__list--swaps" (cdkDropListDropped)="swapDrop($event)">
-
-    <div *ngFor="let item of timelineSwaps; index as index" class="timeline__item timeline__item--swap"
-      [cdkDragDisabled]="!item || !item.isStart" cdkDragLockAxis="x" cdkDrag (mousedown)="startMoving(item)"
-      (mouseup)="stopMoving()" (cdkDragMoved)="onDragMove($event, item)" cdkDragBoundary=".timeline">
-
-      <div *ngIf="item && item.isStart" class="timeline__swap" [class.timeline__swap--show]="
-          item.value === (movingItem ? movingItem.value : null)
-          && item.id === (movingItem ? movingItem.id : null)
-        " [style]="{
+        "
+        [style]="{
           width: percentString(100 * (item.indexes[1] - item.indexes[0] + 1))
         }">
       </div>
 
-      <div *ngIf="item && item.isStart" class="timeline__handle--swap" [class.timeline__handle--show]="
+      <div *ngIf="item && item.isStart"
+        class="timeline__handle--swap"
+        [class.timeline__handle--show]="
           (item && !movingItem) || (item.value === movingItem.value && item.id === movingItem.id)
-        " cdkDragHandle>
+        "
+        cdkDragHandle>
       </div>
 
     </div>
   </div>
 
-  <div cdkDropList id="{{addingDropListId}}" cdkDropListConnectedTo="{{timelineBarId}}" [cdkDropListData]="timelineAddingItems" cdkDropListOrientation="horizontal"
-    class="timeline__list timeline__list--add" (cdkDropListDropped)="addDrop($event)">
-    <div class="timeline__handle timeline__handle--add" *ngFor="let item of timelineAddingItems" cdkDragDisabled cdkDrag></div>
+  <div class="timeline__list timeline__list--add"
+    cdkDropList
+    id="{{addingDropListId}}"
+    cdkDropListConnectedTo="{{timelineBarId}}"
+    [cdkDropListData]="timelineAddingItems"
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="addDrop($event)">
+
+    <div *ngFor="let item of timelineAddingItems"
+    class="timeline__handle timeline__handle--add"
+    cdkDrag
+    cdkDragDisabled></div>
+    
   </div>
 
   <app-timeline-ghost-container *ngFor="let ghost of ghostContainers"

@@ -25,4 +25,21 @@
 
   height: 100%;
   width: 100%;
+
+  &__hours {
+    @include dis-flex-column(space-evenly, center);
+    @include absolute-0-0-left;
+    @include fill-parent;
+
+    top: 150%;
+
+    background-color: black;
+    color: whitesmoke;
+  }
+
+  &__freehours {
+    @include dis-flex(space-evenly, center);
+
+    width: 100%;
+  }
 }

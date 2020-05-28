@@ -1,16 +1,19 @@
 <div class="timeline-bar">
-  <div
+
+  <div class="timeline-bar__list"
     cdkDropList
     id="{{timelineBarId}}"
     [cdkDropListConnectedTo]="addingDropListIds"
     cdkDropListSortingDisabled
     [cdkDropListData]="timelineAddingItems"
     cdkDropListOrientation="horizontal"
-    class="timeline-bar__list"
   >
 
-    <div *ngFor="let item of timelineAddingItems; index as index" class="timeline-bar__item" cdkDrag
-      (mousedown)="startMoving(item)" (mouseup)="stopMoving()">
+    <div *ngFor="let item of timelineAddingItems; index as index"
+      class="timeline-bar__item"
+      cdkDrag
+      (mousedown)="startMoving(item)"
+      (mouseup)="stopMoving()">
 
       <app-timeline-main-container
         [isTimelineBarItem]="true"
@@ -18,5 +21,7 @@
       ></app-timeline-main-container>
 
     </div>
+
   </div>
+  
 </div>

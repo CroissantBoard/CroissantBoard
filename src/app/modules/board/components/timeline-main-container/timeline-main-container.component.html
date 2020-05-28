@@ -1,4 +1,5 @@
-<div class="main-container" *ngIf="!isTimelineBarItem else timelineBarItem"
+<div *ngIf="!isTimelineBarItem else timelineBarItem"
+  class="main-container"
   [class.main-container--busy]="container.status === 'busy'"
   [class.main-container--free]="container.status === 'free'"
   [class.main-container--undesirable]="container.status === 'undesirable'">

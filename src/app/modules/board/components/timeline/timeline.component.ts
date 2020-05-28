@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, CdkDragMove, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, CdkDragMove } from '@angular/cdk/drag-drop';
 
 import { flatten } from 'lodash';
 
@@ -7,73 +7,26 @@ import { MainContainer } from 'src/app/shared/interfaces/timeline/main-container
 import { GhostContainer } from 'src/app/shared/interfaces/timeline/ghost-container';
 import { TimelineEndpoint } from 'src/app/shared/interfaces/timeline/timeline-endpoint';
 import { TimelineSwapsItem } from 'src/app/shared/interfaces/timeline/timeline-swaps-item';
+import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
+
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnInit, OnChanges {
+export class TimelineComponent implements OnChanges {
+
+  @Input() timelineId: number;
+  @Input() timelineData: MainContainer[];
 
   @Input() addingDropListId: string;
   @Input() timelineBarId: string;
 
-  mainContainers: MainContainer[] = [
-    {
-      id: 0,
-      indexes: [0, 0],
-      width: 0,
-      startX: 0,
-      endX: 0,
-      totalHours: 0,
-      status: 'busy',
-    },
-    {
-      id: 1,
-      indexes: [0, 0],
-      width: 0,
-      startX: 0,
-      endX: 0,
-      totalHours: 0,
-      status: 'free',
-    },
-    {
-      id: 2,
-      indexes: [0, 0],
-      width: 0,
-      startX: 0,
-      endX: 0,
-      totalHours: 0,
-      status: 'undesirable',
-    }
-  ];
+  @Output() changedTimelineEvent: EventEmitter<TimelineObject> = new EventEmitter();
 
-  ghostContainers: GhostContainer[] = [
-    {
-      id: 0,
-      width: 0,
-      prevStartX: 0,
-      startX: 0,
-      prevEndX: 0,
-      endX: 0,
-    },
-    {
-      id: 1,
-      width: 0,
-      prevStartX: 0,
-      startX: 0,
-      prevEndX: 0,
-      endX: 0,
-    },
-    {
-      id: 2,
-      width: 0,
-      prevStartX: 0,
-      startX: 0,
-      prevEndX: 0,
-      endX: 0,
-    }
-  ];
+  mainContainers: MainContainer[] = [];
+  ghostContainers: GhostContainer[] = [];
 
   timelineStarts: TimelineEndpoint[] = new Array(24).fill(null);
   timelineEnds: TimelineEndpoint[] = new Array(24).fill(null);
@@ -87,32 +40,38 @@ export class TimelineComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  ngOnChanges() {
-    if (this.addingDropListId && this.timelineBarId) {
+  ngOnChanges(): void {
+    if (this.timelineData) {
+      this.mainContainers = this.timelineData;
+
+      this.setInitialTimelineItems();
+      this.setInitialContainerSizes();
     }
   }
 
-  ngOnInit(): void {
-    this.timelineStarts[5] = { id: 0, value: 'start' };
-    this.timelineEnds[9] = { id: 0, value: 'end' };
+  setInitialTimelineItems(): void {
+    this.mainContainers.forEach(cont => {
+      this.timelineStarts[cont.indexes[0]] = { id: cont.id, value: 'start' };
+      this.timelineEnds[cont.indexes[1]] = { id: cont.id, value: 'end' };
 
-    this.timelineStarts[11] = { id: 1, value: 'start' };
-    this.timelineEnds[17] = { id: 1, value: 'end' };
-
-    this.timelineStarts[19] = { id: 2, value: 'start' };
-    this.timelineEnds[22] = { id: 2, value: 'end' };
-
-    this.setInitialContainerSizes(this.timelineStarts);
-    this.setInitialContainerSizes(this.timelineEnds);
-
-    this.fillTimelineSwaps();
+      this.ghostContainers.push({
+        id: cont.id,
+        width: cont.width,
+        prevStartX: cont.startX,
+        startX: cont.startX,
+        prevEndX: cont.endX,
+        endX: cont.endX,
+      })
+    });
   }
 
-  setInitialContainerSizes(timeline: TimelineEndpoint[]): void {
-    timeline.forEach((item, index) => {
-      if (item) {
-        this.changeContainerSizeByPoint(item.id, item.value, index);
-      }
+  setInitialContainerSizes(): void {
+    [this.timelineStarts, this.timelineEnds].forEach(timeline => {
+      timeline.forEach((item, index) => {
+        if (item) {
+          this.changeContainerSizeByPoint(item.id, item.value, index);
+        }
+      });
     });
   }
 
@@ -166,6 +125,8 @@ export class TimelineComponent implements OnInit, OnChanges {
         value
       );
 
+      this.emitChangedTimelineEvent();
+
     } else {
       this.returnGhostContainerSize(value === "start"
         ? this.timelineStarts[$event.previousIndex].id
@@ -196,6 +157,8 @@ export class TimelineComponent implements OnInit, OnChanges {
         $event.currentIndex + widthPoints,
         'end'
       );
+
+      this.emitChangedTimelineEvent();
     }
 
     this.stopMoving();
@@ -240,6 +203,8 @@ export class TimelineComponent implements OnInit, OnChanges {
       this.addItem(this.timelineStarts, $event.currentIndex, startItem);
       this.addItem(this.timelineEnds, $event.currentIndex, endItem);
       this.addItem(this.timelineSwaps, $event.currentIndex, swapItem);
+
+      this.emitChangedTimelineEvent();
     }
   }
 
@@ -291,11 +256,7 @@ export class TimelineComponent implements OnInit, OnChanges {
   }
 
   checkAdd(index: number): boolean {
-    if (this.timelineSwaps[index]) {
-      return false;
-    } else {
-      return true;
-    }
+    return this.timelineSwaps[index] === null;
   }
 
   changeContainerSizeByPoint(id: number, value: string, index: number): void {
@@ -369,6 +330,8 @@ export class TimelineComponent implements OnInit, OnChanges {
 
     deleteInContainers([this.mainContainers, this.ghostContainers]);
     deleteInTimelines([this.timelineStarts, this.timelineEnds, this.timelineSwaps]);
+
+    this.emitChangedTimelineEvent();
   }
 
   calculatePosition(index: number, startOrEnd: string): number {
@@ -387,6 +350,15 @@ export class TimelineComponent implements OnInit, OnChanges {
 
   stopMoving(): void {
     this.movingItem = null;
+  }
+
+  emitChangedTimelineEvent(): void {
+    const eventObject: TimelineObject = {
+      id: this.timelineId,
+      data: this.mainContainers,
+    };
+
+    this.changedTimelineEvent.emit(eventObject);
   }
 
 }
