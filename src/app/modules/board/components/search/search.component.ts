@@ -12,5 +12,12 @@ import { SearchService } from '../../services/search.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
-  constructor(public authService: AuthService, public searchService: SearchService) {}
+  showResults: boolean;
+
+  constructor(
+    public authService: AuthService,
+    public searchService: SearchService
+  ) {
+    this.showResults = false;
+  }
 }

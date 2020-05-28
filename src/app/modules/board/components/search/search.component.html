@@ -3,9 +3,14 @@
   <input
     type="text"
     class="search__input common-input"
+    (click)="showResults = true"
     (keyup)="searchService.onQuery($event)"
+    (blur)="showResults = false"
   />
-  <div class="search__results" *ngIf="authService.user$ | async as user">
+  <div
+    class="search__results"
+    *ngIf="showResults && authService.user$ | async as user"
+  >
     <ais-instantsearch
       class="search__instantsearch"
       [config]="searchService.createConfig('projects')"
