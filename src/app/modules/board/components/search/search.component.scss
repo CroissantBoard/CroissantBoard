@@ -6,7 +6,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  min-width: 330px;
+  min-width: 420px;
   align-items: center;
   margin-right: 20px;
 
@@ -71,6 +71,12 @@
     }
   }
 
+  &__hit-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__icon {
     position: absolute;
     left: 20px;
@@ -83,12 +89,18 @@
   }
 
   &__note {
+    overflow: hidden;
     margin-left: 10px;
     color: $font-grey;
     font-size: $font-extra-extra-small;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__link {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
     color: $black;
   }
 }

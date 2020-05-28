@@ -63,7 +63,12 @@
                   class="search__icon icon-folder icon-folder--not-active"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                >
+                </ais-highlight>
               </a>
             </li>
           </ol>
@@ -110,7 +115,12 @@
                   class="search__icon icon-check-circle icon-check-circle--not-completed"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"> </ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                >
+                </ais-highlight>
                 <span class="search__note">{{ hit.project }}</span>
               </a>
             </li>
@@ -158,7 +168,12 @@
                   class="search__icon icon-grid icon-grid--not-finished"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                ></ais-highlight>
+                <span class="search__note">{{ hit.project }}</span>
               </a>
             </li>
           </ol>
@@ -212,7 +227,11 @@
                   class="search__icon icon-user icon-user-offline"
                   *ngSwitchCase="undefined"
                 ></span>
-                <ais-highlight attribute="name" [hit]="hit"></ais-highlight>
+                <ais-highlight
+                  class="search__hit-text"
+                  attribute="name"
+                  [hit]="hit"
+                ></ais-highlight>
               </a>
             </li>
           </ol>
