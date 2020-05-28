@@ -1,12 +1,25 @@
 <div class="search">
-  <!-- <app-search-box></app-search-box> -->
-  <input
-    type="text"
-    class="search__input common-input"
-    (click)="showResults = true"
-    (keyup)="searchService.onQuery($event)"
-    (blur)="showResults = false"
-  />
+  <div class="search__box">
+    <input
+      class="search__input common-input"
+      type="text"
+      [value]="searchService.query"
+      (click)="showResults = true"
+      (keyup)="searchService.onQuery($event)"
+      (blur)="showResults = false"
+    />
+    <span class="icon-search" *ngIf="!searchService.query; else clear"></span>
+    <ng-template #clear>
+      <button
+        class="search-clear"
+        aria-label="Clear"
+        mat-icon-button
+        (click)="searchService.clear()"
+      >
+        <span class="icon-x"></span>
+      </button>
+    </ng-template>
+  </div>
   <div
     class="search__results"
     *ngIf="showResults && authService.user$ | async as user"

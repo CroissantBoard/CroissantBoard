@@ -10,6 +10,10 @@
   align-items: center;
   margin-right: 20px;
 
+  &__box {
+    width: 100%;
+  }
+
   &__input {
     box-sizing: border-box;
     width: 100%;
@@ -89,6 +93,14 @@
   }
 }
 
+.icon-search {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  color: $font-grey;
+  transform: translateY(-50%);
+}
+
 .icon-user {
   &--available {
     color: $green;
@@ -127,7 +139,7 @@
   &--finished {
     color: $font-light-grey;
   }
-  
+
   &--not-finished {
     color: $primary-dark;
   }
