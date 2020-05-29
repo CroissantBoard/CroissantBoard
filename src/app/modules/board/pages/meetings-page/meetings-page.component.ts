@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { intersection, union, without } from 'lodash';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-meetings-page',
@@ -46,9 +47,13 @@ export class MeetingsPageComponent implements OnInit {
   bestMeetingHours: number[] = [];
   possibleMeetingHours: number[] = [];
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.getAllUsers().subscribe(users => {
+      console.log(users)
+    })
+
     this.setBestMeetingHours();
   }
 
