@@ -29,10 +29,6 @@
   &__list {
     @include dis-flex(stretch, stretch);
     width: 100%;
-
-    &--add {
-      opacity: 0;
-    }
   }
 
   &__container {
@@ -144,7 +140,11 @@
     }
 
     &--add {
+      width: 100%;
+
       cursor: default;
+      
+      z-index: -1;
     }
 
   }

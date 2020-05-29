@@ -74,16 +74,16 @@
   <div class="timeline__list timeline__list--add"
     cdkDropList
     id="{{addingDropListId}}"
-    cdkDropListConnectedTo="{{timelineBarId}}"
     [cdkDropListData]="timelineAddingItems"
+    cdkDropListConnectedTo="{{timelineBarId}}"
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="addDrop($event)">
 
     <div *ngFor="let item of timelineAddingItems"
-    class="timeline__handle timeline__handle--add"
-    cdkDrag
-    cdkDragDisabled></div>
-    
+      class="timeline__handle timeline__handle--add"
+      cdkDrag
+      cdkDragDisabled>
+    </div>
   </div>
 
   <app-timeline-ghost-container *ngFor="let ghost of ghostContainers"

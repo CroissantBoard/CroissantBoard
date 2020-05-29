@@ -11,8 +11,8 @@ export class TimelineBarComponent {
   @Input() timelineBarId: string;
   
   timelineAddingItems: string[] = ['busy', 'free', 'undesirable'];
-
-  movingItem: string = '';
+  
+  movingItem: string = null;
 
   constructor() { }
 
@@ -21,7 +21,7 @@ export class TimelineBarComponent {
   }
 
   stopMoving(): void {
-    this.movingItem = '';
+    this.movingItem = null;
   }
 
 }

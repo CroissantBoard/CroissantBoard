@@ -165,7 +165,6 @@ export class TimelineComponent implements OnChanges {
   }
 
   addDrop($event: CdkDragDrop<string[]>): void {
-    console.log($event)
     if (this.checkAdd($event.currentIndex)) {
 
       const id = this.mainContainers.length
