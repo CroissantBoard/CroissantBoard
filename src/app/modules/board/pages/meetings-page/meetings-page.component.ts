@@ -20,25 +20,25 @@ export class MeetingsPageComponent implements OnInit {
     {
       id: 0,
       data: [
-        { id: 0, indexes: [4, 9], width: 0, startX: 0, endX: 0, totalHours: 6, status: 'busy' },
-        { id: 1, indexes: [10, 17], width: 0, startX: 0, endX: 0, totalHours: 8, status: 'free' },
-        { id: 2, indexes: [18, 21], width: 0, startX: 0, endX: 0, totalHours: 4, status: 'undesirable' },
+        { id: 0, indexes: [4, 9], width: 25, startX: 16.67, endX: 41.67, totalHours: 6, status: 'busy' },
+        { id: 1, indexes: [10, 17], width: 33.33, startX: 41.67, endX: 75, totalHours: 8, status: 'free' },
+        { id: 2, indexes: [18, 21], width: 16.67, startX: 75, endX: 91.67, totalHours: 4, status: 'undesirable' },
       ]
     },
     {
       id: 1,
       data: [
-        { id: 0, indexes: [1, 6], width: 0, startX: 0, endX: 0, totalHours: 6, status: 'busy' },
-        { id: 1, indexes: [8, 15], width: 0, startX: 0, endX: 0, totalHours: 8, status: 'free' },
-        { id: 2, indexes: [16, 19], width: 0, startX: 0, endX: 0, totalHours: 4, status: 'undesirable' },
+        { id: 0, indexes: [1, 6], width: 25, startX: 4.17, endX: 29.17, totalHours: 6, status: 'busy' },
+        { id: 1, indexes: [8, 15], width: 33.34, startX: 33.33, endX: 66.67, totalHours: 8, status: 'free' },
+        { id: 2, indexes: [16, 19], width: 16.66, startX: 66.67, endX: 83.33, totalHours: 4, status: 'undesirable' },
       ]
     },
     {
       id: 2,
       data: [
-        { id: 0, indexes: [2, 5], width: 0, startX: 0, endX: 0, totalHours: 6, status: 'busy' },
-        { id: 1, indexes: [9, 13], width: 8, startX: 0, endX: 0, totalHours: 0, status: 'free' },
-        { id: 2, indexes: [15, 20], width: 0, startX: 0, endX: 0, totalHours: 4, status: 'undesirable' },
+        { id: 0, indexes: [2, 5], width: 16.67, startX: 8.33, endX: 25, totalHours: 4, status: 'busy' },
+        { id: 1, indexes: [9, 13], width: 20.83, startX: 37.5, endX: 58.33, totalHours: 5, status: 'free' },
+        { id: 2, indexes: [15, 20], width: 25, startX: 62.5, endX: 87.5, totalHours: 6, status: 'undesirable' },
       ]
     },
   ];

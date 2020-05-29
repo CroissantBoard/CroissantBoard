@@ -213,16 +213,16 @@ export class TimelineComponent implements OnChanges {
     const delta = 100 / $event.source.dropContainer.element.nativeElement.offsetWidth * $event.distance.x;
 
     if (item.value === 'start') {
-      this.ghostContainers[containerIndex].startX = this.ghostContainers[containerIndex].prevStartX + delta;
+      this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
     }
 
     if (item.value === 'end') {
-      this.ghostContainers[containerIndex].endX = this.ghostContainers[containerIndex].prevEndX + delta;
+      this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
     }
 
     if (item.value === 'swap') {
-      this.ghostContainers[containerIndex].startX = this.ghostContainers[containerIndex].prevStartX + delta;
-      this.ghostContainers[containerIndex].endX = this.ghostContainers[containerIndex].prevEndX + delta;
+      this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
+      this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
     }
 
     this.changeContainerSize(this.ghostContainers, containerIndex);
@@ -285,7 +285,8 @@ export class TimelineComponent implements OnChanges {
   }
 
   changeContainerSize(containerArr: MainContainer[] | GhostContainer[], idx: number): void {
-    const preWidth = containerArr[idx].endX - containerArr[idx].startX;
+
+    const preWidth = this.formatNumber(containerArr[idx].endX - containerArr[idx].startX);
 
     if (preWidth > 0) {
       containerArr[idx].width = preWidth;
@@ -334,13 +335,19 @@ export class TimelineComponent implements OnChanges {
   }
 
   calculatePosition(index: number, startOrEnd: string): number {
-    const position = (this.timelinePointWidth * index);
+    const position = this.timelinePointWidth * index;
 
-    return startOrEnd === 'start' ? position : position + this.timelinePointWidth;
+    return startOrEnd === 'start'
+      ? this.formatNumber(position)
+      : this.formatNumber(position + this.timelinePointWidth);
   }
 
   percentString(num: number): string {
     return `${num}%`;
+  }
+
+  formatNumber(num: number): number {
+    return Number(num.toFixed(2));
   }
 
   startMoving(item: TimelineEndpoint | TimelineSwapsItem): void {
