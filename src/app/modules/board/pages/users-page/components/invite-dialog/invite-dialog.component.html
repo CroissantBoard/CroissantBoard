@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>Invite people to your workspace</h1>
+<div mat-dialog-content>
+    <p class="invite__description">Your teammates will get an email that gives them access to your team.</p>
+    <p class="invite__label">Email addresses</p>
+    <div class="invite__textarea">
+        <mat-chip-list #chipList aria-label="Email selection">
+            <mat-chip *ngFor="let email of emails" [selectable]="selectable"
+                        class="invite-chip"
+                        [ngClass]="{invalid: !email.valid}"
+                        [removable]="removable" (removed)="remove(email)">
+                {{ email.value }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <form 
+                [formGroup]="inviteForm"
+                class="invite__form">
+                <input placeholder="user.email@mail.com, ..."
+                        [matChipInputFor]="chipList"
+                        class="invite__input"
+                        formControlName="email"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)">
+            </form>
+        </mat-chip-list>
+    </div>
+    <div class="invite__errors">
+        <ul *ngIf="!valid && submitted" class="invite__errors-list">
+            <li class="invite__errors-title">Not valid emails:</li>
+            <li *ngFor="let email of notValidEmails"
+                class="invite__errors-list-item">{{ email.value }}</li>
+        </ul>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-flat-button
+        color="primary"
+        [disabled]="!emails.length"
+        (click)="handleInvite()">Invite</button>
+    <button mat-stroked-button
+        color="warn"
+        (click)="handleCancel()">Cancel</button>
+</div>

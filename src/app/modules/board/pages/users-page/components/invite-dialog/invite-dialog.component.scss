@@ -1,0 +1,78 @@
+@import 'variables';
+@import 'mixins';
+
+.invite {
+    &__description {
+        font-size: $font-main;
+        color: $dark;
+        margin-bottom: 10px;
+    }
+
+    &__label {
+        font-size: $font-main;
+        font-weight: 500;
+        color: $font-grey;
+        margin-bottom: 6px;
+    }
+
+    &__textarea {
+        min-height: 70px;
+        padding: 8px;
+        background-color: $white;
+        border: 1px solid $border-focus;
+        border-radius: 4px;
+        outline: none;
+        font-size: $font-main;
+        line-height: 1.5;
+        color: $black;
+    }
+
+    &__input {
+        padding: 4px;
+        background-color: $white;
+        outline: none;
+        border: none;
+        font-size: $font-main;
+        line-height: 1.5;
+        color: $black;
+
+        &::placeholder {
+            color: $font-grey-placeholder;
+            font-size: $font-main;
+        }
+    }
+
+    &__errors {
+        margin: 16px 0;
+        color: $error;
+        font-size: $font-main;
+    }
+
+    &__errors-list {
+        margin: 0;
+        padding: 0;
+    }
+
+    &__errors-title {
+        font-weight: 500;
+    }
+
+    &__errors-list-item {
+        margin: 6px 0;
+        padding-left: 18px;
+        position: relative;
+
+        &::after {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            content: "";
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            border: 1px solid $accent-red;
+        }
+    }
+}

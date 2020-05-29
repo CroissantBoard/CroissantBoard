@@ -1,0 +1,13 @@
+<div class="task">
+  <div class="task__info">
+    <div class="task__block">
+      <span class="task__icon icon-more-vertical"></span>
+      <mat-checkbox class="task__checkbox" [(ngModel)]="task.completed" (change)="doneEdit(task)"></mat-checkbox>
+      <span class="task__name">{{ task.name }}</span>
+    </div>
+    <div class="task__block">
+      <span class="task__deadline" *ngIf="task.deadline"> {{ task.deadline | date:'LLL d' }}</span>
+      <span class="task__icon icon-chevron-right"></span>
+    </div>
+  </div>
+</div>

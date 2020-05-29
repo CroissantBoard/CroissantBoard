@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgAisModule, NgAisInstantSearch } from 'angular-instantsearch';
 
 import { BoardRoutingModule } from './board-routing.module';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
@@ -11,36 +12,62 @@ import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
 import { MeetingsPageComponent } from './pages/meetings-page/meetings-page.component';
+import { TaskComponent } from './pages/tasks-page/components/task/task.component';
+import { TaskAddComponent } from './pages/tasks-page/components/task-add/task-add.component';
+import { TaskListComponent } from './pages/tasks-page/components/task-list/task-list.component';
+import { TaskEditComponent } from './pages/tasks-page/components/task-edit/task-edit.component';
+
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BoardHeaderComponent } from './components/board-header/board-header.component';
-import { SearchComponent } from './components/board-header/search/search.component';
+import { SearchComponent } from './components/search/search.component';
+import { UsersListComponent } from './pages/users-page/components/users-list/users-list.component';
+import { UserItemComponent } from './pages/users-page/components/user-item/user-item.component';
+import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
+import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
+import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
+
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { TimelineBarComponent } from './components/timeline-bar/timeline-bar.component';
 import { TimelineMainContainerComponent } from './components/timeline-main-container/timeline-main-container.component';
 import { TimelineGhostContainerComponent } from './components/timeline-ghost-container/timeline-ghost-container.component';
 
+
 @NgModule({
   declarations: [
-    BoardPageComponent,
-    TasksPageComponent,
-    HomePageComponent,
-    UsersPageComponent,
-    MeetingsPageComponent,
-    SidebarComponent,
-    BoardHeaderComponent,
-    SearchComponent,
-    TimelineComponent,
-    TimelineBarComponent,
-    TimelineMainContainerComponent,
-    TimelineGhostContainerComponent,
-  ],
+  BoardPageComponent,
+  TasksPageComponent,
+  HomePageComponent,
+  UsersPageComponent,
+  MeetingsPageComponent,
+  TaskComponent,
+  TaskAddComponent,
+  TaskListComponent,
+  TaskEditComponent,
+  SidebarComponent,
+  BoardHeaderComponent,
+  SearchComponent,
+  UsersListComponent,
+  UserItemComponent,
+  InviteDialogComponent,
+  TaskFilterComponent,
+  SortPipe,
+  TimelineComponent,
+  TimelineBarComponent,
+  TimelineMainContainerComponent,
+  TimelineGhostContainerComponent,
+],
   imports: [
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
     BoardRoutingModule,
     CommonModule,
     MaterialModule,
     CDKModule,
     FormsModule,
     ReactiveFormsModule,
-  ]
+    NgAisModule
+  ],
+  providers: [NgAisInstantSearch]
 })
 export class BoardModule { }
