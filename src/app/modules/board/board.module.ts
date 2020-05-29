@@ -31,6 +31,7 @@ import { ProjectItemComponent } from './pages/home-page/components/project-item/
 import { ProjectsListComponent } from './pages/home-page/components/projects-list/projects-list.component';
 import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ProjectSelectComponent } from './components/project-select/project-select.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ProjectItemComponent,
     ProjectsListComponent,
     ProjectAddComponent,
+    ProjectSelectComponent,
   ],
   imports: [
     MaterialModule,

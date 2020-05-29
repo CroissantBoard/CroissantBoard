@@ -6,7 +6,10 @@
                     class="logo-desktop">CroissantBoard</span>
                 <span  *ngIf="!showSidebar"
                     class="logo-mobile">CB</span>
-                </a>
+            </a>
+            <div class="sidebar__project">
+               <app-project-select [showSidebar]="showSidebar"></app-project-select>
+            </div>
         </div>
         <div class="sidebar__nav">
             <ul class="sidebar__nav-list">

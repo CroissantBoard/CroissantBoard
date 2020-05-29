@@ -19,10 +19,8 @@
 
     &__icon-wrap {
         width: 100%;
-       
         background-color: $grey-background;
         border-radius: 5px;
-
     }
 
     &__create-icon {
@@ -40,6 +38,7 @@
     &__create-title {
         margin: 8px 0 0;
         color: $font-second-grey;
+        font-size: $font-small;
     }
 
     &__content {

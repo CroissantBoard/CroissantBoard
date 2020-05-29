@@ -11,7 +11,6 @@ import { ProjectService } from 'src/app/shared/services/project.service';
   styleUrls: ['./projects-list.component.scss']
 })
 export class ProjectsListComponent implements OnInit {
-  panelOpenState = true;
   projects: IProjectShort[] = [];
   loading = true;
   showForm = false;
@@ -33,5 +32,4 @@ export class ProjectsListComponent implements OnInit {
   toggleForm(): void {
     this.showForm = !this.showForm;
   }
-
 }

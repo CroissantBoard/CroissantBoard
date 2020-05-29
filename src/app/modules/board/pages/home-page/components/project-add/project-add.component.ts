@@ -41,7 +41,7 @@ export class ProjectAddComponent implements OnInit {
     })
   }
 
-  onSubmit({ name, iconColor }): void {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.projectForm.invalid) {
@@ -49,8 +49,8 @@ export class ProjectAddComponent implements OnInit {
     }
 
     this.valid = true;
-
     this.projectService.addProject(this.user, this.projectForm.value);
+    this.toggleForm.emit();
   }
 
   close(): void {

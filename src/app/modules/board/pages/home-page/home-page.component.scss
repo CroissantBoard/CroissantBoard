@@ -9,10 +9,8 @@
     background-color: $grey-background;
     
     &__container {
-        padding: 10px 30px;
-        background-color: $white;
-        border-radius: 5px;
-        box-shadow: $shadow-main;
+        padding: 10px 0;
+        // TODO add container
     }
 
     &__section {
