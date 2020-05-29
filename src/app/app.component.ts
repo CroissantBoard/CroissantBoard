@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './core/authentification/auth.service';
+import { auth } from 'firebase';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CroissantBoard';
+  constructor(private authService: AuthService) {}
+
+  logout() {
+    this.authService.signOut();
+  }
 }

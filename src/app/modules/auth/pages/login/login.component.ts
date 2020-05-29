@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/core/authentification/auth.service';
 
@@ -9,24 +10,56 @@ import { AuthService } from 'src/app/core/authentification/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  error: string;
+  emailFormControl: FormControl;
+  passwordFormControl: FormControl;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.loginForm = this.formBuilder.group({
-      email: '',
-      password: ''
-    });
+  constructor(private router: Router, public authService: AuthService) {
+    this.emailFormControl = new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]);
+    this.passwordFormControl = new FormControl('');
   }
 
-  async onSubmit({ email, password }): Promise<boolean> {
+  async onSubmit(): Promise<boolean> {
     try {
-      return await this.authService.signIn(email, password);
+      await this.authService.signInWithEmail(
+        this.emailFormControl.value,
+        this.passwordFormControl.value
+      );
+
+      return this.router.navigate(['/board']);
     } catch (err) {
-      this.error = err.message;
+      console.log(err);
+      if (err.code === 'auth/user-not-found') {
+        this.emailFormControl.setErrors({ 'notFound': true });
+      }
+      if (err.code === 'auth/wrong-password') {
+        this.passwordFormControl.setErrors({ 'wrongPassword': true });
+      }
     }
   }
+
+  async signInWithGoogle(): Promise<boolean> {
+    try {
+      await this.authService.signInWithGoogle();
+
+      return this.router.navigate(['/board']);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async signInWithFacebook(): Promise<boolean> {
+    try {
+      await this.authService.signInWithFacebook();
+
+      return this.router.navigate(['/board']);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // {code: "auth/user-not-found", message: "There is no user record corresponding to this identifier. The user may have been deleted.", a: null}
+  // {code: "auth/wrong-password", message: "The password is invalid or the user does not have a password.", a: null}
 }

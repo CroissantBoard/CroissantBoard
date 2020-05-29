@@ -1,0 +1,108 @@
+@import 'variables';
+
+.form {
+  font-size: $font-middle;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 280px;
+  max-width: 500px;
+  transform: translate(-50%, -50%);
+
+  &__title {
+    display: block;
+    padding-bottom: 20px;
+    color: $black;
+    font-size: $font-heading;
+    line-height: 1;
+    text-align: center;
+  }
+
+  &__field {
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  &__button {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 3.75em;
+    margin-top: 14px;
+    font-size: $font-middle;
+
+    &--social {
+      margin-bottom: 22px;
+      border: 2px solid $primary;
+      color: $primary;
+
+      &:hover {
+        color: $primary-dark;
+        border-color: $primary-dark;
+      }
+    }
+
+    &--submit {
+      &:hover {
+        background-color: $primary-dark;
+      }
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    display: flex;
+    width: 24px;
+    height: 24px;
+    transform: translateY(-50%);
+  }
+
+  &__devider {
+    position: relative;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+    color: $font-grey;
+    font-size: $font-middle;
+    text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 40%;
+      height: 1px;
+      border-top: 1px solid $font-grey;
+    }
+
+    &::after {
+      left: auto;
+    }
+
+    &::after {
+      left: 0;
+    }
+  }
+
+  &__text {
+    display: block;
+    margin-top: 60px;
+    color: $font-grey;
+    font-size: $font-middle;
+    text-align: center;
+  }
+
+  &__link {
+    color: $primary;
+
+    &:hover {
+      color: $primary-dark;
+      text-decoration: underline;
+    }
+  }
+}

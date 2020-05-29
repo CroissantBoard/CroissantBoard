@@ -9,8 +9,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ScheduleComponent implements OnInit {
 
-  http: HttpClient
-
   constructor(public dateService:DateService) { }
 
   ngOnInit() {
