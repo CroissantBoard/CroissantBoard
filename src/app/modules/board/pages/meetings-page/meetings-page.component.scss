@@ -26,6 +26,30 @@
   height: 100%;
   width: 100%;
 
+  &--loading {
+    @include flex-center;
+  }
+
+  &__bar {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 10;
+  }
+
+  &__lines {
+    @include dis-flex-column(flex-start, stretch);
+    @include fill-parent;
+  }
+
+  &__line {
+    @include flex-center;
+    height: 75px;
+  }
+
   &__hours {
     @include dis-flex-column(space-evenly, center);
     @include absolute-0-0-left;

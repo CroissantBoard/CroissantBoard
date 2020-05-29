@@ -13,12 +13,22 @@
 }
 
 .timeline {
-  position: relative;
+  @include dis-flex(flex-start, stretch);
 
   height: 50px;
   width: 100%;
 
   z-index: 2;
+
+  &__user {
+    @include basic-square(50px);
+    overflow: hidden;
+  }
+
+  &__lists {
+    position: relative;
+    width: calc(100% - 50px);
+  }
 
   &__list,
   &__container {

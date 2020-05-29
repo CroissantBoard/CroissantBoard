@@ -1,31 +1,35 @@
-<div class="meetings">
-  <app-timeline-bar [addingDropListIds]="getAllAddingDropListIds()" [timelineBarId]="timelineBarId"></app-timeline-bar>
+<div class="meetings" *ngIf="meeting else loadingMeeting">
 
   <div class="meetings__lines">
-    <div class="vr-wrapper">
-      <div class="vr" *ngFor="let item of timelineRuler; index as index">
-        <div class="vr__row"></div>
-        <span>{{index}}</span>
+    <app-timeline-bar
+      class="meetings__bar"
+      [addingDropListIds]="getAllAddingDropListIds()"
+      [timelineBarId]="timelineBarId">
+    </app-timeline-bar>
+
+    <app-timeline *ngFor="let timeline of meeting.timelines"
+      [timelineObject]="timeline"
+      [timelineBarId]="timelineBarId"
+      [addingDropListId]="getAddingDropListId(timeline.timelineId)"
+      (changedTimelineEvent)="onChangedTimelineEvent($event)">
+    </app-timeline>
+  </div>
+
+    <div class="meetings__hours">
+      <h2>Best Meeting Hours</h2>
+      <div class="meetings__freehours">
+        <h3 *ngFor="let hour of bestMeetingHours">{{ hour }}</h3>
+      </div>
+      
+      <h2>Possible Meeting Hours</h2>
+      <div class="meetings__freehours">
+        <h3 *ngFor="let hour of possibleMeetingHours">{{ hour }}</h3>
       </div>
     </div>
-
-    <app-timeline *ngFor="let timeline of allTimelines"
-      [timelineId]="timeline.id"
-      [timelineData]="timeline.data"
-      [timelineBarId]="timelineBarId"
-      [addingDropListId]="getAddingDropListId(timeline.id)"
-      (changedTimelineEvent)="onChangedTimelineEvent($event)"></app-timeline>
-  </div>
-
-  <div class="meetings__hours">
-    <h2>Best Meeting Hours</h2>
-    <div class="meetings__freehours">
-      <h3 *ngFor="let hour of bestMeetingHours">{{ hour }}</h3>
-    </div>
-    
-    <h2>Possible Meeting Hours</h2>
-    <div class="meetings__freehours">
-      <h3 *ngFor="let hour of possibleMeetingHours">{{ hour }}</h3>
-    </div>
-  </div>
 </div>
+
+<ng-template #loadingMeeting>
+  <div class="meetings--loading">
+    <h2>Meeting is loading. Please wait...</h2>
+  </div>
+</ng-template>

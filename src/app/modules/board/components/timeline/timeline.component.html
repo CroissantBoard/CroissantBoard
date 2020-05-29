@@ -1,5 +1,9 @@
-<div class="timeline">
+<div class="timeline" *ngIf="timelineObject else loadingTimeline">
+  <div class="timeline__user">
+    <span class="timeline__username">{{timelineObject.uid}}</span>
+  </div>
 
+  <div class="timeline__lists">
   <div *ngFor="let timeline of [timelineStarts, timelineEnds]"
     class="timeline__list"
     cdkDropList
@@ -97,5 +101,10 @@
     [percentMarginLeft]="percentString(container.startX)"
     (deleteContainerEvent)="deleteContainer($event)"
   ></app-timeline-main-container>
+  </div>
 
 </div>
+
+<ng-template #loadingTimeline>
+  <span>loading</span>
+</ng-template>

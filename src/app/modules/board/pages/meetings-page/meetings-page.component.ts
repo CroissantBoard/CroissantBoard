@@ -1,65 +1,85 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { intersection, union, without } from 'lodash';
 
-import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { UserService } from 'src/app/shared/services/user.service';
+import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
+
+import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
+import { Meeting } from 'src/app/shared/interfaces/meeting';
+import User from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-meetings-page',
   templateUrl: './meetings-page.component.html',
   styleUrls: ['./meetings-page.component.scss']
 })
-export class MeetingsPageComponent implements OnInit {
+export class MeetingsPageComponent implements OnInit, OnDestroy {
+
+  private destroy$: Subject<void> = new Subject<void>();
 
   timelineRuler = new Array(24).fill(null);
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
 
-  allTimelines: TimelineObject[] = [
-    {
-      id: 0,
-      data: [
-        { id: 0, indexes: [4, 9], width: 25, startX: 16.67, endX: 41.67, totalHours: 6, status: 'busy' },
-        { id: 1, indexes: [10, 17], width: 33.33, startX: 41.67, endX: 75, totalHours: 8, status: 'free' },
-        { id: 2, indexes: [18, 21], width: 16.67, startX: 75, endX: 91.67, totalHours: 4, status: 'undesirable' },
-      ]
-    },
-    {
-      id: 1,
-      data: [
-        { id: 0, indexes: [1, 6], width: 25, startX: 4.17, endX: 29.17, totalHours: 6, status: 'busy' },
-        { id: 1, indexes: [8, 15], width: 33.34, startX: 33.33, endX: 66.67, totalHours: 8, status: 'free' },
-        { id: 2, indexes: [16, 19], width: 16.66, startX: 66.67, endX: 83.33, totalHours: 4, status: 'undesirable' },
-      ]
-    },
-    {
-      id: 2,
-      data: [
-        { id: 0, indexes: [2, 5], width: 16.67, startX: 8.33, endX: 25, totalHours: 4, status: 'busy' },
-        { id: 1, indexes: [9, 13], width: 20.83, startX: 37.5, endX: 58.33, totalHours: 5, status: 'free' },
-        { id: 2, indexes: [15, 20], width: 25, startX: 62.5, endX: 87.5, totalHours: 6, status: 'undesirable' },
-      ]
-    },
-  ];
+  users: User[] = [];
+  meeting: Meeting;
+
+  meetingDate: Date;
 
   bestMeetingHours: number[] = [];
   possibleMeetingHours: number[] = [];
 
-  constructor(private userService: UserService) { }
+  updateIntervalId: any;
+
+  constructor(
+    private meetingsService: MeetingsService,
+    private userService: UserService
+  ) { }
+
+  ngOnDestroy(): void {
+    clearInterval(this.updateIntervalId);
+    
+    this.updateMeeting();
+
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(users => {
-      console.log(users)
+    this.meetingDate = new Date();
+
+    this.meetingsService.getAllMeetings().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(meetings => {
+      this.meeting = meetings[0];
+
+      this.setBestMeetingHours();
     })
 
-    this.setBestMeetingHours();
+    this.userService.getAllUsers().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(users => this.users = users);
+
+    this.updateIntervalId = setInterval(() => {
+      this.updateMeeting();
+    }, 10000);
+  }
+
+  updateMeeting() {
+    this.meetingsService.updateMeeting(this.meeting);
   }
 
   onChangedTimelineEvent($event: TimelineObject): void {
-    this.allTimelines.forEach(line => {
-      if (line.id === $event.id) line.data = $event.data;
+    this.meeting.timelines.forEach(line => {
+      if (line.timelineId === $event.timelineId) {
+        line.data = $event.data;
+        return;
+      }
     });
 
     this.setBestMeetingHours();
@@ -67,7 +87,7 @@ export class MeetingsPageComponent implements OnInit {
 
   setBestMeetingHours(): void {
     let isAllUsersfree = true;
-    this.allTimelines.forEach(line => {
+    this.meeting.timelines.forEach(line => {
       const hasFree = line.data.filter(cont => cont.status === 'free');
 
       if (!hasFree.length) {
@@ -97,7 +117,7 @@ export class MeetingsPageComponent implements OnInit {
       undesirable: number[] = [],
       notGiven: number[] = [];
 
-    this.allTimelines.forEach(line => {
+    this.meeting.timelines.forEach(line => {
       let lineNotGivenHours: number[] = this.generateRange(0, 23);
 
       line.data.forEach(cont => {
@@ -172,7 +192,7 @@ export class MeetingsPageComponent implements OnInit {
   }
 
   getAllAddingDropListIds(): string[] {
-    return this.allTimelines.map(line => this.getAddingDropListId(line.id));
+    return this.meeting.timelines.map(line => this.getAddingDropListId(line.timelineId));
   }
 
 }

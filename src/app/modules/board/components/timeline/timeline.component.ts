@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges, OnDestroy } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, CdkDragMove } from '@angular/cdk/drag-drop';
 
 import { flatten } from 'lodash';
@@ -15,10 +15,9 @@ import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-obje
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnChanges {
+export class TimelineComponent implements OnInit {
 
-  @Input() timelineId: number;
-  @Input() timelineData: MainContainer[];
+  @Input() timelineObject: TimelineObject;
 
   @Input() addingDropListId: string;
   @Input() timelineBarId: string;
@@ -40,9 +39,9 @@ export class TimelineComponent implements OnChanges {
 
   constructor() { }
 
-  ngOnChanges(): void {
-    if (this.timelineData) {
-      this.mainContainers = this.timelineData;
+  ngOnInit(): void {
+    if (this.timelineObject && this.timelineObject.data.length) {
+      this.mainContainers = this.timelineObject.data;
 
       this.setInitialTimelineItems();
       this.setInitialContainerSizes();
@@ -360,7 +359,8 @@ export class TimelineComponent implements OnChanges {
 
   emitChangedTimelineEvent(): void {
     const eventObject: TimelineObject = {
-      id: this.timelineId,
+      timelineId: this.timelineObject.timelineId,
+      uid: this.timelineObject.uid,
       data: this.mainContainers,
     };
 
