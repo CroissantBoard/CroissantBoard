@@ -1,0 +1,75 @@
+@import 'variables';
+
+.projects {
+
+    &__create-btn {
+        width: 100%;
+        height: 100%;
+        padding: 10px 16px;
+        background-color: transparent;
+        border: 1px dashed $border-focus;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+
+        &::focus {
+            outline: none;
+        }
+    }
+
+    &__icon-wrap {
+        width: 100%;
+       
+        background-color: $grey-background;
+        border-radius: 5px;
+
+    }
+
+    &__create-icon {
+        min-height: 60px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__wrapper {
+        display: flex;
+    }
+
+    &__create-title {
+        margin: 8px 0 0;
+        color: $font-second-grey;
+    }
+
+    &__content {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-x: hidden;
+    }
+
+    &__item {
+        flex: 0 0.12 12%;
+        padding-right: 16px;
+
+        @media (max-width: 1440px) {
+            flex: 0 0.15 15%;
+        }
+
+        @media (max-width: 1024px) {
+            flex: 0 0.20 20%;
+        }
+
+        @media (max-width: 768px) {
+            flex: 0 0.25 25%;
+        }
+
+        @media (max-width: 460px) {
+            flex: 0 0.50 50%;
+        }
+    }
+}

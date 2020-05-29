@@ -1,0 +1,33 @@
+<mat-accordion
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+    class="project-accordion">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                My Projects
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <app-project-add *ngIf="showForm" (toggleForm)="toggleForm()"></app-project-add>
+
+        <div *ngIf="!showForm" class="projects__wrapper">
+            <ul *ngIf="projects"
+            class="projects__content">
+                <li class="projects__item">
+                    <button matRipple class="projects__create-btn" (click)="toggleForm()">
+                        <div class="projects__icon-wrap">
+                            <span class="projects__create-icon">
+                                <span class="icon-plus"></span>
+                            </span>
+                        </div>
+                        <p class="projects__create-title">New Project</p>
+                    </button>
+                </li>
+                <li *ngFor="let project of projects" class="projects__item">
+                    <app-project-item [project]="project"></app-project-item>
+                </li>
+            </ul>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>

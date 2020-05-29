@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 import { NgAisModule, NgAisInstantSearch } from 'angular-instantsearch';
+import { FormsModule } from '@angular/forms';
+
 
 import { MaterialModule } from '../../shared/modules/material.module';
 import { BoardRoutingModule } from './board-routing.module';
-import { FormsModule } from '@angular/forms';
 
 import { BoardPageComponent } from './board-page.component';
 import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
@@ -25,36 +27,42 @@ import { UserItemComponent } from './pages/users-page/components/user-item/user-
 import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
 import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
+import { ProjectItemComponent } from './pages/home-page/components/project-item/project-item.component';
+import { ProjectsListComponent } from './pages/home-page/components/projects-list/projects-list.component';
+import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
-  BoardPageComponent,
-  TasksPageComponent,
-  HomePageComponent,
-  UsersPageComponent,
-  MeetingsPageComponent,
-  TaskComponent,
-  TaskAddComponent,
-  TaskListComponent,
-  TaskEditComponent,
-  SidebarComponent,
-  BoardHeaderComponent,
-  SearchComponent,
-  UsersListComponent,
-  UserItemComponent,
-  InviteDialogComponent,
-  TaskFilterComponent,
-  SortPipe,
-],
+    BoardPageComponent,
+    TasksPageComponent,
+    HomePageComponent,
+    UsersPageComponent,
+    MeetingsPageComponent,
+    TaskComponent,
+    TaskAddComponent,
+    TaskListComponent,
+    TaskEditComponent,
+    SidebarComponent,
+    BoardHeaderComponent,
+    SearchComponent,
+    UsersListComponent,
+    UserItemComponent,
+    InviteDialogComponent,
+    TaskFilterComponent,
+    SortPipe,
+    ProjectItemComponent,
+    ProjectsListComponent,
+    ProjectAddComponent,
+  ],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
     BoardRoutingModule,
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgAisModule
+    NgAisModule,
+    SharedModule,
   ],
   providers: [NgAisInstantSearch]
 })

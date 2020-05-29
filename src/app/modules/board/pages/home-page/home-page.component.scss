@@ -1,0 +1,25 @@
+@import 'variables';
+
+.board-home {
+    padding: 16px;
+    display: flex;
+    flex: 1 1 auto;
+    min-height: calc(100vh - 68px);
+    flex-direction: column;
+    background-color: $grey-background;
+    
+    &__container {
+        padding: 10px 30px;
+        background-color: $white;
+        border-radius: 5px;
+        box-shadow: $shadow-main;
+    }
+
+    &__section {
+        margin-bottom: 20px;
+    }
+
+    &__content {
+        padding: 10px;
+    }
+}

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import User from '../interfaces/User';
+import { IProjectShort } from '../interfaces/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class UserService {
       .valueChanges({ idField: 'id' });
   }
   
-  setUsers(users: string[]) {
+  setUsers(users: string[]): void {
     const batch = this.afs.firestore.batch();
 
     users.forEach((user) => {
@@ -53,7 +54,23 @@ export class UserService {
     batch.commit()
   }
 
-  removeUser(uid: string) {
+  updateUser(uid: string, edit: any): void {
+    this.userDoc = this.afs.doc(`users/${uid}`)
+    this.userDoc.update(edit)
+  }
+
+  setNewProject(user: User, project: IProjectShort): void {
+    if(user.projects) {
+      user.projects.push(project);
+    } else {
+      user.projects = [ project ];
+    }
+
+    this.userDoc = this.afs.doc(`users/${user.uid}`);
+    this.userDoc.update({ projects: user.projects});
+  }
+
+  removeUser(uid: string): void {
     this.userDoc = this.afs.doc(`users/${uid}`)
     this.userDoc.delete()
   }
