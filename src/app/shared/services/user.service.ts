@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import User from '../interfaces/User';
@@ -40,6 +40,23 @@ export class UserService {
     return this.afs
       .collection('users', (ref) => ref.where('workspaceId', '==', workspaceId))
       .valueChanges({ idField: 'id' });
+  }
+
+  getUserById(uid: string): Observable<any> {
+    this.userDoc = this.afs.doc(`users/${uid}`);
+    return from(this.userDoc.get()
+      .toPromise().then(doc => doc.data())
+    );
+  }
+
+  getUsersByProjectId(projectId: string): Observable<any> {
+    const projectRef = this.afs
+      .doc(`projects/${projectId}`)
+
+    const users = projectRef.get().toPromise()
+      .then(doc => doc.data().participants);
+
+    return from(users);
   }
   
   setUsers(users: string[]) {

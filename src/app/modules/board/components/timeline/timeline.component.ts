@@ -9,6 +9,9 @@ import { TimelineEndpoint } from 'src/app/shared/interfaces/timeline/timeline-en
 import { TimelineSwapsItem } from 'src/app/shared/interfaces/timeline/timeline-swaps-item';
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 
+import { UserService } from 'src/app/shared/services/user.service';
+import User from 'src/app/shared/interfaces/User';
+
 
 @Component({
   selector: 'app-timeline',
@@ -24,6 +27,8 @@ export class TimelineComponent implements OnInit {
 
   @Output() changedTimelineEvent: EventEmitter<TimelineObject> = new EventEmitter();
 
+  user: any;
+
   mainContainers: MainContainer[] = [];
   ghostContainers: GhostContainer[] = [];
 
@@ -37,15 +42,17 @@ export class TimelineComponent implements OnInit {
 
   timelinePointWidth: number = 100 / this.timelineSwaps.length;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    if (this.timelineObject && this.timelineObject.data.length) {
-      this.mainContainers = this.timelineObject.data;
+    this.userService
+      .getUserById(this.timelineObject.uid)
+      .subscribe(user => this.user = user);
 
-      this.setInitialTimelineItems();
-      this.setInitialContainerSizes();
-    }
+    this.mainContainers = this.timelineObject.data;
+
+    this.setInitialTimelineItems();
+    this.setInitialContainerSizes();
   }
 
   setInitialTimelineItems(): void {

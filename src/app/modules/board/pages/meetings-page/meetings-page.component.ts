@@ -3,14 +3,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { intersection, union, without } from 'lodash';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
 import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
-import User from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-meetings-page',
@@ -26,15 +25,14 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
 
-  users: User[] = [];
-  meeting: Meeting;
+  projectId = 'UGSjyODGJRixz9x4Cwqy'; // hardcoded
+  userIds: string[] = [];
 
-  meetingDate: Date;
+  meeting: Meeting;
+  meetingDay: Date;
 
   bestMeetingHours: number[] = [];
   possibleMeetingHours: number[] = [];
-
-  updateIntervalId: any;
 
   constructor(
     private meetingsService: MeetingsService,
@@ -42,32 +40,50 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnDestroy(): void {
-    clearInterval(this.updateIntervalId);
-    
-    this.updateMeeting();
-
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.updateMeeting();
   }
 
   ngOnInit(): void {
-    this.meetingDate = new Date();
+    this.resetMeetingDay();
 
-    this.meetingsService.getAllMeetings().pipe(
+    this.userService.getUsersByProjectId(this.projectId).pipe(
       takeUntil(this.destroy$)
+    ).subscribe(users => {
+      this.userIds = users;
+
+      if (!this.meeting.timelines.length) {
+        this.meeting.timelines = this.userIds.map((user, index) => ({
+          timelineId: index,
+          uid: user,
+          data: [],
+        }));
+      }
+    });
+  }
+
+  fetchMeeting(): void {
+    this.meetingsService.getMeetingByDay(this.projectId, this.meetingDay).pipe(
+      take(1)
     ).subscribe(meetings => {
-      this.meeting = meetings[0];
+      this.meeting = meetings.length
+        ? meetings[0]
+        : this.createNewMeeting();
 
       this.setBestMeetingHours();
-    })
+    });
+  }
 
-    this.userService.getAllUsers().pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(users => this.users = users);
+  onChangeMeetingDay(): void {
+    this.fetchMeeting();
+  }
 
-    this.updateIntervalId = setInterval(() => {
-      this.updateMeeting();
-    }, 10000);
+  resetMeetingDay(): void {
+    this.meetingDay = this.formatDate(new Date());
+
+    this.fetchMeeting();
   }
 
   updateMeeting() {
@@ -83,6 +99,14 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     });
 
     this.setBestMeetingHours();
+
+    if (this.meeting.id !== null) {
+      this.updateMeeting();
+    } else {
+      this.meetingsService.addMeeting(this.meeting);
+
+      this.fetchMeeting();
+    }
   }
 
   setBestMeetingHours(): void {
@@ -185,6 +209,28 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   generateRange(start: number, end: number): number[] {
     if (start === end) return [start];
     return [start, ...this.generateRange(start + 1, end)];
+  }
+
+  formatDate(date: Date): Date {
+    return new Date(date.setHours(0, 0, 0, 0));
+  }
+
+  createNewMeeting(): Meeting {
+    return {
+      id: null,
+      meetingDay: this.meetingDay,
+      hour: 0,
+      name: '',
+      projectId: this.projectId,
+      isFinished: false,
+      timelines: this.userIds
+        ? this.userIds.map((id, index) => ({
+          timelineId: index,
+          uid: id,
+          data: [],
+        }))
+        : [],
+    }
   }
 
   getAddingDropListId(timelineId: number): string {

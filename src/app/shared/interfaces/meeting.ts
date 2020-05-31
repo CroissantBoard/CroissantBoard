@@ -2,9 +2,10 @@ import { TimelineObject } from './timeline/timeline-object';
 
 export interface Meeting {
   id: string,
-  date: Date,
+  meetingDay: Date,
+  hour: number,
   name: string,
-  project: string,
+  projectId: string,
   isFinished: boolean,
   timelines: TimelineObject[],
 }

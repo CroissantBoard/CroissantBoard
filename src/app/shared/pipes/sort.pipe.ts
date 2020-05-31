@@ -13,7 +13,8 @@ export class SortPipe implements PipeTransform {
       if (order === 'asc') { return value.sort() }
       else { return value.sort().reverse(); }
     }
-    return orderBy(value, [column], [order]);
+    // return orderBy(value, [column], [order]);
+    return value
   }
 
 }

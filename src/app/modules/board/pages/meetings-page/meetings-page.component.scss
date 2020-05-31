@@ -30,6 +30,10 @@
     @include flex-center;
   }
 
+  &__header {
+    @include dis-flex(space-around, center);
+  }
+
   &__bar {
     position: sticky;
     top: 0;

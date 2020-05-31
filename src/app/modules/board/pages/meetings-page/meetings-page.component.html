@@ -1,5 +1,23 @@
 <div class="meetings" *ngIf="meeting else loadingMeeting">
 
+  <div class="meetings__header">
+
+    <mat-form-field class="filters__item">
+      <mat-label>Meeting date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="meetingDay" (ngModelChange)="onChangeMeetingDay()" />
+  
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="resetMeetingDay()">
+        <mat-icon>close</mat-icon>
+      </button>
+  
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <h1 class="meetings__name">Meeting topic: {{meeting.name}}</h1>
+
+  </div>
+
   <div class="meetings__lines">
     <app-timeline-bar
       class="meetings__bar"

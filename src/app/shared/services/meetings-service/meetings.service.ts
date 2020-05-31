@@ -15,7 +15,7 @@ import { Meeting } from '../../interfaces/meeting';
   providedIn: 'root'
 })
 export class MeetingsService {
-  
+
   meetingsCollection: AngularFirestoreCollection<Meeting>
   meetings: Observable<Meeting[]>
   meetingDoc: AngularFirestoreDocument<Meeting>
@@ -57,18 +57,20 @@ export class MeetingsService {
     return this.afs.doc(`meetings/${meetingId}`).valueChanges();
   }
 
+  getMeetingByDay(projectId: string, meetingDay: Date): Observable<any> {
+    return this.afs
+      .collection('meetings', (ref) =>
+        ref.where('projectId', '==', projectId)
+        .where('meetingDay', '==', meetingDay))
+      .valueChanges({ idField: 'id' });
+
+    // return this.afs
+    //   .collection('meetings', (ref) => ref.where('workspaceId', '==', workspaceId)
+    //   .where('meetingDay', '==', meetingDay))
+    //   .valueChanges({ idField: 'id' });
+  }
+
   getAllMeetings(): Observable<any> {
     return this.meetings;
   }
-  
-  // setMeetings(users: string[]) {
-  //   const batch = this.afs.firestore.batch();
-
-  //   users.forEach((user) => {
-  //     const userRef = this.afs.firestore.collection('users').doc();
-  //     batch.set(userRef, { email: user });
-  //   });
-
-  //   batch.commit()
-  // }
 }
