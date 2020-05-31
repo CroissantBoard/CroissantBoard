@@ -1,26 +1,31 @@
-<div class="meetings" *ngIf="meeting else loadingMeeting">
+<div class="meeting" *ngIf="meeting else loadingMeeting">
 
-  <div class="meetings__header">
+  <div class="meeting__header">
+    
+    <div class="meeting__calendar">
+      <mat-form-field>
+        <mat-label>Meeting date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="meetingDay" (ngModelChange)="onChangeMeetingDay()" />
+      
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="resetMeetingDay()">
+          <mat-icon>close</mat-icon>
+        </button>
+      
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    
+    <div class="meeting__info">
+      <h1 class="meeting__name">Meeting topic: {{meeting.name}}</h1>
 
-    <mat-form-field class="filters__item">
-      <mat-label>Meeting date</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="meetingDay" (ngModelChange)="onChangeMeetingDay()" />
-  
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="resetMeetingDay()">
-        <mat-icon>close</mat-icon>
-      </button>
-  
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <h1 class="meetings__name">Meeting topic: {{meeting.name}}</h1>
-
+      <h2 class="meeting__hour">Time: {{meeting.hour}}:00</h2>
+    </div>
   </div>
 
-  <div class="meetings__lines">
+  <div class="meeting__lines">
     <app-timeline-bar
-      class="meetings__bar"
+      class="meeting__bar"
       [addingDropListIds]="getAllAddingDropListIds()"
       [timelineBarId]="timelineBarId">
     </app-timeline-bar>
@@ -33,21 +38,25 @@
     </app-timeline>
   </div>
 
-    <div class="meetings__hours">
+    <div class="meeting__hours">
       <h2>Best Meeting Hours</h2>
-      <div class="meetings__freehours">
-        <h3 *ngFor="let hour of bestMeetingHours">{{ hour }}</h3>
+      <div class="meeting__freehours">
+        <button mat-flat-button *ngFor="let hour of bestMeetingHours" (click)="setMeetingHour(hour)">
+          {{ hour }}
+        </button>
       </div>
       
       <h2>Possible Meeting Hours</h2>
-      <div class="meetings__freehours">
-        <h3 *ngFor="let hour of possibleMeetingHours">{{ hour }}</h3>
+      <div class="meeting__freehours">
+        <button mat-flat-button *ngFor="let hour of possibleMeetingHours" (click)="setMeetingHour(hour)">
+          {{ hour }}
+        </button>
       </div>
     </div>
 </div>
 
 <ng-template #loadingMeeting>
-  <div class="meetings--loading">
+  <div class="meeting--loading">
     <h2>Meeting is loading. Please wait...</h2>
   </div>
 </ng-template>

@@ -20,7 +20,7 @@
   }
 }
 
-.meetings {
+.meeting {
   position: relative;
 
   height: 100%;
@@ -31,7 +31,15 @@
   }
 
   &__header {
-    @include dis-flex(space-around, center);
+    @include dis-flex-column(flex-start, stretch);
+
+    padding: 1rem 2rem;
+
+    box-sizing: border-box;
+  }
+
+  &__info {
+    @include dis-flex(space-between, center);
   }
 
   &__bar {

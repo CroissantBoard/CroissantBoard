@@ -10,6 +10,7 @@ import { TimelineSwapsItem } from 'src/app/shared/interfaces/timeline/timeline-s
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 
 import { UserService } from 'src/app/shared/services/user.service';
+
 import User from 'src/app/shared/interfaces/User';
 
 
@@ -27,7 +28,7 @@ export class TimelineComponent implements OnInit {
 
   @Output() changedTimelineEvent: EventEmitter<TimelineObject> = new EventEmitter();
 
-  user: any;
+  user: User;
 
   mainContainers: MainContainer[] = [];
   ghostContainers: GhostContainer[] = [];
@@ -86,7 +87,7 @@ export class TimelineComponent implements OnInit {
 
     this.timelineEnds.forEach((item, index) => {
       if (item) {
-        const itemStartIndex = this.timelineStarts.findIndex(start => { if (start) return start.id === item.id });
+        const itemStartIndex = this.timelineStarts.findIndex(start => start && start.id === item.id);
 
         for (let i = itemStartIndex; i <= index; i++) {
           this.timelineSwaps[i] = {
@@ -218,17 +219,22 @@ export class TimelineComponent implements OnInit {
 
     const delta = 100 / $event.source.dropContainer.element.nativeElement.offsetWidth * $event.distance.x;
 
-    if (item.value === 'start') {
-      this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
-    }
-
-    if (item.value === 'end') {
-      this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
-    }
-
-    if (item.value === 'swap') {
-      this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
-      this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
+    switch (item.value) {
+      case 'start':
+        this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
+        break;
+        
+      case 'end':
+        this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
+        break;
+        
+      case 'swap':
+        this.ghostContainers[containerIndex].startX = this.formatNumber(this.ghostContainers[containerIndex].prevStartX + delta);
+        this.ghostContainers[containerIndex].endX = this.formatNumber(this.ghostContainers[containerIndex].prevEndX + delta);
+        break;
+    
+      default:
+        break;
     }
 
     this.changeContainerSize(this.ghostContainers, containerIndex);
@@ -240,12 +246,17 @@ export class TimelineComponent implements OnInit {
     const closestRight = Math.min(...indexes.filter(index => index > previousIndex));
     const closestLeft = Math.max(...indexes.filter(index => index < previousIndex));
 
-    if (value === 'start') return currentIndex <= closestRight && currentIndex > closestLeft;
-
-    if (value === 'end') return currentIndex < closestRight
-      && currentIndex >= (closestLeft === -Infinity ? previousIndex : closestLeft);
-
-    return false;
+    switch (value) {
+      case 'start':
+        return currentIndex <= closestRight && currentIndex > closestLeft;
+        
+      case 'end':
+        return currentIndex < closestRight
+          && currentIndex >= (closestLeft === -Infinity ? previousIndex : closestLeft);
+    
+      default: 
+        return false;
+    }
   }
 
   checkSwap(widthPoints: number, id: number, currIndex: number): boolean {
@@ -270,28 +281,30 @@ export class TimelineComponent implements OnInit {
     const containerIndex = this.mainContainers.findIndex(item => item.id === id);
 
     if (containerIndex !== -1) {
-      if (value === 'start') {
-        this.mainContainers[containerIndex].startX = this.calculatePosition(index, 'start');
-        this.mainContainers[containerIndex].indexes[0] = index;
-      }
-
-      if (value === 'end') {
-        this.mainContainers[containerIndex].endX = this.calculatePosition(index, 'end');
-        this.mainContainers[containerIndex].indexes[1] = index;
+      switch (value) {
+        case 'start':
+          this.mainContainers[containerIndex].startX = this.calculatePosition(index, 'start');
+          this.mainContainers[containerIndex].indexes[0] = index;
+          break;
+          
+        case 'end':
+          this.mainContainers[containerIndex].endX = this.calculatePosition(index, 'end');
+          this.mainContainers[containerIndex].indexes[1] = index;
+          break;
+      
+        default:
+          break;
       }
 
       const indexes = this.mainContainers[containerIndex].indexes;
-
       this.mainContainers[containerIndex].totalHours = (indexes[1] - indexes[0]) + 1;
 
       this.changeContainerSize(this.mainContainers, containerIndex);
-
       this.returnGhostContainerSize(id);
     }
   }
 
   changeContainerSize(containerArr: MainContainer[] | GhostContainer[], idx: number): void {
-
     const preWidth = this.formatNumber(containerArr[idx].endX - containerArr[idx].startX);
 
     if (preWidth > 0) {
@@ -353,7 +366,7 @@ export class TimelineComponent implements OnInit {
   }
 
   formatNumber(num: number): number {
-    return Number(num.toFixed(2));
+    return Number(num.toFixed(5));
   }
 
   startMoving(item: TimelineEndpoint | TimelineSwapsItem): void {
@@ -365,13 +378,9 @@ export class TimelineComponent implements OnInit {
   }
 
   emitChangedTimelineEvent(): void {
-    const eventObject: TimelineObject = {
-      timelineId: this.timelineObject.timelineId,
-      uid: this.timelineObject.uid,
-      data: this.mainContainers,
-    };
+    this.timelineObject.data = this.mainContainers;
 
-    this.changedTimelineEvent.emit(eventObject);
+    this.changedTimelineEvent.emit(this.timelineObject);
   }
 
 }

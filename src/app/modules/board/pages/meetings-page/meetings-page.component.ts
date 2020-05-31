@@ -72,7 +72,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
         ? meetings[0]
         : this.createNewMeeting();
 
-      this.setBestMeetingHours();
+      this.calculateMeetingHours();
     });
   }
 
@@ -98,7 +98,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.setBestMeetingHours();
+    this.calculateMeetingHours();
 
     if (this.meeting.id !== null) {
       this.updateMeeting();
@@ -109,7 +109,12 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  setBestMeetingHours(): void {
+  setMeetingHour(hour: number): void {
+    this.meeting.hour = hour;
+    this.updateMeeting();
+  }
+
+  calculateMeetingHours(): void {
     let isAllUsersfree = true;
     this.meeting.timelines.forEach(line => {
       const hasFree = line.data.filter(cont => cont.status === 'free');
