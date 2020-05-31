@@ -23,15 +23,15 @@ export class UsersListComponent implements OnInit {
         this.userService.getUsersByProject(project.uid)
           .subscribe((users) => {
             this.users = users;
+            console.log('printed all users', users)
             this.loading = false;
           })
       })
 
-      //show all users registered to the app
+      // show all users registered to the app
     // this.userService.getAllUsers()
     //   .subscribe((users) => {
     //     this.users = users;
-    //     console.log('all', users);
     //     this.loading = false;
     //   })
   }

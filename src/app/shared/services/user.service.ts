@@ -17,7 +17,7 @@ export class UserService {
   users$: Observable<User[]>
   userDoc: AngularFirestoreDocument<User>
 
-  constructor(public afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore) {
     this.usersCollection = this.afs.collection('users')
     this.users$ = this.usersCollection.snapshotChanges().pipe(
       map(changes => {
@@ -57,25 +57,41 @@ export class UserService {
         map((users: User[]) => {
           const existingUsers = users
             .filter((user) => newUserEmails.includes(user.email));
-          const uniqueEmails = newUserEmails
-            .filter((userEmail: string) => existingUsers.map(({ email }) => email === userEmail));
 
-          return [ uniqueEmails, existingUsers.map(({ uid }) => uid) ];
+          const uniqueEmails = newUserEmails
+            .filter((userEmail: string) => {
+              const emails = existingUsers.map(({ email }) => email);
+              return !emails.some((email) => email === userEmail);
+            });
+
+          return [ uniqueEmails, existingUsers];
         }),
         switchMap(([newUsers, existingUsers]) => {
           const batch = this.afs.firestore.batch();
           const usersIds: string[] = [];
-
+          
           newUsers.forEach((user) => {
             const userRef = this.afs.firestore.collection('users').doc();
-  
             batch.set(userRef, { email: user, projects: [projectUid] });
             usersIds.push(userRef.id);
           });
 
+          existingUsers.forEach((user) => {
+            const userRef = this.afs.firestore.collection('users').doc(user.uid);
+            let newProject: string[] = [];
+
+            if (user.projects) {
+              newProject.push(...user.projects, projectUid);
+            } else {
+              newProject.push(projectUid);
+            }
+
+            batch.update(userRef, {'projects': newProject});
+          })
+
           return from(batch.commit())
             .pipe(
-              map(() => [ ...usersIds, ...existingUsers ])
+              map(() => [ ...usersIds, ...[] ])
             );
         })
       );
@@ -101,5 +117,12 @@ export class UserService {
   removeUser(uid: string): void {
     this.userDoc = this.afs.doc(`users/${uid}`)
     this.userDoc.delete()
+  }
+
+  removeUserFromProject(user: User, projectUid: string): void {
+    const newProjects: string[] = user.projects.filter((uid) => uid !== projectUid);
+
+    this.userDoc = this.afs.doc(`users/${user.uid}`)
+    this.userDoc.update({ projects: newProjects });
   }
 }

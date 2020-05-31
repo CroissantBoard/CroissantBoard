@@ -17,7 +17,7 @@ import { User } from 'firebase';
 })
 export class ProjectService {
   projectsCollection: AngularFirestoreCollection<IProject>
-  projects: Observable<IProject[]>
+  projects$: Observable<IProject[]>
   projectDoc: AngularFirestoreDocument<IProject>
 
   currentProjectSub = new BehaviorSubject<IProjectShort>(null);
@@ -27,7 +27,7 @@ export class ProjectService {
     private afs: AngularFirestore,
     ) {
     this.projectsCollection = this.afs.collection('projects')
-    this.projects = this.projectsCollection.snapshotChanges().pipe(
+    this.projects$ = this.projectsCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
           const data = a.payload.doc.data() as IProject
@@ -37,7 +37,7 @@ export class ProjectService {
       })
     )
 
-    this.projects.subscribe();
+    this.projects$.subscribe();
   }
 
   getProjectsByUserId(userId: string) {

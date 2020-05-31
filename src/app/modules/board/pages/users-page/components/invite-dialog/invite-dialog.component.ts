@@ -81,7 +81,7 @@ export class InviteDialogComponent {
       this.projectService.currentProject$
         .pipe(
           switchMap((project: IProject) => {
-            return this.usersService.setUsers(usersList, project.uid)
+            return this.usersService.setUsers([...new Set(usersList)], project.uid)
           }),
           tap(() => this.dialogRef.close()),
         )
