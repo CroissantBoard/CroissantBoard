@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 
 import User from 'src/app/shared/interfaces/User';
 import { UserService } from 'src/app/shared/services/user.service';
+import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
   selector: 'app-user-item',
@@ -13,6 +14,7 @@ export class UserItemComponent implements OnInit{
 
   constructor(
     private userService: UserService,
+    private projectService: ProjectService,
   ) { }
 
   @Input() user: User;
@@ -23,6 +25,7 @@ export class UserItemComponent implements OnInit{
 
   handelRemove(uid: string):void {
     this.userService.removeUser(uid);
+    this.projectService.removeParticipant(uid);
   }
 
   private isUserRegister(user: User): boolean {

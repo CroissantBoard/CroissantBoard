@@ -11,7 +11,7 @@ import { ProjectService } from 'src/app/shared/services/project.service';
   styleUrls: ['./projects-list.component.scss']
 })
 export class ProjectsListComponent implements OnInit {
-  projects: IProjectShort[] = [];
+  projects: IProject[] = [];
   loading = true;
   showForm = false;
 
@@ -24,7 +24,9 @@ export class ProjectsListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$
       .subscribe((user) => {
-        this.projects = user.projects;
+        this.projectService.getProjectsByUserId(user.uid)
+          .subscribe((data) => this.projects = data)
+
         this.loading = false;
       })
   }

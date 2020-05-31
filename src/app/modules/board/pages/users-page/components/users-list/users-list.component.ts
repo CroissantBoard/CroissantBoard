@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
 
 import { UserService } from 'src/app/shared/services/user.service';
-import { AuthService } from 'src/app/core/authentification/auth.service';
+import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
   selector: 'app-users-list',
@@ -14,25 +13,27 @@ export class UsersListComponent implements OnInit {
   loading = true;
 
   constructor(
-    private authService: AuthService,
     private userService: UserService,
+    private projectService: ProjectService,
   ) { }
 
   ngOnInit(): void {
-    // this.authService.user$
-    //   .pipe(
-    //     switchMap((user) => {
-    //       return this.userService.getUsers(user.workspaceId);
-    //     })
-    //   )
-    //   .subscribe((users) => {
-    //     return this.users = users;
-    //   });
-
-    this.userService.getAllUsers()
-      .subscribe((users) => {
-        this.users = users;
-        this.loading = false;
+    this.projectService.currentProject$
+      .subscribe((project) => {
+        this.userService.getUsersByProject(project.uid)
+          .subscribe((users) => {
+            this.users = users;
+            this.loading = false;
+          })
       })
+
+      //show all users registered to the app
+    // this.userService.getAllUsers()
+    //   .subscribe((users) => {
+    //     this.users = users;
+    //     console.log('all', users);
+    //     this.loading = false;
+    //   })
   }
+
 }

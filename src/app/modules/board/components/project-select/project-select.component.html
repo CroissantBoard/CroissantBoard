@@ -1,4 +1,4 @@
-<div *ngIf="!loading && user.projects" class="project">
+<div class="project">
     <div *ngIf="showSidebar" class="project__selected"
         [style.background-color]="selected.iconColor">
         <span>{{ selected.name }}</span>
@@ -8,8 +8,11 @@
         {{ selectedShot }}
     </div>
     <mat-form-field class="project__field">
-        <mat-select [(value)]="selected" class="project__select">
-            <mat-option *ngFor="let project of user.projects" 
+        <mat-select
+            [(value)]="selected"
+            class="project__select"
+            (selectionChange)="onChange(selected)">
+            <mat-option *ngFor="let project of projects" 
                 [value]="project"
                 class="project__option">
                 <div class="project__label"

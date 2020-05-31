@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { AuthService } from 'src/app/core/authentification/auth.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import User from 'src/app/shared/interfaces/User';
-import { IProjectShort } from 'src/app/shared/interfaces/Project';
+import { IProjectShort, IProject } from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-project-select',
@@ -11,29 +10,26 @@ import { IProjectShort } from 'src/app/shared/interfaces/Project';
   styleUrls: ['./project-select.component.scss']
 })
 export class ProjectSelectComponent implements OnInit {
-  loading = true;
-  user: User;
   selected: IProjectShort;
   selectedShot: string;
 
   @Input() showSidebar: boolean;
+  @Input() user: User;
+  @Input() projects: IProject[];
 
   constructor(
-    private authService: AuthService,
     private projectService: ProjectService,
   ) { }
 
   ngOnInit(): void {
-    this.authService.user$
-      .subscribe((user) => {
-        this.user = user;
-        this.loading = false;
+    this.selected = this.projects[0];
+    this.selectedShot = this.getTitle(this.selected.name);
+    this.projectService.setCurrentProject(this.selected);
+  }
 
-        if(user.projects) {
-          this.selected = user.projects[0];
-          this.selectedShot = this.getTitle(this.selected.name);
-        }
-      })
+  onChange(selected: IProject): void {
+    this.projectService.setCurrentProject(selected);
+    this.selectedShot = this.getTitle(selected.name);
   }
 
   private getTitle(val: string): string {
@@ -45,5 +41,4 @@ export class ProjectSelectComponent implements OnInit {
 
     return valueArr[0][0].toUpperCase()
   }
-
 }

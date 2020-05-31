@@ -6,6 +6,10 @@
     align-items: center;
     justify-content: space-between;
 
+    &:hover {
+        background-color: $grey-background;
+    }
+
     &__name {
         color: $black;
         font-size: $font-small;

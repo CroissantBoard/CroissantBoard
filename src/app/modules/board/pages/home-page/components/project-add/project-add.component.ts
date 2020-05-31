@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/authentification/auth.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import User from 'src/app/shared/interfaces/User';
 import { COLORS } from 'src/app/shared/components/avatar/colors';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-project-add',
@@ -23,6 +24,7 @@ export class ProjectAddComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private projectService: ProjectService,
+    private userService: UserService,
   ) { }
 
   @Output() toggleForm = new EventEmitter();
@@ -49,7 +51,20 @@ export class ProjectAddComponent implements OnInit {
     }
 
     this.valid = true;
-    this.projectService.addProject(this.user, this.projectForm.value);
+
+    const project = {
+      ...this.projectForm.value,
+      participants: [
+        this.user.uid,
+      ]
+    }
+
+    this.projectService.addProject(project)
+      .then(docRef => {
+        const projectRef = (docRef) ? (docRef).id : '';
+        this.userService.setNewProject(this.user, projectRef)
+      })
+  
     this.toggleForm.emit();
   }
 

@@ -18,7 +18,6 @@ export class UsersPageComponent implements OnInit {
   }
 
   openDialog(): void {
-    console.log('dialog')
     this.dialog.open(InviteDialogComponent, {
       width: '600px',
     });

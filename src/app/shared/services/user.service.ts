@@ -4,23 +4,22 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { map, tap, switchMap, take } from 'rxjs/operators';
 
 import User from '../interfaces/User';
-import { IProjectShort } from '../interfaces/Project';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   usersCollection: AngularFirestoreCollection<User>
-  users: Observable<User[]>
+  users$: Observable<User[]>
   userDoc: AngularFirestoreDocument<User>
 
   constructor(public afs: AngularFirestore) {
     this.usersCollection = this.afs.collection('users')
-    this.users = this.usersCollection.snapshotChanges().pipe(
+    this.users$ = this.usersCollection.snapshotChanges().pipe(
       map(changes => {
         return changes.map(a => {
           const data = a.payload.doc.data() as User
@@ -30,28 +29,56 @@ export class UserService {
       })
     )
 
-    this.users.subscribe();
+    this.users$.subscribe();
   }
 
   getAllUsers(): Observable<any> {
-    return this.users;
+    return this.users$;
   }
 
-  getUsers(workspaceId: string): Observable<any> {
-    return this.afs
-      .collection('users', (ref) => ref.where('workspaceId', '==', workspaceId))
-      .valueChanges({ idField: 'id' });
+  getUsersByProject(workspaceId: string) {
+    return this.afs.collection('users', ref => ref.where('projects', 'array-contains', workspaceId ))
+      .snapshotChanges()
+      .pipe(
+        map(changes => {
+          return changes.map(a => {
+            const data = a.payload.doc.data() as User
+            data.uid = a.payload.doc.id
+            return data
+          })
+        })
+      )
   }
+
+  setUsers(newUserEmails: string[], projectUid: string): Observable<string[]> {
+    return this.users$
+      .pipe(
+        take(1),
+        map((users: User[]) => {
+          const existingUsers = users
+            .filter((user) => newUserEmails.includes(user.email));
+          const uniqueEmails = newUserEmails
+            .filter((userEmail: string) => existingUsers.map(({ email }) => email === userEmail));
+
+          return [ uniqueEmails, existingUsers.map(({ uid }) => uid) ];
+        }),
+        switchMap(([newUsers, existingUsers]) => {
+          const batch = this.afs.firestore.batch();
+          const usersIds: string[] = [];
+
+          newUsers.forEach((user) => {
+            const userRef = this.afs.firestore.collection('users').doc();
   
-  setUsers(users: string[]): void {
-    const batch = this.afs.firestore.batch();
+            batch.set(userRef, { email: user, projects: [projectUid] });
+            usersIds.push(userRef.id);
+          });
 
-    users.forEach((user) => {
-      const userRef = this.afs.firestore.collection('users').doc();
-      batch.set(userRef, { email: user });
-    });
-
-    batch.commit()
+          return from(batch.commit())
+            .pipe(
+              map(() => [ ...usersIds, ...existingUsers ])
+            );
+        })
+      );
   }
 
   updateUser(uid: string, edit: any): void {
@@ -59,15 +86,16 @@ export class UserService {
     this.userDoc.update(edit)
   }
 
-  setNewProject(user: User, project: IProjectShort): void {
+  setNewProject(user: User, projectRef: string): void {
+    let newProject: string[] = [];
     if(user.projects) {
-      user.projects.push(project);
+      newProject.push(projectRef, ...user.projects);
     } else {
-      user.projects = [ project ];
+      newProject.push(projectRef);
     }
 
     this.userDoc = this.afs.doc(`users/${user.uid}`);
-    this.userDoc.update({ projects: user.projects});
+    this.userDoc.update({ projects: newProject });
   }
 
   removeUser(uid: string): void {
