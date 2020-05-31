@@ -1,0 +1,116 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+.cdk-drop-dragging .cdk-drag {
+  transition: transform 0.25s ease-out;
+}
+
+.cdk-drag-animating {
+  transition: transform 0.25s ease-out;
+}
+
+.cdk-drag-placeholder {
+  transition: transform 0.25s ease-out;
+}
+
+.timeline {
+  @include basic($timeline-height, 100%);
+  @include dis-flex(flex-start, center);
+
+  z-index: 2;
+
+  &__user {
+    @include basic-square($timeline-height);
+    @include flex-center;
+
+    overflow: hidden;
+  }
+
+  &__lists {
+    @include basic(
+      $timeline-list-height,
+      calc(100% - #{$timeline-height})
+    );
+    @include flex-center;
+
+    position: relative;
+  }
+
+  &__list {
+    @include absolute-0-0-left;
+    @include dis-flex(space-between, stretch);
+    @include fill-parent;
+  }
+
+  &__item {
+    @include fill-parent;
+    @include dis-flex-column(flex-start, flex-start);
+
+    position: relative;
+  }
+
+  &__handle {
+    @include basic(100%, 50%);
+
+    background-color: red;
+
+    opacity: 0;
+
+    cursor: pointer;
+
+    transition: 0.125s ease-out;
+
+    z-index: 100;
+    
+    &--swap {
+      @include basic-square(50%);
+
+      align-self: flex-end;
+
+      cursor: move;
+
+      z-index: 100;
+      
+      background-color: blue;
+
+      opacity: 0;
+
+      transition: 0.125s ease-out;
+    }
+
+    &--show {
+      opacity: 1;
+    }
+
+    &--left {
+      align-self: flex-start;
+    }
+
+    &--right {
+      align-self: flex-end;
+    }
+
+    &--add {
+      width: 100%;
+
+      cursor: default;
+      
+      z-index: -1;
+    }
+
+  }
+
+  &__delete {
+    @include basic-square(10px);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background-color: crimson;
+
+    cursor: pointer;
+
+    transform: translateX(-20px);
+  }
+}

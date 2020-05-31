@@ -35,6 +35,10 @@ $border-color: #e8ecee;
 $border-focus: #B1B9BD;
 $border-error: #EDACAC;
 
+$timeline-container-border-color-red: #c62828;
+$timeline-container-border-color-amber: #ffc107;
+$timeline-container-border-color-green: #387002;
+
 // Background-colors
 $dark: #151b26;
 $input-disabled: #F3F4F7;
@@ -48,3 +52,12 @@ $shadow-popover-search: 0 5px 20px 0 rgba(21,27,38,.08);
 
 // side bar width
 $sidebar-width: 240px;
+
+// Component Sizes
+
+// timeline
+$timeline-height: 4rem;
+$timeline-list-height: 3rem;
+
+$timeline-container-padding: 3px;
+$timeline-container-border-radius: 4px;

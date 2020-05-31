@@ -1,0 +1,15 @@
+<div class="handle"
+  [class.handle--left]="isLeft"
+  [class.handle--right]="isRight"
+  [class.handle--swap]="isSwap"
+  [class.handle--add]="isAdd"
+  [class.handle--moving]="isMoving"
+>
+  <mat-icon class="handle__icon"
+  [class.handle__icon--swap]="isSwap"
+  [class.handle__icon--moving]="isMoving">
+    {{isSwap
+      ? 'drag_handle'
+      : 'more_vert'}}
+  </mat-icon>
+</div>

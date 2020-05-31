@@ -26,10 +26,11 @@ import { InviteDialogComponent } from './pages/users-page/components/invite-dial
 import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
-import { TimelineComponent } from './components/timeline/timeline.component';
-import { TimelineBarComponent } from './components/timeline-bar/timeline-bar.component';
-import { TimelineMainContainerComponent } from './components/timeline-main-container/timeline-main-container.component';
-import { TimelineGhostContainerComponent } from './components/timeline-ghost-container/timeline-ghost-container.component';
+import { TimelineComponent } from './pages/meetings-page/components/timeline/timeline.component';
+import { TimelineBarComponent } from './pages/meetings-page/components/timeline-bar/timeline-bar.component';
+import { TimelineMainContainerComponent } from './pages/meetings-page/components/timeline-main-container/timeline-main-container.component';
+import { TimelineGhostContainerComponent } from './pages/meetings-page/components/timeline-ghost-container/timeline-ghost-container.component';
+import { TimelineHandleComponent } from './pages/meetings-page/components/timeline-handle/timeline-handle.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { TimelineGhostContainerComponent } from './components/timeline-ghost-con
   TimelineBarComponent,
   TimelineMainContainerComponent,
   TimelineGhostContainerComponent,
+  TimelineHandleComponent,
 ],
   imports: [
     MaterialModule,

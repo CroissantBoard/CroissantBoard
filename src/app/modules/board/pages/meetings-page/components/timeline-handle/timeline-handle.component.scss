@@ -1,0 +1,83 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+:host {
+  @include fill-parent;
+  @include dis-flex-column(flex-start, flex-end);
+
+  position: relative;
+}
+
+.handle {
+  @include basic(100%, 40%);
+  @include flex-center;
+
+  padding: $timeline-container-padding;
+  box-sizing: border-box;
+
+  background-color: transparent;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition: 0.125s ease-out;
+
+  z-index: 100;
+  
+  &--swap {
+    @include basic-square($timeline-list-height * 0.4);
+
+    margin-top: $timeline-container-padding;
+
+    cursor: move;
+
+    transition: 0.125s ease-out;
+
+    z-index: 100;
+  }
+
+  &--left {
+    align-self: flex-start;
+    
+    padding-right: 0;
+  }
+
+  &--right {
+    align-self: flex-end;
+    
+    padding-left: 0;
+  }
+
+  &--add {
+    width: 100%;
+
+    cursor: default;
+    
+    z-index: -1;
+  }
+
+  &__icon {
+    @include fill-parent;
+    @include flex-center;
+
+    border-radius: $timeline-container-border-radius / 2;
+    box-sizing: border-box;
+
+    background-color: $grey-background;
+
+    transition: 0.25s ease-out;
+
+    &--swap {
+      background-color: $border-focus;
+
+      font-size: 100%;
+    }
+
+    &--moving {
+      background-color: $dark;
+      color: $font-light-grey;
+    }
+  }
+
+}
