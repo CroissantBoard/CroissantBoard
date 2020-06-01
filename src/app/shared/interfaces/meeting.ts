@@ -1,6 +1,6 @@
 import { TimelineObject } from './timeline/timeline-object';
 
-export interface Meeting {
+export default interface Meeting {
   id: string,
   meetingDay: Date,
   hour: number,
