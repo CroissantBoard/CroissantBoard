@@ -1,1 +1,97 @@
-<p>meetings-page works!</p>
+<div class="meeting" *ngIf="meeting else loadingMeeting">
+
+  <div class="meeting__container">
+    <div class="meeting__header">
+    
+      <div class="meeting__calendar">
+        <mat-form-field>
+          <mat-label>Meeting date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="meetingDay" (ngModelChange)="onChangeMeetingDay()" />
+        
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="resetMeetingDay()">
+            <mat-icon>close</mat-icon>
+          </button>
+        
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
+      <div class="meeting__info">
+        <h1 class="meeting__name">Meeting topic: {{meeting.name}}</h1>
+  
+        <h2 class="meeting__time">Time: {{formatTime(meeting.hour)}}</h2>
+      </div>
+    </div>
+    
+    <mat-divider></mat-divider>
+
+    <app-timeline-bar
+      class="meeting__bar"
+      [addingDropListIds]="getAllAddingDropListIds()"
+      [timelineBarId]="timelineBarId">
+    </app-timeline-bar>
+  
+    <mat-divider></mat-divider>
+  
+    <div class="meeting__lines">
+      <div class="vr-wrapper">
+        <div class="vr" *ngFor="let item of timelineRuler; index as index">
+          <div class="vr__row"></div>
+          <span class="vr__count">
+            {{index}}
+          </span>
+        </div>
+        <div class="vr vr--last">
+          <div class="vr__row"></div>
+          <span class="vr__count">
+            {{timelineRuler.length}}
+          </span>
+        </div>
+      </div>
+
+      <app-timeline *ngFor="let timeline of meeting.timelines"
+        [timelineObject]="timeline"
+        [timelineBarId]="timelineBarId"
+        [addingDropListId]="getAddingDropListId(timeline.timelineId)"
+        (changedTimelineEvent)="onChangedTimelineEvent($event)">
+      </app-timeline>
+    </div>
+    
+    <mat-divider></mat-divider>
+  
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Best Meeting Hours
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <app-hour-picker
+          [hoursArray]="bestMeetingHours"
+          (hourPickedEvent)="setMeetingHour($event)"
+        ></app-hour-picker>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Possible Meeting Hours
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <app-hour-picker
+          [hoursArray]="possibleMeetingHours"
+          (hourPickedEvent)="setMeetingHour($event)"
+        ></app-hour-picker>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<ng-template #loadingMeeting>
+  <div class="meeting--loading">
+    <h2>Meeting is loading. Please wait...</h2>
+  </div>
+</ng-template>

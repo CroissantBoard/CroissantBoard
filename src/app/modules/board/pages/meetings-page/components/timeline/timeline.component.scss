@@ -1,0 +1,59 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+.cdk-drop-dragging .cdk-drag {
+  transition: transform 0.25s ease-out;
+}
+
+.cdk-drag-animating {
+  transition: transform 0.25s ease-out;
+}
+
+.cdk-drag-placeholder {
+  transition: transform 0.25s ease-out;
+}
+
+.timeline {
+  @include basic($timeline-height, 100%);
+  @include dis-flex(space-between, center);
+
+  z-index: 2;
+
+  &__user {
+    @include basic-square($timeline-user-avatar-size);
+    @include flex-center;
+  }
+
+  &__username {
+    @include basic-square($timeline-user-avatar-size * 0.75);
+
+    border-radius: 50%;
+
+    background-color: $grey-background;
+
+    overflow: hidden;
+  }
+
+  &__lists {
+    @include basic(
+      $timeline-list-height,
+      calc(100% - #{$timeline-list-margin-left})
+    );
+    @include flex-center;
+
+    position: relative;
+  }
+
+  &__list {
+    @include absolute-0-0-left;
+    @include dis-flex(space-between, stretch);
+    @include fill-parent;
+  }
+
+  &__item {
+    @include fill-parent;
+    @include dis-flex-column(flex-start, flex-start);
+
+    position: relative;
+  }
+}

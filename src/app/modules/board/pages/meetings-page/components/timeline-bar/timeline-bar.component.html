@@ -1,0 +1,38 @@
+<div class="timeline-bar">
+
+  <div class="timeline-bar__list timeline-bar__list--background">
+    <app-timeline-main-container *ngFor="let item of timelineAddingItems"
+      class="timeline-bar__item"
+      [isTimelineBarItem]="true"
+      [status]="item">
+    </app-timeline-main-container>
+  </div>
+
+  <div cdkDropListGroup id="{{timelineBarId}}" class="timeline-bar__list">
+
+    <div *ngFor="let item of timelineAddingItems"
+      class="timeline-bar__item"
+      cdkDropList
+      [cdkDropListConnectedTo]="addingDropListIds"
+      [cdkDropListData]="item"
+      cdkDropListSortingDisabled
+      cdkDropListOrientation="horizontal">
+
+      <div class="timeline-bar__handle"
+        cdkDrag
+        [cdkDragData]="item"
+        (mousedown)="startMoving(item)"
+        (cdkDragEnded)="stopMoving()">
+        <div class="timeline-bar__placeholder" *cdkDragPlaceholder></div>
+
+        <app-timeline-main-container class="timeline-bar__container"
+          [class.timeline-bar__container--show]="item === movingItem"
+          [isTimelineBarItem]="true"
+          [status]="item">
+        </app-timeline-main-container>
+      </div>
+    </div>
+
+  </div>
+
+</div>

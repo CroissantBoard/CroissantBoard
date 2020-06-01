@@ -1,0 +1,38 @@
+<mat-card *ngIf="!isTimelineBarItem else timelineBarItem"
+  class="main-container"
+  [class.main-container--busy]="status === 'busy'"
+  [class.main-container--free]="status === 'free'"
+  [class.main-container--undesirable]="status === 'undesirable'"
+  [class.main-container--moving]="isMoving">
+
+  <div class="main-container__inner">
+
+    <h4 class="main-container__content">
+      {{container.totalHours > 1 ? container.totalHours : ''}}
+    </h4>
+
+    <button mat-icon-button *ngIf="!isDeleteHidden"
+      class="main-container__delete"
+      (click)="emitDeleteContainerEvent()">
+      <mat-icon
+        class="main-container__delete-icon"
+        [class.main-container__delete-icon--busy]="status === 'busy'"
+        [class.main-container__delete-icon--free]="status === 'free'"
+        [class.main-container__delete-icon--undesirable]="status === 'undesirable'">delete</mat-icon>
+    </button>
+  </div>
+
+</mat-card>
+
+<ng-template #timelineBarItem>
+  <mat-card class="main-container"
+    [class.main-container--busy]="status === 'busy'"
+    [class.main-container--free]="status === 'free'"
+    [class.main-container--undesirable]="status === 'undesirable'">
+
+    <div class="main-container__inner">
+      <h4 class="main-container__content">{{status | titlecase}}</h4>
+    </div>
+
+  </mat-card>
+</ng-template>

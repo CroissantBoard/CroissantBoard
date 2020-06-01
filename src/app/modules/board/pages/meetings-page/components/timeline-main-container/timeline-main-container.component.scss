@@ -1,0 +1,118 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+:host {
+  @include absolute-0-0-left;
+  @include fill-parent;
+
+  transition: 0.25s ease-out;
+}
+
+.main-container {
+  @include fill-parent;
+  @include marpad-0-0;
+
+  position: relative;
+
+  padding: $timeline-container-padding;
+  box-sizing: border-box;
+
+  border-radius: $timeline-container-border-radius;
+
+  background-color: $light;
+
+  transition: 0.25s ease-out;
+
+  user-select: none;
+  overflow: hidden;
+
+  &--busy {
+    background-color: $timeline-container-border-color-red;
+  }
+
+  &--undesirable {
+    background-color: $timeline-container-border-color-amber;
+  }
+
+  &--free {
+    background-color: $timeline-container-border-color-green;
+  }
+
+  &--moving {
+    opacity: 0.75;
+  }
+
+  &__inner {
+    @include fill-parent;
+    @include flex-center;
+
+    background-color: $light;
+    // background-color: transparent;
+    color: $dark;
+
+    border-radius: $timeline-container-border-radius / 2;
+  }
+
+  &__delete {
+    @include basic-square($timeline-container-icon-size);
+    @include flex-center;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background-color: transparent;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    transform: translate(-$timeline-container-icon-size, $timeline-container-padding);
+
+    &::ng-deep .mat-button-wrapper {
+      @include fill-parent;
+    }
+  }
+
+  &__delete-icon {
+    @include fill-parent;
+    @include flex-center;
+
+    background-color: transparent;
+
+    font-size: $timeline-list-height / 3;
+
+    transition: 0.25s ease-out;
+
+    &:hover {
+      color: $light;
+    }
+
+    &--busy {
+      color: $timeline-container-border-color-red;
+
+      &:hover {
+        background-color: $timeline-container-border-color-red;
+      }
+    }
+  
+    &--undesirable {
+      color: $timeline-container-border-color-amber;
+
+      &:hover {
+        background-color: $timeline-container-border-color-amber;
+      }
+    }
+  
+    &--free {
+      color: $timeline-container-border-color-green;
+
+      &:hover {
+        background-color: $timeline-container-border-color-green;
+      }
+    }
+  }
+
+  &__content {
+    @include marpad-0-0;
+  }
+}

@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { NgAisModule, NgAisInstantSearch } from 'angular-instantsearch';
-import { FormsModule } from '@angular/forms';
 
-
-import { MaterialModule } from '../../shared/modules/material.module';
 import { BoardRoutingModule } from './board-routing.module';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { CDKModule } from 'src/app/shared/modules/cdk.module';
 
 import { BoardPageComponent } from './board-page.component';
 import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
@@ -27,11 +25,20 @@ import { UserItemComponent } from './pages/users-page/components/user-item/user-
 import { InviteDialogComponent } from './pages/users-page/components/invite-dialog/invite-dialog.component';
 import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
+
 import { ProjectItemComponent } from './pages/home-page/components/project-item/project-item.component';
 import { ProjectsListComponent } from './pages/home-page/components/projects-list/projects-list.component';
 import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectSelectComponent } from './components/project-select/project-select.component';
+
+import { TimelineComponent } from './pages/meetings-page/components/timeline/timeline.component';
+import { TimelineBarComponent } from './pages/meetings-page/components/timeline-bar/timeline-bar.component';
+import { TimelineMainContainerComponent } from './pages/meetings-page/components/timeline-main-container/timeline-main-container.component';
+import { TimelineGhostContainerComponent } from './pages/meetings-page/components/timeline-ghost-container/timeline-ghost-container.component';
+import { TimelineHandleComponent } from './pages/meetings-page/components/timeline-handle/timeline-handle.component';
+import { HourPickerComponent } from './pages/meetings-page/components/hour-picker/hour-picker.component';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +63,12 @@ import { ProjectSelectComponent } from './components/project-select/project-sele
     ProjectsListComponent,
     ProjectAddComponent,
     ProjectSelectComponent,
+    TimelineComponent,
+    TimelineBarComponent,
+    TimelineMainContainerComponent,
+    TimelineGhostContainerComponent,
+    TimelineHandleComponent,
+    HourPickerComponent,
   ],
   imports: [
     MaterialModule,
@@ -63,9 +76,13 @@ import { ProjectSelectComponent } from './components/project-select/project-sele
     FormsModule,
     BoardRoutingModule,
     CommonModule,
+    MaterialModule,
+    CDKModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgAisModule,
     SharedModule,
   ],
   providers: [NgAisInstantSearch]
 })
-export class BoardModule {}
+export class BoardModule { }

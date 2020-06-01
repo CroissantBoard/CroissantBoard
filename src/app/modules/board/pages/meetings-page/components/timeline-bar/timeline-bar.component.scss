@@ -1,0 +1,58 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+.cdk-drag-placeholder {
+  transition: transform 0.25s ease-out;
+}
+
+.timeline-bar {
+  @include basic($timeline-height, 100%);
+  @include flex-center;
+
+  position: relative;
+
+  &__list {
+    @include dis-flex(space-evenly, stretch);
+    @include basic($timeline-list-height * 0.75, 100%);
+
+    &--background {
+      @include absolute-0-0-left;
+
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__item {
+    position: relative;
+
+    width: 25%;
+
+    cursor: move;
+
+    .timeline-bar__placeholder {
+      opacity: 0;
+    }
+  }
+
+  &__handle {
+    @include fill-parent;
+  }
+
+  &__placeholder {
+    @include fill-parent;
+
+    border-radius: $timeline-container-border-radius;
+
+    background-color: $primary-dark;
+    opacity: 0.75;
+  }
+
+  &__container {
+    opacity: 0;
+
+    &--show {
+      opacity: 0.5;
+    }
+  }
+}
