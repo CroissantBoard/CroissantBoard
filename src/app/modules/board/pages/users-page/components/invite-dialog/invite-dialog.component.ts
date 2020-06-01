@@ -28,6 +28,7 @@ export class InviteDialogComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
+  notRegistered: string[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
@@ -85,7 +86,10 @@ export class InviteDialogComponent {
           }),
           tap(() => this.dialogRef.close()),
         )
-        .subscribe((userUids) => {
+        .subscribe(([userUids, notRegistered]) => {
+          this.notRegistered = notRegistered;
+          // Add snackbar notification service
+          console.log('User not registered on the app', notRegistered);
           this.projectService.setUsersToProject(userUids);
         });
     }

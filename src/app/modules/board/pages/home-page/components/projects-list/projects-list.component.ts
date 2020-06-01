@@ -25,6 +25,7 @@ export class ProjectsListComponent implements OnInit {
     this.authService.user$
       .subscribe((user) => {
         this.projectService.getProjectsByUserId(user.uid)
+        // this.projectService.getAllProjects()
           .subscribe((data) => this.projects = data)
 
         this.loading = false;

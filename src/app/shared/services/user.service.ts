@@ -50,48 +50,42 @@ export class UserService {
       )
   }
 
-  setUsers(newUserEmails: string[], projectUid: string): Observable<string[]> {
+  setUsers(newUserEmails: string[], projectUid: string): Observable<Array<string[]>> {
     return this.users$
       .pipe(
         take(1),
-        map((users: User[]) => {
+        map((users: User[]): [string[], User[]] => {
           const existingUsers = users
             .filter((user) => newUserEmails.includes(user.email));
 
-          const uniqueEmails = newUserEmails
+          const notRegisterEmails = newUserEmails
             .filter((userEmail: string) => {
               const emails = existingUsers.map(({ email }) => email);
               return !emails.some((email) => email === userEmail);
             });
 
-          return [ uniqueEmails, existingUsers];
+          return [notRegisterEmails, existingUsers];
         }),
         switchMap(([newUsers, existingUsers]) => {
           const batch = this.afs.firestore.batch();
-          const usersIds: string[] = [];
-          
-          newUsers.forEach((user) => {
-            const userRef = this.afs.firestore.collection('users').doc();
-            batch.set(userRef, { email: user, projects: [projectUid] });
-            usersIds.push(userRef.id);
-          });
+          const usersIds: string[] = existingUsers.map((user) => user.uid);
 
           existingUsers.forEach((user) => {
             const userRef = this.afs.firestore.collection('users').doc(user.uid);
-            let newProject: string[] = [];
+            let newProjects: string[] = [];
 
             if (user.projects) {
-              newProject.push(...user.projects, projectUid);
+              newProjects.push(...user.projects, projectUid);
             } else {
-              newProject.push(projectUid);
+              newProjects.push(projectUid);
             }
 
-            batch.update(userRef, {'projects': newProject});
+            batch.update(userRef, {'projects': newProjects});
           })
 
           return from(batch.commit())
             .pipe(
-              map(() => [ ...usersIds, ...[] ])
+              map(() => [ usersIds, newUsers ])
             );
         })
       );

@@ -6,11 +6,9 @@ import {
   DocumentReference
 } from '@angular/fire/firestore';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 import { IProject, IProjectShort } from '../interfaces/Project';
-import { UserService } from 'src/app/shared/services/user.service';
-import { User } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,8 @@ export class ProjectService {
   projectDoc: AngularFirestoreDocument<IProject>
 
   currentProjectSub = new BehaviorSubject<IProjectShort>(null);
-  currentProject$ = this.currentProjectSub.asObservable();
+  currentProject$ = this.currentProjectSub.asObservable()
+    .pipe(filter(user => !!user));
 
   constructor (
     private afs: AngularFirestore,
@@ -38,6 +37,10 @@ export class ProjectService {
     )
 
     this.projects$.subscribe();
+  }
+
+  getAllProjects(): Observable<any> {
+    return this.projects$;
   }
 
   getProjectsByUserId(userId: string) {

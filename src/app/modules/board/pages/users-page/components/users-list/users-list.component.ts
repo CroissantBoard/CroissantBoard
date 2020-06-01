@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from 'src/app/shared/services/user.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
+import User from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-users-list',
@@ -9,7 +10,7 @@ import { ProjectService } from 'src/app/shared/services/project.service';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit {
-  users: any[];
+  users: User[] | null;
   loading = true;
 
   constructor(
@@ -23,7 +24,7 @@ export class UsersListComponent implements OnInit {
         this.userService.getUsersByProject(project.uid)
           .subscribe((users) => {
             this.users = users;
-            console.log('printed all users', users)
+            // console.log('printed all users', users)
             this.loading = false;
           })
       })
