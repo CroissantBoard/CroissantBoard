@@ -16,6 +16,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
 
 const MaterialComponents = [
     MatButtonModule,
@@ -35,6 +37,8 @@ const MaterialComponents = [
     MatStepperModule,
     MatMenuModule,
     MatTooltipModule,
+    MatExpansionModule,
+    MatRippleModule,
 ];
 
 @NgModule({

@@ -6,7 +6,13 @@
                     class="logo-desktop">CroissantBoard</span>
                 <span  *ngIf="!showSidebar"
                     class="logo-mobile">CB</span>
-                </a>
+            </a>
+            <div *ngIf="user && projects.length" class="sidebar__project">
+               <app-project-select
+                    [user]="user"
+                    [projects]="projects"
+                    [showSidebar]="showSidebar"></app-project-select>
+            </div>
         </div>
         <div class="sidebar__nav">
             <ul class="sidebar__nav-list">

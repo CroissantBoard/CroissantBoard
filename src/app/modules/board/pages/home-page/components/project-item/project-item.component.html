@@ -1,0 +1,7 @@
+<div class="project-item">
+    <div class="project-item__logo">
+        <app-avatar [name]="project.name" [iconColor]="project.iconColor"></app-avatar>
+    </div>
+    <div class="project-item__title">{{ project.name }}</div>
+    <button (click)="deleteProject(project.uid)">delete</button>
+</div>

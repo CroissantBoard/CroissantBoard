@@ -4,9 +4,11 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import Task from '../interfaces/Task';
+import { ProjectService } from './project.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,10 @@ export class TaskService {
   tasks: Observable<Task[]>
   taskDoc: AngularFirestoreDocument<Task>
 
-  constructor(public afs: AngularFirestore) {
+  constructor(
+    public afs: AngularFirestore,
+    private projectService: ProjectService,
+    ) {
     this.taskCollection = this.afs.collection('tasks')
     this.tasks = this.taskCollection.snapshotChanges().pipe(
       map(changes => {
@@ -52,5 +57,24 @@ export class TaskService {
   updateTask( id: string, task: Task,) {
     this.taskDoc = this.afs.doc(`tasks/${id}`)
     this.taskDoc.update(task)
+  }
+
+  // getTasksByCurrentProject() {
+  //   return forkJoin([
+  //     this.projectService.getProject$(),
+  //     this.getProjectTasks()
+  //   ])
+  //     .pipe(
+  //       map(([project, tasks]) => {
+  //         console.log('1', project, tasks);
+  //         // return tasks.fiter(() => ...)
+  //       })
+  //     )
+  // }
+
+  private getProjectTasks(): Observable<Task[]> {
+    return this.afs
+      .collection('tasks', (ref) => ref.where('createdBy', '==', 'userId'))
+      .valueChanges({ idField: 'id' });
   }
 }
