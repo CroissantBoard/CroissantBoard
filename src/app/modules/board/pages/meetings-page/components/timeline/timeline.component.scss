@@ -15,13 +15,21 @@
 
 .timeline {
   @include basic($timeline-height, 100%);
-  @include dis-flex(flex-start, center);
+  @include dis-flex(space-between, center);
 
   z-index: 2;
 
   &__user {
-    @include basic-square($timeline-height);
+    @include basic-square($timeline-user-avatar-size);
     @include flex-center;
+  }
+
+  &__username {
+    @include basic-square($timeline-user-avatar-size * 0.75);
+
+    border-radius: 50%;
+
+    background-color: $grey-background;
 
     overflow: hidden;
   }
@@ -29,7 +37,7 @@
   &__lists {
     @include basic(
       $timeline-list-height,
-      calc(100% - #{$timeline-height})
+      calc(100% - #{$timeline-list-margin-left})
     );
     @include flex-center;
 
@@ -47,70 +55,5 @@
     @include dis-flex-column(flex-start, flex-start);
 
     position: relative;
-  }
-
-  &__handle {
-    @include basic(100%, 50%);
-
-    background-color: red;
-
-    opacity: 0;
-
-    cursor: pointer;
-
-    transition: 0.125s ease-out;
-
-    z-index: 100;
-    
-    &--swap {
-      @include basic-square(50%);
-
-      align-self: flex-end;
-
-      cursor: move;
-
-      z-index: 100;
-      
-      background-color: blue;
-
-      opacity: 0;
-
-      transition: 0.125s ease-out;
-    }
-
-    &--show {
-      opacity: 1;
-    }
-
-    &--left {
-      align-self: flex-start;
-    }
-
-    &--right {
-      align-self: flex-end;
-    }
-
-    &--add {
-      width: 100%;
-
-      cursor: default;
-      
-      z-index: -1;
-    }
-
-  }
-
-  &__delete {
-    @include basic-square(10px);
-
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    background-color: crimson;
-
-    cursor: pointer;
-
-    transform: translateX(-20px);
   }
 }

@@ -10,7 +10,7 @@
   @include fill-parent;
   @include marpad-0-0;
 
-  background-color: black;
+  background-color: $dark;
   opacity: 0.5;
   
   border-radius: $timeline-container-border-radius;

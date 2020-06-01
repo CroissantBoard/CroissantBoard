@@ -31,6 +31,7 @@ import { TimelineBarComponent } from './pages/meetings-page/components/timeline-
 import { TimelineMainContainerComponent } from './pages/meetings-page/components/timeline-main-container/timeline-main-container.component';
 import { TimelineGhostContainerComponent } from './pages/meetings-page/components/timeline-ghost-container/timeline-ghost-container.component';
 import { TimelineHandleComponent } from './pages/meetings-page/components/timeline-handle/timeline-handle.component';
+import { HourPickerComponent } from './pages/meetings-page/components/hour-picker/hour-picker.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { TimelineHandleComponent } from './pages/meetings-page/components/timeli
   TimelineMainContainerComponent,
   TimelineGhostContainerComponent,
   TimelineHandleComponent,
+  HourPickerComponent,
 ],
   imports: [
     MaterialModule,

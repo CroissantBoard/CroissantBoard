@@ -1,0 +1,12 @@
+@import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
+
+.picker {
+  width: 100%;
+
+  &__button {
+    margin: 0 0.5rem;
+
+    font-size: $font-small;
+  }
+}

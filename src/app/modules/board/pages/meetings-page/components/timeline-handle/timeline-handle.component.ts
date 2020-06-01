@@ -13,6 +13,9 @@ export class TimelineHandleComponent implements OnInit {
   @Input() isAdd: boolean = false;
 
   @Input() isMoving: boolean = false;
+  @Input() isHidden: boolean = false;
+  
+  @Input() status: string = '';
 
   constructor() { }
 

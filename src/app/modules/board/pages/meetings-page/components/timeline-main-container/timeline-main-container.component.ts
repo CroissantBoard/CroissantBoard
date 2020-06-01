@@ -13,6 +13,8 @@ export class TimelineMainContainerComponent implements OnChanges {
   @Input() status: string = '';
 
   @Input() container: MainContainer;
+  @Input() isDeleteHidden: boolean = false;
+  @Input() isMoving: boolean = false;
 
   @Input() percentWidth: string;
   @Input() percentMarginLeft: string;
@@ -27,6 +29,8 @@ export class TimelineMainContainerComponent implements OnChanges {
   ngOnChanges(): void {
     this.hostWidth = this.percentWidth;
     this.hostMarginLeft = this.percentMarginLeft;
+
+    if (this.container) this.status = this.container.status;
   }
 
   emitDeleteContainerEvent(): void {

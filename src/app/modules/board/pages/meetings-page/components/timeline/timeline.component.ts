@@ -361,6 +361,10 @@ export class TimelineComponent implements OnInit {
       : this.formatNumber(position + this.timelinePointWidth);
   }
 
+  getContainerById(id: number): MainContainer {
+    return this.mainContainers.find(cont => cont.id === id);
+  }
+
   percentString(num: number): string {
     return `${num}%`;
   }

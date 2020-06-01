@@ -1,20 +1,25 @@
 @import '../../../../../../styles/mixins';
+@import '../../../../../../styles/variables';
 
 .cdk-drag-placeholder {
   transition: transform 0.25s ease-out;
 }
 
 .timeline-bar {
-  @include basic(50px, 100%);
+  @include basic($timeline-height, 100%);
+  @include flex-center;
 
   position: relative;
 
   &__list {
     @include dis-flex(space-evenly, stretch);
-    @include fill-parent;
+    @include basic($timeline-list-height * 0.75, 100%);
 
     &--background {
       @include absolute-0-0-left;
+
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 
@@ -37,7 +42,10 @@
   &__placeholder {
     @include fill-parent;
 
-    background-color: black;
+    border-radius: $timeline-container-border-radius;
+
+    background-color: $primary-dark;
+    opacity: 0.75;
   }
 
   &__container {

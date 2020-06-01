@@ -11,6 +11,8 @@ import { MeetingsService } from 'src/app/shared/services/meetings-service/meetin
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
 
+import formatTime from 'src/app/shared/helpers/formatTime';
+
 @Component({
   selector: 'app-meetings-page',
   templateUrl: './meetings-page.component.html',
@@ -25,7 +27,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
 
-  projectId = 'UGSjyODGJRixz9x4Cwqy'; // hardcoded
+  projectId = 'ihcItSSRof4Tw8z99QD2'; // hardcoded
   userIds: string[] = [];
 
   meeting: Meeting;
@@ -36,7 +38,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private meetingsService: MeetingsService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   ngOnDestroy(): void {
@@ -207,7 +209,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     if (!hours.length) hours = without([...allFree, ...undesirable], ...free, ...busy, ...notGiven);
     if (!hours.length) hours = without([...allFree, ...undesirable], ...free, ...busy);
     if (!hours.length) hours = without([...allFree, ...undesirable, ...notGiven], ...free, ...busy);
-
+    
     return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
   }
 
@@ -218,6 +220,10 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   formatDate(date: Date): Date {
     return new Date(date.setHours(0, 0, 0, 0));
+  }
+  
+  formatTime(num: number): string {
+    return formatTime(num);
   }
 
   createNewMeeting(): Meeting {

@@ -16,10 +16,10 @@
 
   padding: $timeline-container-padding;
   box-sizing: border-box;
-  
+
   border-radius: $timeline-container-border-radius;
 
-  background-color: transparent;
+  background-color: $light;
 
   transition: 0.25s ease-out;
 
@@ -38,44 +38,78 @@
     background-color: $timeline-container-border-color-green;
   }
 
+  &--moving {
+    opacity: 0.75;
+  }
+
   &__inner {
     @include fill-parent;
     @include flex-center;
 
-    background-color: $dark;
-    color: $font-light-grey;
+    background-color: $light;
+    // background-color: transparent;
+    color: $dark;
 
     border-radius: $timeline-container-border-radius / 2;
   }
 
-  &__handle {
-    width: 15px;
-
-    background-color: orange;
-
-    z-index: 10;
-
-    &--left {
-      @include absolute-0-0-left;
-    }
-
-    &--right {
-      @include absolute-0-0-right;
-    }
-  }
-
   &__delete {
-    @include basic-square(10px);
+    @include basic-square($timeline-container-icon-size);
+    @include flex-center;
 
     position: absolute;
     top: 0;
     right: 0;
 
-    background-color: crimson;
+    background-color: transparent;
 
     cursor: pointer;
+    overflow: hidden;
 
-    transform: translateX(-20px);
+    transform: translate(-$timeline-container-icon-size, $timeline-container-padding);
+
+    &::ng-deep .mat-button-wrapper {
+      @include fill-parent;
+    }
+  }
+
+  &__delete-icon {
+    @include fill-parent;
+    @include flex-center;
+
+    background-color: transparent;
+
+    font-size: $timeline-list-height / 3;
+
+    transition: 0.25s ease-out;
+
+    &:hover {
+      color: $light;
+    }
+
+    &--busy {
+      color: $timeline-container-border-color-red;
+
+      &:hover {
+        background-color: $timeline-container-border-color-red;
+      }
+    }
+  
+    &--undesirable {
+      color: $timeline-container-border-color-amber;
+
+      &:hover {
+        background-color: $timeline-container-border-color-amber;
+      }
+    }
+  
+    &--free {
+      color: $timeline-container-border-color-green;
+
+      &:hover {
+        background-color: $timeline-container-border-color-green;
+      }
+    }
   }
 
   &__content {

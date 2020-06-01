@@ -4,12 +4,17 @@
   [class.handle--swap]="isSwap"
   [class.handle--add]="isAdd"
   [class.handle--moving]="isMoving"
+  [class.handle--hidden]="isHidden"
 >
-  <mat-icon class="handle__icon"
-  [class.handle__icon--swap]="isSwap"
-  [class.handle__icon--moving]="isMoving">
-    {{isSwap
-      ? 'drag_handle'
-      : 'more_vert'}}
+  <mat-icon *ngIf="!isAdd"
+    class="handle__icon"
+    [class.handle__icon--swap]="isSwap"
+    [class.handle__icon--moving]="isMoving"
+    [class.handle__icon--busy]="status === 'busy'"
+    [class.handle__icon--free]="status === 'free'"
+    [class.handle__icon--undesirable]="status === 'undesirable'">
+      {{isSwap
+        ? 'swap_horiz'
+        : 'more_vert'}}
   </mat-icon>
 </div>

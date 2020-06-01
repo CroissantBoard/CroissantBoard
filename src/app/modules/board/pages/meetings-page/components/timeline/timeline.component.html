@@ -27,6 +27,7 @@
           item.value === (movingItem ? movingItem.value : null)
           && item.id === (movingItem ? movingItem.id : null)
         "
+        [status]="getContainerById(item.id).status"
         cdkDragHandle
         (mousedown)="startMoving(item)"
         (cdkDragEnded)="stopMoving()"
@@ -58,6 +59,8 @@
           item.value === (movingItem ? movingItem.value : null)
           && item.id === (movingItem ? movingItem.id : null)
         "
+        [isHidden]="getContainerById(item.id).width < timelinePointWidth * 2"
+        [status]="getContainerById(item.id).status"
         cdkDragHandle
         (mousedown)="startMoving(item)"
         (cdkDragEnded)="stopMoving()"
@@ -79,12 +82,6 @@
       cdkDrag
       cdkDragDisabled
     ></app-timeline-handle>
-
-    <div *ngFor="let item of timelineAddingItems"
-      class="timeline__handle timeline__handle--add"
-      cdkDrag
-      cdkDragDisabled>
-    </div>
   </div>
 
   <app-timeline-ghost-container *ngFor="let ghost of ghostContainers"
@@ -94,6 +91,8 @@
 
   <app-timeline-main-container *ngFor="let container of mainContainers"
     [container]="container"
+    [isDeleteHidden]="container.width < timelinePointWidth * 3"
+    [isMoving]="movingItem && container.id === movingItem.id"
     [percentWidth]="percentString(container.width)"
     [percentMarginLeft]="percentString(container.startX)"
     (deleteContainerEvent)="deleteContainer($event)"

@@ -12,29 +12,19 @@
   @include basic(100%, 40%);
   @include flex-center;
 
-  padding: $timeline-container-padding;
+  // padding: $timeline-container-padding;
   box-sizing: border-box;
 
   background-color: transparent;
 
-  cursor: pointer;
-
-  overflow: hidden;
-
   transition: 0.125s ease-out;
 
+  overflow: hidden;
+  cursor: pointer;
   z-index: 100;
-  
-  &--swap {
-    @include basic-square($timeline-list-height * 0.4);
 
-    margin-top: $timeline-container-padding;
-
-    cursor: move;
-
-    transition: 0.125s ease-out;
-
-    z-index: 100;
+  &--hidden {
+    opacity: 0;
   }
 
   &--left {
@@ -48,12 +38,24 @@
     
     padding-left: 0;
   }
+  
+  &--swap {
+    @include basic-square($timeline-container-icon-size);
+    
+    padding: $timeline-container-padding;
+
+    transform: translate(50%, $timeline-container-padding);
+
+    transition: 0.125s ease-out;
+
+    cursor: move;
+    z-index: 100;
+  }
 
   &--add {
     width: 100%;
 
     cursor: default;
-    
     z-index: -1;
   }
 
@@ -61,22 +63,37 @@
     @include fill-parent;
     @include flex-center;
 
-    border-radius: $timeline-container-border-radius / 2;
+    border-radius: $timeline-container-border-radius;
     box-sizing: border-box;
 
-    background-color: $grey-background;
+    background-color: $white;
+    color: $light;
+
+    font-size: $timeline-icon-size * 1.5;
 
     transition: 0.25s ease-out;
 
     &--swap {
-      background-color: $border-focus;
+      color: $light;
 
-      font-size: 100%;
+      font-size: $timeline-icon-size * 0.75;
+      font-weight: 300;
+    }
+
+    &--busy {
+      background-color: $timeline-container-border-color-red;
+    }
+    
+    &--free {
+      background-color: $timeline-container-border-color-green;
+    }
+    
+    &--undesirable {
+      background-color: $timeline-container-border-color-amber;
     }
 
     &--moving {
-      background-color: $dark;
-      color: $font-light-grey;
+      background-color: $font-grey;
     }
   }
 

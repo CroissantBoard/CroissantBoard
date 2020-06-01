@@ -1,0 +1,9 @@
+<div class="picker">
+  <button *ngFor="let hour of hoursArray"
+    mat-mini-fab
+    class="picker__button"
+    color="primary"
+    (click)="onHourPicked(hour)">
+      {{ formatTime(hour) }}
+  </button>
+</div>

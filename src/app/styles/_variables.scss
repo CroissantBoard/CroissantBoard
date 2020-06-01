@@ -35,9 +35,9 @@ $border-color: #e8ecee;
 $border-focus: #B1B9BD;
 $border-error: #EDACAC;
 
-$timeline-container-border-color-red: #c62828;
-$timeline-container-border-color-amber: #ffc107;
-$timeline-container-border-color-green: #387002;
+$timeline-container-border-color-red: #f44336;
+$timeline-container-border-color-amber: #ffca28;
+$timeline-container-border-color-green: #4caf50;
 
 // Background-colors
 $dark: #151b26;
@@ -55,9 +55,19 @@ $sidebar-width: 240px;
 
 // Component Sizes
 
+// meeting
+$meeting-padding-vertical: 1rem;
+$meeting-padding-horizontal: 2rem;
+
 // timeline
 $timeline-height: 4rem;
 $timeline-list-height: 3rem;
+
+$timeline-user-avatar-size: 4rem;
+$timeline-list-margin-left: $timeline-user-avatar-size * 1.5;
+
+$timeline-container-icon-size: $timeline-list-height * 0.4;
+$timeline-icon-size: $timeline-list-height / 3;
 
 $timeline-container-padding: 3px;
 $timeline-container-border-radius: 4px;
