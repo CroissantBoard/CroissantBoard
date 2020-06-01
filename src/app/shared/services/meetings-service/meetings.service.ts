@@ -8,8 +8,7 @@ import {
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import Meeting from '../../interfaces/Meeting';
+import { Meeting } from '../../interfaces/meeting';
 
 
 @Injectable({
