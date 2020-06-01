@@ -9,7 +9,8 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import Meeting from 'src/app/shared/interfaces/Meeting';
+import Meeting from '../../interfaces/Meeting';
+
 
 @Injectable({
   providedIn: 'root'

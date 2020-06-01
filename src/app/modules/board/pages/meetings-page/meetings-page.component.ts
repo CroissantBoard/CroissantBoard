@@ -9,7 +9,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
-import Meeting from 'src/app/shared/interfaces/Meeting';
+import Meeting from '../../../../shared/interfaces/Meeting';
 
 import formatTime from 'src/app/shared/helpers/formatTime';
 
