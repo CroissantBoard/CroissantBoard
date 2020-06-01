@@ -5,7 +5,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UserService } from 'src/app/shared/services/user.service';
-import { AuthService } from 'src/app/core/authentification/auth.service';
+import { ProjectService } from 'src/app/shared/services/project.service';
+import { switchMap, tap } from 'rxjs/operators';
+import { IProject } from 'src/app/shared/interfaces/Project';
 
 interface IEmail {
   value: string;
@@ -26,29 +28,17 @@ export class InviteDialogComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  private workspaceId: string;
-  private bdUsers: any[];
+  notRegistered: string[];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<InviteDialogComponent>,
     private usersService: UserService,
-    private authService: AuthService,
+    private projectService: ProjectService,
   ) { }
 
   ngOnInit() {
-     // this.authService.user$
-    //   .pipe(
-    //     switchMap((user) => {
-    //       this.workspaceId = user.workspaceId;
-    //       return this.userService.getUsers(user.workspaceId);
-    //     })
-    //   )
-    //   .subscribe((users) => {
-    //     return this.dbUsers = users;
-    //   });
-
     this.inviteForm = this.buildForm();
   }
 
@@ -89,8 +79,19 @@ export class InviteDialogComponent {
     if (this.valid) {
       const usersList = this.emails.map((el) => el.value);
 
-      this.usersService.setUsers(usersList);
-      this.dialogRef.close();
+      this.projectService.currentProject$
+        .pipe(
+          switchMap((project: IProject) => {
+            return this.usersService.setUsers([...new Set(usersList)], project.uid)
+          }),
+          tap(() => this.dialogRef.close()),
+        )
+        .subscribe(([userUids, notRegistered]) => {
+          this.notRegistered = notRegistered;
+          // Add snackbar notification service
+          console.log('User not registered on the app', notRegistered);
+          this.projectService.setUsersToProject(userUids);
+        });
     }
   }
 

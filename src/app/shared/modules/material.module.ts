@@ -10,15 +10,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -31,15 +31,15 @@ const MaterialComponents = [
   MatChipsModule,
   MatDividerModule,
   MatCheckboxModule,
-  DragDropModule,
   MatDatepickerModule,
   MatButtonToggleModule,
   MatNativeDateModule,
   MatStepperModule,
   MatMenuModule,
   MatTooltipModule,
-  MatCardModule,
   MatExpansionModule,
+  MatRippleModule,
+  MatCardModule,
 ];
 
 @NgModule({

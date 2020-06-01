@@ -9,7 +9,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
-import { Meeting } from 'src/app/shared/interfaces/meeting';
+import { Meeting } from 'src/app/shared/interfaces/Meeting';
 
 import formatTime from 'src/app/shared/helpers/formatTime';
 
@@ -51,10 +51,10 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.resetMeetingDay();
 
-    this.userService.getUsersByProjectId(this.projectId).pipe(
+    this.userService.getUsersByProject(this.projectId).pipe(
       takeUntil(this.destroy$)
     ).subscribe(users => {
-      this.userIds = users;
+      this.userIds = users.map(user => user.uid);
 
       if (!this.meeting.timelines.length) {
         this.meeting.timelines = this.userIds.map((user, index) => ({

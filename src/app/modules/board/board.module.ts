@@ -26,6 +26,12 @@ import { InviteDialogComponent } from './pages/users-page/components/invite-dial
 import { TaskFilterComponent } from './pages/tasks-page/components/task-filter/task-filter.component';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
+import { ProjectItemComponent } from './pages/home-page/components/project-item/project-item.component';
+import { ProjectsListComponent } from './pages/home-page/components/projects-list/projects-list.component';
+import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ProjectSelectComponent } from './components/project-select/project-select.component';
+
 import { TimelineComponent } from './pages/meetings-page/components/timeline/timeline.component';
 import { TimelineBarComponent } from './pages/meetings-page/components/timeline-bar/timeline-bar.component';
 import { TimelineMainContainerComponent } from './pages/meetings-page/components/timeline-main-container/timeline-main-container.component';
@@ -36,30 +42,34 @@ import { HourPickerComponent } from './pages/meetings-page/components/hour-picke
 
 @NgModule({
   declarations: [
-  BoardPageComponent,
-  TasksPageComponent,
-  HomePageComponent,
-  UsersPageComponent,
-  MeetingsPageComponent,
-  TaskComponent,
-  TaskAddComponent,
-  TaskListComponent,
-  TaskEditComponent,
-  SidebarComponent,
-  BoardHeaderComponent,
-  SearchComponent,
-  UsersListComponent,
-  UserItemComponent,
-  InviteDialogComponent,
-  TaskFilterComponent,
-  SortPipe,
-  TimelineComponent,
-  TimelineBarComponent,
-  TimelineMainContainerComponent,
-  TimelineGhostContainerComponent,
-  TimelineHandleComponent,
-  HourPickerComponent,
-],
+    BoardPageComponent,
+    TasksPageComponent,
+    HomePageComponent,
+    UsersPageComponent,
+    MeetingsPageComponent,
+    TaskComponent,
+    TaskAddComponent,
+    TaskListComponent,
+    TaskEditComponent,
+    SidebarComponent,
+    BoardHeaderComponent,
+    SearchComponent,
+    UsersListComponent,
+    UserItemComponent,
+    InviteDialogComponent,
+    TaskFilterComponent,
+    SortPipe,
+    ProjectItemComponent,
+    ProjectsListComponent,
+    ProjectAddComponent,
+    ProjectSelectComponent,
+    TimelineComponent,
+    TimelineBarComponent,
+    TimelineMainContainerComponent,
+    TimelineGhostContainerComponent,
+    TimelineHandleComponent,
+    HourPickerComponent,
+  ],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
@@ -70,7 +80,8 @@ import { HourPickerComponent } from './pages/meetings-page/components/hour-picke
     CDKModule,
     FormsModule,
     ReactiveFormsModule,
-    NgAisModule
+    NgAisModule,
+    SharedModule,
   ],
   providers: [NgAisInstantSearch]
 })

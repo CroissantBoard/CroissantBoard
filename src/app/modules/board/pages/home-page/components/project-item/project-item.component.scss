@@ -1,0 +1,31 @@
+@import 'variables';
+
+.project-item {
+    width: 100%;
+    height: 100%;
+    padding: 10px 16px;
+    background-color: transparent;
+    border: 1px dashed $border-focus;
+    border-radius: 5px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+
+    &:hover {
+        background-color: $grey-background;
+    }
+
+    &__title {
+        max-width: 100%;
+        height: 20px;
+        color: $font-grey;
+        font-size: $font-small;
+        text-align: center;
+        overflow-x: hidden;
+        word-break: break-all;
+        text-overflow: ellipsis;
+    }
+
+    &__logo {
+        padding-bottom: 8px;
+    }
+}
