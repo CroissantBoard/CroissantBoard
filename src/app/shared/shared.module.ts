@@ -8,6 +8,7 @@ import { CroissantIconComponent } from "./icons/croissant-icon/croissant-icon.co
 import { HotDrinkIconComponent } from "./icons/hot-drink/hot-drink-icon.component";
 import { LineSeparatorComponent } from "./icons/line-separator/line-separator.component";
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
     HotDrinkIconComponent,
     LineSeparatorComponent,
     AvatarComponent,
+    ClickOutsideDirective
   ],
   imports: [RouterModule],
   exports: [
@@ -30,6 +32,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
     LineSeparatorComponent,
     CommonModule,
     AvatarComponent,
+    ClickOutsideDirective
   ]
 })
 export class SharedModule { }
