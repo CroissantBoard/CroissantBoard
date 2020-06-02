@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import User from 'src/app/shared/interfaces/User';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { IProject } from 'src/app/shared/interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-sidebar',

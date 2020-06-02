@@ -126,4 +126,18 @@ export class UserService {
     this.userDoc = this.afs.doc(`users/${user.uid}`)
     this.userDoc.update({ projects: newProjects });
   }
+
+  isUsersRegistered(email: string) {
+    return this.afs.collection('users', ref => ref.where('projects', '==', email))
+      .snapshotChanges()
+      .pipe(
+        map(changes => {
+          return changes.map(a => {
+            const data = a.payload.doc.data() as User
+            data.uid = a.payload.doc.id
+            return data
+          })
+        })
+      )
+  }
 }

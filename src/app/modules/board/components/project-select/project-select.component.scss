@@ -12,10 +12,18 @@
         align-items: center;
         color: $white;
         border-radius: 4px;
+        overflow: hidden;
+        word-break: break-all;
+        white-space: nowrap;
 
         &:hover {
             opacity: 0.8;
         }
+    }
+
+    &__selected-label {
+        max-width: 170px;
+        overflow: hidden;
     }
 
     &__field {
@@ -52,6 +60,9 @@
         font-weight: 500;
         font-size: $font-small;
         border-radius: 4px;
+        overflow: hidden;
+        word-break: break-all;
+        white-space: nowrap;
 
         &:hover {
             opacity: 0.8;

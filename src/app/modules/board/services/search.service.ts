@@ -15,7 +15,6 @@ export class SearchService {
       this.user = user;
     });
     this.query = '';
-    console.log(this.query);
   }
 
   onQuery($event) {
