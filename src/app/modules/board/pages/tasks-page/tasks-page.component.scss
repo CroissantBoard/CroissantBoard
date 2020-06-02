@@ -14,6 +14,7 @@
   &__main {
     padding: 16px;
     background-color: $light;
+    position: relative;
     @include dis-flex(center, stretch);
   }
 
@@ -26,7 +27,6 @@
 
   &__container {
     flex: 0 1 1000px;
-    min-width: 405px;
     background-color: $white;
     box-shadow: $shadow-main;
     position: relative;
@@ -34,21 +34,60 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+      z-index: 0;
+    }
+  }
+
+  &__hint {
+    padding: 10px 0 0 50px;
+    color: $font-second-grey;
+    font-size: $font-extra-small;
+
+    @media (max-width: 414px) {
+      padding: 0 0 0 10px;
+    }
   }
 
   &__add-block {
     margin-left: 16px;
     flex: 0 1 675px;
-    min-width: 495px;
+    min-width: 400px;
+
+    @media (max-width: 900px) {
+      margin-left: 0;
+      flex: 0 1 1000px;
+      min-width: 495px;
+      position: absolute;
+      z-index: 1;
+      box-shadow: $shadow-popover;
+    }
+
+    @media (max-width: 414px) {
+      min-width: 400px;
+    }
+
+    @media (max-width: 375px) {
+      min-width: 300px;
+    }
   }
 
   &__header {
     padding: 10px 0 10px 32px;
+
+    @media (max-width: 414px) {
+      padding: 10px 0 10px 15px;
+    }
   }
 
   &__tree {
     padding: 10px 0 0px 32px;
     @include dis-flex(flex-start, center);
+
+    @media (max-width: 414px) {
+      padding: 10px 0 10px 15px;
+    }
   }
 
   &__icon {
@@ -63,6 +102,10 @@
     display: block;
     padding: 20px 0 0 32px;
     font-size: $font-large;
+
+    @media (max-width: 320px) {
+      padding: 10px 0 10px 10px;
+    }
   }
 }
 
@@ -76,9 +119,12 @@
   &__header {
     width: calc(100% - 52px);
     @include dis-flex(space-between, center);
-    padding: 10px 26px;
     border-bottom: 1px solid $border-color;
     color: $font-grey;
+
+    @media (max-width: 320px) {
+      width: calc(100% - 20px);
+    }
   }
 
   &__checkbox {
@@ -96,7 +142,6 @@
   }
 
   &__sub-header {
-    padding: 10px 26px;
     @include dis-flex(space-between, center);
     background-color: $light;
     color: $dark;
@@ -108,6 +153,10 @@
 
   &__container {
     padding: 10px 26px;
+
+    @media (max-width: 320px) {
+      padding: 10px;
+    }
   }
 
   &__title {
@@ -179,4 +228,10 @@
   .ng-dirty
   .ng-touched {
   background-color: transparent;
+}
+
+::ng-deep .task-page .mat-form-field-infix {
+  @media (max-width: 320px) {
+    width: 140px;
+  }
 }

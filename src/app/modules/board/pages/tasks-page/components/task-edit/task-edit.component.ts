@@ -73,10 +73,12 @@ export class TaskEditComponent implements OnInit, OnChanges {
       const formData = { ...this.form.value };
     }
 
-    if (this.task.name != '') {
+    if ((this.form.value.name || '').trim()) {
       edit.deadline = new Date(edit.deadline).getTime()
       this.taskService.updateTask(this.task.id, edit);
     }
+
+    this.form.controls['name'].setValue(this.form.value.name.trim());
   }
 
   isFieldValid(field: string) {
