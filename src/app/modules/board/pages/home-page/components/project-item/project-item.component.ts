@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IProjectShort } from 'src/app/shared/interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 import { ProjectService } from 'src/app/shared/services/project.service';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-project-item',
@@ -8,17 +9,25 @@ import { ProjectService } from 'src/app/shared/services/project.service';
   styleUrls: ['./project-item.component.scss']
 })
 export class ProjectItemComponent implements OnInit {
+  isUserAuthor = false;
+
   constructor(
     private projectsService: ProjectService,
   ) { }
 
   ngOnInit(): void {
+    this.isUserAuthor = this.checkAuthor(this.user, this.project);
   }
 
-  @Input() project: IProjectShort;
+  @Input() project: IProject;
+  @Input() user: User;
 
   //temp button
-  deleteProject(uid: string): void {
-    this.projectsService.deleteProject(uid);
+  deleteProject(project: IProject): void {
+    this.projectsService.deleteProject(project);
+  }
+
+  private checkAuthor(user: User, project: IProject): boolean {
+    return user.uid === project.createdBy;
   }
 }

@@ -31,7 +31,7 @@
                 </button>
             </li>
             <li *ngFor="let project of projects" class="projects__item">
-                <app-project-item [project]="project"></app-project-item>
+                <app-project-item [user]="user" [project]="project"></app-project-item>
             </li>
         </ul>
     </div>

@@ -1,6 +1,6 @@
 <ul *ngIf="!loading" class="users-list">
     <li *ngFor="let user of users" class="users-list__item">
-        <app-user-item [user]="user"></app-user-item>
+        <app-user-item [user]="user" [currentProjectAuthorId]="currentProjectAuthorId"></app-user-item>
     </li>
     <li *ngIf="!users.length" class="users-list__no-items">Users not found</li>
 </ul>
