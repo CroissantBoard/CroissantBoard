@@ -5,21 +5,24 @@
   @include fill-parent;
   @include dis-flex(space-between, stretch);
 
+  padding-top: $meeting-padding-vertical;
+
   &__item {
+    @include basic(calc(100% - #{$meeting-padding-vertical}), 100%);
     @include dis-flex-column(flex-end, flex-start);
 
-    width: 100%;
-
     &--last {
-      @include basic(100%, 1px);
       @include absolute-0-0-right;
+      top: $meeting-padding-vertical;
+
+      width: 1px;
 
       transform: translateX(100%);
     }
   }
 
   &__row {
-    @include basic(85%, 1px);
+    @include basic(100%, 1px);
 
     background-color: $dark;
 
