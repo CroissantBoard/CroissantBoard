@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { intersection, union, without } from 'lodash';
 
@@ -7,11 +8,13 @@ import { takeUntil, take } from 'rxjs/operators';
 
 import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
+import { ProjectService } from 'src/app/shared/services/project.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
 
 import formatTime from 'src/app/shared/helpers/formatTime';
+import generateRange from 'src/app/shared/helpers/generateRange';
 
 @Component({
   selector: 'app-meetings-page',
@@ -22,12 +25,12 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  timelineRuler = new Array(24).fill(null);
+  rulerLength: number = 24;
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
 
-  projectId = 'ihcItSSRof4Tw8z99QD2'; // hardcoded
+  projectId: string = '';
   userIds: string[] = [];
 
   meeting: Meeting;
@@ -37,41 +40,48 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   possibleMeetingHours: number[] = [];
 
   constructor(
+    private router: Router,
     private meetingsService: MeetingsService,
     private userService: UserService,
+    private projectService: ProjectService,
   ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-
-    this.updateMeeting();
   }
 
   ngOnInit(): void {
-    this.resetMeetingDay();
-
-    this.userService.getUsersByProject(this.projectId).pipe(
+    this.projectService.getCurrentProject().pipe(
       takeUntil(this.destroy$)
-    ).subscribe(users => {
-      this.userIds = users.map(user => user.uid);
+    ).subscribe(project => {
+      this.userIds = [];
 
-      if (!this.meeting.timelines.length) {
-        this.meeting.timelines = this.userIds.map((user, index) => ({
-          timelineId: index,
-          uid: user,
-          data: [],
-        }));
+      if (!project) {
+        this.router.navigate(['/board/home']);
+        return;
       }
+
+      console.log(project)
+
+      this.projectId = project.uid;
+
+      this.userService.getUsersByProject(this.projectId).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(users => {
+        this.userIds = users.map(user => user.uid)
+
+        this.resetMeetingDay();
+      });
     });
   }
 
   fetchMeeting(): void {
     this.meetingsService.getMeetingByDay(this.projectId, this.meetingDay).pipe(
       take(1)
-    ).subscribe(meetings => {
-      this.meeting = meetings.length
-        ? meetings[0]
+    ).subscribe(meeting => {
+      this.meeting = meeting.length
+        ? meeting[0]
         : this.createNewMeeting();
 
       this.calculateMeetingHours();
@@ -149,10 +159,10 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       notGiven: number[] = [];
 
     this.meeting.timelines.forEach(line => {
-      let lineNotGivenHours: number[] = this.generateRange(0, 23);
+      let lineNotGivenHours: number[] = generateRange(0, 23);
 
       line.data.forEach(cont => {
-        const hours = this.generateRange(cont.indexes[0], cont.indexes[1]);
+        const hours = generateRange(cont.indexes[0], cont.indexes[1]);
 
         lineNotGivenHours = without(lineNotGivenHours, ...hours);
 
@@ -209,19 +219,14 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     if (!hours.length) hours = without([...allFree, ...undesirable], ...free, ...busy, ...notGiven);
     if (!hours.length) hours = without([...allFree, ...undesirable], ...free, ...busy);
     if (!hours.length) hours = without([...allFree, ...undesirable, ...notGiven], ...free, ...busy);
-    
-    return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
-  }
 
-  generateRange(start: number, end: number): number[] {
-    if (start === end) return [start];
-    return [start, ...this.generateRange(start + 1, end)];
+    return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
   }
 
   formatDate(date: Date): Date {
     return new Date(date.setHours(0, 0, 0, 0));
   }
-  
+
   formatTime(num: number): string {
     return formatTime(num);
   }

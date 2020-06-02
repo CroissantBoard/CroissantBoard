@@ -1,0 +1,42 @@
+@import 'mixins';
+@import 'variables';
+
+.ruler {
+  @include fill-parent;
+  @include dis-flex(space-between, stretch);
+
+  padding-top: $meeting-padding-vertical;
+
+  &__item {
+    @include basic(calc(100% - #{$meeting-padding-vertical}), 100%);
+    @include dis-flex-column(flex-end, flex-start);
+
+    &--last {
+      @include absolute-0-0-right;
+      top: $meeting-padding-vertical;
+
+      width: 1px;
+
+      transform: translateX(100%);
+    }
+  }
+
+  &__row {
+    @include basic(100%, 1px);
+
+    background-color: $dark;
+
+    border-radius: 1px;
+  }
+
+  &__count {
+    color: $dark;
+  }
+  
+  &__row,
+  &__count {
+    opacity: 0.5;
+
+    transform: translateX(-50%);
+  }
+}

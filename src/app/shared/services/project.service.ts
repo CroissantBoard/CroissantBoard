@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+
 import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument,
   DocumentReference
 } from '@angular/fire/firestore';
+
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
+
+import { uniq } from 'lodash';
 
 import IProject from 'src/app/shared/interfaces/Project';
 
@@ -58,6 +62,10 @@ export class ProjectService {
       )
   }
 
+  getCurrentProject(): Observable<IProject> {
+    return this.currentProjectSub;
+  }
+
   setCurrentProject(project: IProject) {
     this.currentProjectSub.next(project);
   }
@@ -65,10 +73,10 @@ export class ProjectService {
   setUsersToProject(usersUids: string[]): void {
     this.currentProject$
       .subscribe((project: IProject) => {
-        const participants: string[] = [
+        const participants: string[] = uniq([
           ...project.participants,
           ...usersUids,
-        ];
+        ]);
 
         this.projectDoc = this.afs.doc(`projects/${project.uid}`);
         this.projectDoc.update({ participants: participants });
