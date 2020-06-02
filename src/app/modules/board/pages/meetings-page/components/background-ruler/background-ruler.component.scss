@@ -1,0 +1,39 @@
+@import 'mixins';
+@import 'variables';
+
+.ruler {
+  @include fill-parent;
+  @include dis-flex(space-between, stretch);
+
+  &__item {
+    @include dis-flex-column(flex-end, flex-start);
+
+    width: 100%;
+
+    &--last {
+      @include basic(100%, 1px);
+      @include absolute-0-0-right;
+
+      transform: translateX(100%);
+    }
+  }
+
+  &__row {
+    @include basic(85%, 1px);
+
+    background-color: $dark;
+
+    border-radius: 1px;
+  }
+
+  &__count {
+    color: $dark;
+  }
+  
+  &__row,
+  &__count {
+    opacity: 0.5;
+
+    transform: translateX(-50%);
+  }
+}

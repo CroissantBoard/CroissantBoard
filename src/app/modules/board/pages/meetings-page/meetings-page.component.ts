@@ -12,6 +12,7 @@ import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-obje
 import { Meeting } from 'src/app/shared/interfaces/meeting';
 
 import formatTime from 'src/app/shared/helpers/formatTime';
+import generateRange from 'src/app/shared/helpers/generateRange';
 
 @Component({
   selector: 'app-meetings-page',
@@ -22,7 +23,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  timelineRuler = new Array(24).fill(null);
+  rulerLength: number = 24;
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
@@ -149,10 +150,10 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       notGiven: number[] = [];
 
     this.meeting.timelines.forEach(line => {
-      let lineNotGivenHours: number[] = this.generateRange(0, 23);
+      let lineNotGivenHours: number[] = generateRange(0, 23);
 
       line.data.forEach(cont => {
-        const hours = this.generateRange(cont.indexes[0], cont.indexes[1]);
+        const hours = generateRange(cont.indexes[0], cont.indexes[1]);
 
         lineNotGivenHours = without(lineNotGivenHours, ...hours);
 
@@ -211,11 +212,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     if (!hours.length) hours = without([...allFree, ...undesirable, ...notGiven], ...free, ...busy);
     
     return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
-  }
-
-  generateRange(start: number, end: number): number[] {
-    if (start === end) return [start];
-    return [start, ...this.generateRange(start + 1, end)];
   }
 
   formatDate(date: Date): Date {
