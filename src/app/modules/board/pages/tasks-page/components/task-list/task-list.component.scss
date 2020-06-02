@@ -8,14 +8,19 @@
 
   &__item {
     background-color: $white;
-    padding: 10px 0;
     border-bottom: 1px solid $border-color;
     &:hover {
       background-color: $light;
+      cursor: pointer;
     }
   }
 }
 
-.cdk-drop-list {
+::ng-deep .cdk-drop-list {
   padding: 0;
+  margin: 5px 0;
+}
+
+::ng-deep .cdk-drag {
+  list-style: none;
 }

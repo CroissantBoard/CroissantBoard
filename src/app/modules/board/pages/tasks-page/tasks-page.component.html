@@ -21,7 +21,9 @@
           </ng-template>
           <span class="task-page__title">Resently added</span>
         </div>
-        <app-task-list *ngIf="showTaskList" [sortVal]="sortVal" [filter]="filter" (oneTask)="pasteTask($event, $event)"></app-task-list>
+        <span *ngIf="showTaskList" class="task-page__hint">*Double click to edit task</span>
+        <app-task-list *ngIf="showTaskList" [sortVal]="sortVal" [filter]="filter" (oneTask)="pasteTask($event, $event)">
+        </app-task-list>
       </div>
 
       <ng-template #noTasks>
