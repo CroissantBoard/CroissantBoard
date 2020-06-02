@@ -12,6 +12,7 @@ import User from 'src/app/shared/interfaces/User';
 export class UsersListComponent implements OnInit {
   users: User[] | null;
   loading = true;
+  currentProjectAuthorId: string;
 
   constructor(
     private userService: UserService,
@@ -21,10 +22,10 @@ export class UsersListComponent implements OnInit {
   ngOnInit(): void {
     this.projectService.currentProject$
       .subscribe((project) => {
+        this.currentProjectAuthorId = project.createdBy;
         this.userService.getUsersByProject(project.uid)
           .subscribe((users) => {
             this.users = users;
-            // console.log('printed all users', users)
             this.loading = false;
           })
       })

@@ -8,7 +8,7 @@ import {
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { IProject, IProjectShort } from '../interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,9 @@ export class ProjectService {
   projects$: Observable<IProject[]>
   projectDoc: AngularFirestoreDocument<IProject>
 
-  currentProjectSub = new BehaviorSubject<IProjectShort>(null);
+  currentProjectSub = new BehaviorSubject<IProject>(null);
   currentProject$ = this.currentProjectSub.asObservable()
-    .pipe(filter(user => !!user));
+    .pipe(filter(user => !!user));  
 
   constructor (
     private afs: AngularFirestore,
@@ -37,6 +37,7 @@ export class ProjectService {
     )
 
     this.projects$.subscribe();
+
   }
 
   getAllProjects(): Observable<any> {
@@ -49,7 +50,7 @@ export class ProjectService {
       .pipe(
         map(changes => {
           return changes.map(a => {
-            const data = a.payload.doc.data() as IProjectShort
+            const data = a.payload.doc.data() as IProject
             data.uid = a.payload.doc.id
             return data
           })
@@ -57,7 +58,7 @@ export class ProjectService {
       )
   }
 
-  setCurrentProject(project: IProjectShort) {
+  setCurrentProject(project: IProject) {
     this.currentProjectSub.next(project);
   }
 
@@ -74,12 +75,12 @@ export class ProjectService {
       })
   }
 
-  addProject(project: IProjectShort): Promise<DocumentReference> {
-     return this.projectsCollection.add(project)
+  addProject(project: IProject): Promise<DocumentReference> {
+    return this.projectsCollection.add(project);
   }
 
-  deleteProject(uid: string): void {
-    this.projectDoc = this.afs.doc(`projects/${uid}`)
+  deleteProject(project: IProject): void {
+    this.projectDoc = this.afs.doc(`projects/${project.uid}`)
     this.projectDoc.delete()
   }
 

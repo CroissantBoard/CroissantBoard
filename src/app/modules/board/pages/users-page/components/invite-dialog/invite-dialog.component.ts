@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import { switchMap, tap } from 'rxjs/operators';
-import { IProject } from 'src/app/shared/interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 
 interface IEmail {
   value: string;
@@ -60,7 +60,7 @@ export class InviteDialogComponent {
     }
   }
 
-  remove(email): void {
+  remove(email: IEmail): void {
     const index = this.emails.indexOf(email);
 
     if (index >= 0) {

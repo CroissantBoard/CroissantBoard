@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -40,6 +41,7 @@ const MaterialComponents = [
   MatExpansionModule,
   MatRippleModule,
   MatCardModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({

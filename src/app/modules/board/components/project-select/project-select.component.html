@@ -1,7 +1,7 @@
 <div class="project">
     <div *ngIf="showSidebar" class="project__selected"
         [style.background-color]="selected.iconColor">
-        <span>{{ selected.name }}</span>
+        <span class="project__selected-label">{{ selected.name }}</span>
         <span class="icon-chevron-down project__arrow"></span>
     </div>
     <div *ngIf="!showSidebar" class="project__icon" [style.background-color]="selected.iconColor">
