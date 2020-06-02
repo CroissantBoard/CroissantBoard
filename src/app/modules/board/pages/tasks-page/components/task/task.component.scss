@@ -3,6 +3,7 @@
 
 .task {
   transition: 0.3s all ease-in-out;
+  padding: 10px 0;
 
   &__info {
     @include dis-flex(space-between, center);
@@ -20,6 +21,10 @@
     margin: 0 10px;
     visibility: hidden;
     color: $font-grey;
+
+    @media (max-width: 768px) {
+      visibility: visible;
+    }
   }
 
   &__deadline {

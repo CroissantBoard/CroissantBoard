@@ -1,6 +1,6 @@
 <div class="container">
   <ul class="task-list" class="example-list" cdkDropList (cdkDropListDropped)="drop($event)">
-    <li class="task-list__item" *ngFor="let task of todosFiltered()  | sort:sortPriorVal:sortVal" (dblclick)="editTask($event, task)" cdkDrag>
+    <li class="task-list__item" *ngFor="let task of todosFiltered() | sort:sortPriorVal:sortVal" (dblclick)="editTask($event, task)" cdkDrag>
       <app-task [task]="task"></app-task>
     </li>
   </ul>

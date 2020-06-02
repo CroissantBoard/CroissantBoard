@@ -1,6 +1,6 @@
 <div class="add-task">
   <form class="form" [formGroup]="form" (ngSubmit)="updateItem(task, form.value)">
-    <div class="form__header">
+    <div class="form__header form__container">
       <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
       <div>
         <span class="form__icon icon-trash-2" (click)="deleteTask($event, task)"></span>
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="form__scroll">
-      <div class="form__sub-header">
+      <div class="form__sub-header form__container">
         <div *ngIf="!isPublic; else isPrivate">
           <span class="form__icon icon-lock"></span>
           <span>This task is private to you.</span>
