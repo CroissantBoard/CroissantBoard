@@ -45,7 +45,6 @@ export class UserItemComponent implements OnInit{
   }
 
   private checkAuthor(user: User, authorId: string): boolean {
-    console.log(user.email, user.uid, authorId);
     return user.uid === authorId;
   }
 }

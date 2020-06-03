@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
 import IProject from 'src/app/shared/interfaces/Project';
+import User from 'src/app/shared/interfaces/User';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { User } from 'firebase';
 
 @Component({
   selector: 'app-project-item',
@@ -21,10 +22,15 @@ export class ProjectItemComponent implements OnInit {
 
   @Input() project: IProject;
   @Input() user: User;
+  @Output() toggleForm = new EventEmitter();
 
   //temp button
   deleteProject(project: IProject): void {
     this.projectsService.deleteProject(project);
+  }
+
+  editProject(project: IProject): void {
+    this.toggleForm.emit(project);
   }
 
   private checkAuthor(user: User, project: IProject): boolean {

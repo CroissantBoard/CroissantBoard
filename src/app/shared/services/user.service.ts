@@ -128,7 +128,7 @@ export class UserService {
   }
 
   isUsersRegistered(email: string) {
-    return this.afs.collection('users', ref => ref.where('projects', '==', email))
+    return this.afs.collection('users', ref => ref.where('email', '==', email))
       .snapshotChanges()
       .pipe(
         map(changes => {
