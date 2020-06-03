@@ -1,7 +1,9 @@
 <div class="sidebar">
     <div class="sidebar__top">
         <div class="sidebar__header">
-            <a routerLink="/board/home" class="sidebar__logo">
+            <a routerLink="/"
+                (click)="hideSidebarForMobile()"
+                class="sidebar__logo">
                 <span *ngIf="showSidebar"
                     class="logo-desktop">CroissantBoard</span>
                 <span  *ngIf="!showSidebar"
@@ -19,6 +21,7 @@
                 <li [ngClass]="{small: !showSidebar}" class="sidebar__nav-item">
                     <a routerLink="/board/home"
                         class="sidebar__nav-link"
+                        (click)="hideSidebarForMobile()"
                         routerLinkActive="sidebar__nav-link--active">
                         <span class="sidebar__nav-icon icon-home"></span>
                         <span *ngIf="showSidebar"
@@ -28,15 +31,17 @@
                 <li [ngClass]="{small: !showSidebar}" class="sidebar__nav-item">
                     <a routerLink="/board/tasks"
                         class="sidebar__nav-link"
+                        (click)="hideSidebarForMobile()"
                         routerLinkActive="sidebar__nav-link--active">
                         <span class="sidebar__nav-icon icon-clipboard"></span>
                         <span  *ngIf="showSidebar"
-                            class="sidebar__nav-label">My Tasks</span>
+                            class="sidebar__nav-label">Tasks</span>
                     </a>
                 </li>
                 <li [ngClass]="{small: !showSidebar}" class="sidebar__nav-item">
                     <a routerLink="/board/users"
                         class="sidebar__nav-link"
+                        (click)="hideSidebarForMobile()"
                         routerLinkActive="sidebar__nav-link--active">
                         <span class="sidebar__nav-icon icon-users"></span>
                         <span  *ngIf="showSidebar"
@@ -45,6 +50,7 @@
                 </li>
                 <li [ngClass]="{small: !showSidebar}" class="sidebar__nav-item">
                     <a routerLink="/board/meetings"
+                        (click)="hideSidebarForMobile()"
                         class="sidebar__nav-link"
                         routerLinkActive="sidebar__nav-link--active">
                         <span class="sidebar__nav-icon icon-grid"></span>

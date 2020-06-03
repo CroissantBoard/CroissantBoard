@@ -3,6 +3,7 @@
         [ngClass]="{sidebar: showSidebar}">
         <app-sidebar
             [showSidebar]="showSidebar"
+            [isDesktop]="isDesktop"
             (toggleSidebar)="toggleSidebar()"></app-sidebar>
     </aside>
     <div class="board__content">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { SearchService } from '../../services/search.service';
@@ -15,6 +15,14 @@ export class SearchComponent {
     public authService: AuthService,
     public searchService: SearchService
   ) {
+    this.showResults = false;
+  }
+
+  @Output() hideSearch = new EventEmitter();
+
+  closeSearch(): void {
+    this.searchService.clear();
+    this.hideSearch.emit();
     this.showResults = false;
   }
 

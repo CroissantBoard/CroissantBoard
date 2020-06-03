@@ -59,6 +59,7 @@ ul {
 
   @media (max-width: 600px) {
     display: block;
+    margin-right: 10px;
   }
 }
 
@@ -75,4 +76,10 @@ ul {
   background-color: $white;
   border: 1px solid $border-error;
   color: $error;
+}
+
+.board-container {
+  padding: 16px;
+  min-height: calc(100vh - 72px);
+  box-sizing: border-box;
 }
