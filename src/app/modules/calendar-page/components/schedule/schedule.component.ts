@@ -15,8 +15,8 @@ export class ScheduleComponent implements OnInit {
     
   }
 
-  load(date: moment.Moment) {
-    return this.http.get<[]>('')
-  }
+  // load(date: moment.Moment) {
+  //   return this.http.get<[]>('')
+  // }
 
 }

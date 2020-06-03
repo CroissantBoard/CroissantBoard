@@ -1,5 +1,9 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
 import { DateService } from '../../services/date.service';
-import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../../../../shared/services/task.service'
+import { AuthService } from 'src/app/core/authentification/auth.service';
+import Task from '../../../../shared/interfaces/Task'
 import * as moment from 'moment';
 
 interface Day {
@@ -20,12 +24,56 @@ interface Week {
 })
 export class CalendarComponent implements OnInit {
 
+  @Input() tasks: Task[]
+
+  task: Task
+
   calendar: Week[];
 
-  constructor(private dateServise: DateService) { }
+  day: Day[]
+
+  constructor(
+    private dateServise: DateService, 
+    public taskService: TaskService,
+    private authService: AuthService
+    ) {}
 
   ngOnInit() {
     this.dateServise.date.subscribe(this.generate.bind(this))
+
+    this.authService.user$
+      .pipe(
+        switchMap((user) => {
+          return this.taskService.getTasks(user.uid);
+        })
+      )
+      .subscribe((tasks) => {
+
+          this.tasks = tasks;
+
+          tasks.filter(task => {
+
+            
+
+              console.log(this.dateServise.date.value.date())
+
+              console.log(moment(task.deadline).date())
+
+              console.log(moment(task.deadline).date() === this.dateServise.date.value.date())
+
+            if (moment(task.deadline).date() == this.dateServise.date.value.date()) {
+            
+              return this.task = task
+
+            }
+          })
+
+          
+
+      });
+
+      // if (this.task.deadline == +(this.dateServise.date.value)) {console.log('d')}
+
   }
 
   generate(now: moment.Moment) {
@@ -58,6 +106,11 @@ export class CalendarComponent implements OnInit {
 
   select(day: moment.Moment) {
     this.dateServise.switchDate(day)
+  }
+
+  viewTask(task: Task) {
+    // return this.taskService.getOneTask(task);
+    
   }
 
 }

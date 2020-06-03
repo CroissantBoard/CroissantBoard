@@ -27,12 +27,15 @@
                 [class.active]="day.active"
                 [class.selected]="day.selected"
                 >
-                    {{day.value | moment: 'ddd DD'}}
+                    {{day.value | date:'LLL d'}}
                 </div>
 
                 <div class="calendar__day_event">
                     <ul>
-                        <li></li>
+                        <li 
+                        *ngFor="let task of tasks"
+                        >{{ task.name }}</li>
+
                     </ul>
                 </div>
             </div>

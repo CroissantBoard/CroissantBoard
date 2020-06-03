@@ -1,0 +1,182 @@
+@import "variables";
+@import "mixins";
+
+.task-page {
+  background-color: $light;
+  display: flex;
+  height: calc(100vh - 70px);
+  flex-direction: column;
+
+  &__filter {
+    width: 100%;
+  }
+
+  &__main {
+    padding: 16px;
+    background-color: $light;
+    @include dis-flex(center, stretch);
+  }
+
+  &__scroll {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__container {
+    flex: 0 1 1000px;
+    min-width: 405px;
+    background-color: $white;
+    box-shadow: $shadow-main;
+    position: relative;
+    height: calc(100vh - 150px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__add-block {
+    margin-left: 16px;
+    flex: 0 1 675px;
+    min-width: 495px;
+  }
+
+  &__header {
+    padding: 10px 0 10px 32px;
+  }
+
+  &__tree {
+    padding: 10px 0 0px 32px;
+    @include dis-flex(flex-start, center);
+  }
+
+  &__icon {
+    font-size: $font-large;
+  }
+
+  &__label {
+    font-size: $font-large;
+  }
+
+  &__empty {
+    display: block;
+    padding: 20px 0 0 32px;
+    font-size: $font-large;
+  }
+}
+
+.form {
+  width: 100%;
+  @include dis-flex(center, flex-start);
+  flex-direction: column;
+  position: relative;
+  max-height: calc(100vh - 150px);
+
+  &__header {
+    width: calc(100% - 52px);
+    @include dis-flex(space-between, center);
+    padding: 10px 26px;
+    border-bottom: 1px solid $border-color;
+    color: $font-grey;
+  }
+
+  &__checkbox {
+    border: 1px solid $font-grey;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: $font-extra-small;
+  }
+
+  &__scroll {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__sub-header {
+    padding: 10px 26px;
+    @include dis-flex(space-between, center);
+    background-color: $light;
+    color: $dark;
+
+    &--underline {
+      border-bottom: 1px dotted $font-grey;
+    }
+  }
+
+  &__container {
+    padding: 10px 26px;
+  }
+
+  &__title {
+    font-size: $font-subheading;
+    @include flex-center;
+
+    &--input {
+      padding: 6px 0 6px 6px;
+      border-radius: 3px;
+      border: 1px solid transparent;
+
+      &:hover {
+        border: 1px solid $border-color;
+      }
+
+      &:focus {
+        border: 1px solid $border-focus;
+        box-shadow: $shadow-main;
+      }
+    }
+  }
+
+  &__wrapper {
+    @include dis-flex(center, flex-start);
+    flex-direction: column;
+    align-self: flex-start;
+    margin: 10px 0;
+  }
+
+  &__field {
+    @include dis-flex(flex-start, center);
+  }
+
+  &__label {
+    width: 100px;
+    font-size: $font-extra-small;
+    color: $font-grey;
+  }
+
+  &__button {
+    align-self: center;
+    margin-bottom: 30px;
+  }
+
+  &__icon {
+    font-size: $font-large;
+    margin: 0 4px;
+
+    &:hover:not(.icon-lock) {
+      cursor: pointer;
+    }
+  }
+
+  &__error {
+    font-size: $font-extra-small;
+  }
+}
+
+::ng-deep .private.mat-checkbox .mat-checkbox-inner-container {
+  display: none;
+}
+
+::ng-deep
+  .mat-input-element
+  .mat-form-field-autofill-control
+  .form__title--input
+  .cdk-text-field-autofill-monitored
+  .ng-valid
+  .ng-dirty
+  .ng-touched {
+  background-color: transparent;
+}
