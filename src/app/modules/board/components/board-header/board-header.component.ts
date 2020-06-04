@@ -37,7 +37,7 @@ export class BoardHeaderComponent implements OnInit {
 
   private getCurrentPageTitle(url: string): string {
     const routes = url.split('/');
-    const title = routes[routes.length - 1].toUpperCase();
+    const title = routes[2].toUpperCase();
 
     return PAGE_TITLES[title];
   }

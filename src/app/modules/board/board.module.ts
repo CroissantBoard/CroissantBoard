@@ -40,6 +40,7 @@ import { TimelineHandleComponent } from './pages/meetings-page/components/timeli
 import { HourPickerComponent } from './pages/meetings-page/components/hour-picker/hour-picker.component';
 import { BackgroundRulerComponent } from './pages/meetings-page/components/background-ruler/background-ruler.component';
 import { ProjectEditComponent } from './pages/home-page/components/project-edit/project-edit.component';
+import { TaskPageComponent } from './pages/tasks-page/task-page/task-page.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { ProjectEditComponent } from './pages/home-page/components/project-edit/
     HourPickerComponent,
     BackgroundRulerComponent,
     ProjectEditComponent,
+    TaskPageComponent,
   ],
   imports: [
     MaterialModule,
