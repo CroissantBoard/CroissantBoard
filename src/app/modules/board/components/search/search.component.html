@@ -7,17 +7,16 @@
       (click)="showResults = true"
       (keyup)="searchService.onQuery($event)"
     />
-    <span class="icon-search" *ngIf="!searchService.query; else clear"></span>
-    <ng-template #clear>
-      <button
-        class="search-clear"
-        aria-label="Clear"
-        mat-icon-button
-        (click)="searchService.clear()"
-      >
-        <span class="icon-x"></span>
-      </button>
-    </ng-template>
+    <span class="icon-search search__icon-search" *ngIf="!searchService.query"></span>
+    <button
+      [ngClass]="{clear: !!searchService.query}"
+      class="search-clear"
+      aria-label="Clear"
+      mat-icon-button
+      (click)="closeSearch()"
+    >
+      <span class="icon-x"></span>
+    </button>
   </div>
   <div
     class="search__results"

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+
 import { ExampleSvgIconComponent } from './icons/example-svg-icon.component';
 import { GoogleIconComponent } from './icons/google-icon/google-icon.component';
 import { FacebookIconComponent } from './icons/facebook-icon/facebook-icon.component';
@@ -9,6 +12,7 @@ import { HotDrinkIconComponent } from "./icons/hot-drink/hot-drink-icon.componen
 import { LineSeparatorComponent } from "./icons/line-separator/line-separator.component";
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
 
 
 @NgModule({
@@ -20,9 +24,14 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     HotDrinkIconComponent,
     LineSeparatorComponent,
     AvatarComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    UserMenuComponent,
   ],
-  imports: [RouterModule],
+  imports: [
+    RouterModule,
+    MatMenuModule,
+    MatButtonModule,
+  ],
   exports: [
     ExampleSvgIconComponent,
     GoogleIconComponent,
@@ -32,7 +41,11 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     LineSeparatorComponent,
     CommonModule,
     AvatarComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    UserMenuComponent,
+
+    MatMenuModule,
+    MatButtonModule,
   ]
 })
 export class SharedModule { }
