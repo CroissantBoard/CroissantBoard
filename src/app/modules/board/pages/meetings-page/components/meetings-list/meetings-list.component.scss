@@ -1,0 +1,11 @@
+@import 'mixins';
+
+.list {
+
+  &__meeting {
+    @include fill-parent;
+    @include dis-flex(space-between, center);
+
+    margin-left: 1rem;
+  }
+}

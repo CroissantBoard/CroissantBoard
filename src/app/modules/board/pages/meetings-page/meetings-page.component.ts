@@ -15,6 +15,8 @@ import { Meeting } from 'src/app/shared/interfaces/meeting';
 
 import formatTime from 'src/app/shared/helpers/formatTime';
 import generateRange from 'src/app/shared/helpers/generateRange';
+import { AuthService } from 'src/app/core/authentification/auth.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-meetings-page',
@@ -24,14 +26,19 @@ import generateRange from 'src/app/shared/helpers/generateRange';
 export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
+  isLoading: boolean = true;
 
   rulerLength: number = 24;
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
 
+  currentUserId: string = '';
+  projectCreatorId: string = '';
   projectId: string = '';
   userIds: string[] = [];
+
+  allProjectMeetings: Meeting[] = [];
 
   meeting: Meeting;
   meetingDay: Date;
@@ -39,8 +46,14 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   bestMeetingHours: number[] = [];
   possibleMeetingHours: number[] = [];
 
+  meetingNameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(3),
+  ]);
+
   constructor(
     private router: Router,
+    private auth: AuthService,
     private meetingsService: MeetingsService,
     private userService: UserService,
     private projectService: ProjectService,
@@ -52,6 +65,11 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.meetingDay = this.formatDate(new Date());
+
+    this.auth.getCurrentUser()
+      .subscribe(user => this.currentUserId = user.uid);
+
     this.projectService.getCurrentProject().pipe(
       takeUntil(this.destroy$)
     ).subscribe(project => {
@@ -64,14 +82,21 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
       console.log(project)
 
+      this.projectCreatorId = project.createdBy;
       this.projectId = project.uid;
+
+      this.meetingsService.getMeetings(this.projectId).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(meetings => {
+        this.allProjectMeetings = meetings;
+      });
 
       this.userService.getUsersByProject(this.projectId).pipe(
         takeUntil(this.destroy$)
       ).subscribe(users => {
         this.userIds = users.map(user => user.uid)
 
-        this.resetMeetingDay();
+        this.fetchMeeting();
       });
     });
   }
@@ -80,20 +105,16 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     this.meetingsService.getMeetingByDay(this.projectId, this.meetingDay).pipe(
       take(1)
     ).subscribe(meeting => {
-      this.meeting = meeting.length
-        ? meeting[0]
-        : this.createNewMeeting();
+      this.meeting = meeting[0];
 
-      this.calculateMeetingHours();
+      if (this.isLoading) this.isLoading = false;
+
+      if (this.meeting) this.calculateMeetingHours();
     });
   }
 
-  onChangeMeetingDay(): void {
-    this.fetchMeeting();
-  }
-
-  resetMeetingDay(): void {
-    this.meetingDay = this.formatDate(new Date());
+  changeMeetingDay(day: Date): void {
+    this.meetingDay = day;
 
     this.fetchMeeting();
   }
@@ -114,15 +135,12 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
     if (this.meeting.id !== null) {
       this.updateMeeting();
-    } else {
-      this.meetingsService.addMeeting(this.meeting);
-
-      this.fetchMeeting();
     }
   }
 
   setMeetingHour(hour: number): void {
     this.meeting.hour = hour;
+    this.meeting.isInit = false;
     this.updateMeeting();
   }
 
@@ -231,21 +249,42 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return formatTime(num);
   }
 
-  createNewMeeting(): Meeting {
+  createNewMeeting(name: string): Meeting {
     return {
       id: null,
       meetingDay: this.meetingDay,
       hour: 0,
-      name: '',
+      name,
       projectId: this.projectId,
       isFinished: false,
+      isInit: true,
       timelines: this.userIds
         ? this.userIds.map((id, index) => ({
           timelineId: index,
-          uid: id,
+          userId: id,
           data: [],
         }))
         : [],
+    }
+  }
+
+  datepickerFilter = (date: Date | null): boolean => {
+    return this.currentUserId === this.projectCreatorId
+      ? true
+      : !!this.allProjectMeetings.find(meeting =>
+        date === meeting.meetingDay);
+  }
+
+  addMeeting() {
+    const name = (this.meetingNameFormControl.value || '').trim();
+
+    if (name) {
+      this.meetingsService.addMeeting(this.createNewMeeting(name));
+
+      this.fetchMeeting();
+    } else {
+      this.meetingNameFormControl.setValue('');
+      this.meetingNameFormControl.setErrors(['invalid', 'required']);
     }
   }
 
@@ -254,7 +293,11 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   }
 
   getAllAddingDropListIds(): string[] {
-    return this.meeting.timelines.map(line => this.getAddingDropListId(line.timelineId));
+    return this.currentUserId === this.projectCreatorId
+      ? this.meeting.timelines.map(line => this.getAddingDropListId(line.timelineId))
+      : [this.getAddingDropListId(
+          this.meeting.timelines.find(line => this.currentUserId === line.userId).timelineId
+        )];
   }
 
 }

@@ -1,0 +1,18 @@
+<div class="calendar">
+  <mat-form-field>
+    <mat-label>Meeting date</mat-label>
+    <input matInput
+      [matDatepicker]="picker"
+      [matDatepickerFilter]="filter"
+      [min]="minDate"
+      [(ngModel)]="meetingDay"
+      (ngModelChange)="onDayChange()" />
+
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="onReset()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>

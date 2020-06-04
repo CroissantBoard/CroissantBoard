@@ -39,6 +39,8 @@ import { TimelineGhostContainerComponent } from './pages/meetings-page/component
 import { TimelineHandleComponent } from './pages/meetings-page/components/timeline-handle/timeline-handle.component';
 import { HourPickerComponent } from './pages/meetings-page/components/hour-picker/hour-picker.component';
 import { BackgroundRulerComponent } from './pages/meetings-page/components/background-ruler/background-ruler.component';
+import { MeetingsListComponent } from './pages/meetings-page/components/meetings-list/meetings-list.component';
+import { MeetingsCalendarComponent } from './pages/meetings-page/components/meetings-calendar/meetings-calendar.component';
 
 
 @NgModule({
@@ -71,6 +73,8 @@ import { BackgroundRulerComponent } from './pages/meetings-page/components/backg
     TimelineHandleComponent,
     HourPickerComponent,
     BackgroundRulerComponent,
+    MeetingsListComponent,
+    MeetingsCalendarComponent,
   ],
   imports: [
     MaterialModule,

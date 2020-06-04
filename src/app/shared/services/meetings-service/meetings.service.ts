@@ -8,7 +8,10 @@ import {
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Meeting } from '../../interfaces/meeting';
+
+import getToday from '../../helpers/getToday';
 
 
 @Injectable({
@@ -19,6 +22,8 @@ export class MeetingsService {
   meetingsCollection: AngularFirestoreCollection<Meeting>
   meetings: Observable<Meeting[]>
   meetingDoc: AngularFirestoreDocument<Meeting>
+
+  today: Date = getToday();
 
   constructor(private afs: AngularFirestore) {
     this.meetingsCollection = this.afs.collection('meetings')
@@ -31,6 +36,21 @@ export class MeetingsService {
         })
       })
     );
+
+    this.meetings.subscribe(meetings => {
+      meetings.forEach(meeting => {
+        const day = meeting.meetingDay.toDate();
+        if (
+          day < this.today
+          || (!meeting.isInit && day === this.today && meeting.hour + 1 <= new Date().getHours())
+        ) {
+          meeting.isFinished = true;
+          
+          this.meetingDoc = this.afs.doc(`meetings/${meeting.id}`);
+          this.meetingDoc.update(meeting);
+        }
+      });
+    });
   }
 
   addMeeting(meeting: Meeting) {
@@ -47,9 +67,10 @@ export class MeetingsService {
     this.meetingDoc.update(meeting);
   }
 
-  getMeetings(workspaceId: string): Observable<any> {
+  getMeetings(projectId: string): Observable<any> {
     return this.afs
-      .collection('meetings', (ref) => ref.where('workspaceId', '==', workspaceId))
+      .collection('meetings', (ref) =>
+        ref.where('projectId', '==', projectId))
       .valueChanges({ idField: 'id' });
   }
 
@@ -61,13 +82,9 @@ export class MeetingsService {
     return this.afs
       .collection('meetings', (ref) =>
         ref.where('projectId', '==', projectId)
-        .where('meetingDay', '==', meetingDay))
+        .where('meetingDay', '==', meetingDay)
+        .where('isFinished', '==', false))
       .valueChanges({ idField: 'id' });
-
-    // return this.afs
-    //   .collection('meetings', (ref) => ref.where('workspaceId', '==', workspaceId)
-    //   .where('meetingDay', '==', meetingDay))
-    //   .valueChanges({ idField: 'id' });
   }
 
   getAllMeetings(): Observable<any> {

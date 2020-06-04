@@ -1,6 +1,12 @@
-<div class="timeline" *ngIf="timelineObject else loadingTimeline">
+<div *ngIf="timelineObject else loadingTimeline"
+  class="timeline"
+  [class.timeline--disabled]="isDisabled">
   <div class="timeline__user">
-    <span class="timeline__username">{{user ? user.name : ''}}</span>
+    <app-avatar *ngIf="user" 
+      class="timeline__avatar"
+      [name]="user.name"
+      [iconColor]="'#000000'"
+    ></app-avatar>
   </div>
 
   <div class="timeline__lists">
@@ -9,7 +15,8 @@
     cdkDropList
     [cdkDropListData]="timeline"
     cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="drop($event)">
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListDisabled]="isDisabled">
 
     <div *ngFor="let item of timeline; index as index"
       class="timeline__item"
@@ -18,7 +25,8 @@
       [cdkDragDisabled]="!item"
       cdkDragBoundary=".timeline"
       cdkDragLockAxis="x"
-      (cdkDragMoved)="onDragMove($event, item)">
+      (cdkDragMoved)="onDragMove($event, item)"
+      [cdkDragDisabled]="isDisabled">
 
       <app-timeline-handle *ngIf="item"
         [isLeft]="item.value === 'start'"
@@ -40,7 +48,8 @@
     cdkDropList
     [cdkDropListData]="timelineSwaps"
     cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="swapDrop($event)">
+    (cdkDropListDropped)="swapDrop($event)"
+    [cdkDropListDisabled]="isDisabled">
 
     <div *ngFor="let item of timelineSwaps"
       class="timeline__item"
@@ -51,7 +60,8 @@
       cdkDragLockAxis="x"
       (cdkDragMoved)="onDragMove($event, item)"
       (mousedown)="startMoving(item)"
-      (cdkDragEnded)="stopMoving()">
+      (cdkDragEnded)="stopMoving()"
+      [cdkDragDisabled]="isDisabled">
 
       <app-timeline-handle *ngIf="item && item.isStart"
         [isSwap]="true"
@@ -75,7 +85,8 @@
     [cdkDropListData]="timelineAddingItems"
     cdkDropListConnectedTo="{{timelineBarId}}"
     cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="addDrop($event)">
+    (cdkDropListDropped)="addDrop($event)"
+    [cdkDropListDisabled]="isDisabled">
 
     <app-timeline-handle *ngFor="let item of timelineAddingItems"
       [isAdd]="true"
@@ -91,7 +102,7 @@
 
   <app-timeline-main-container *ngFor="let container of mainContainers"
     [container]="container"
-    [isDeleteHidden]="container.width < timelinePointWidth * 3"
+    [isDeleteHidden]="(container.width < timelinePointWidth * 3) || isDisabled"
     [isMoving]="movingItem && container.id === movingItem.id"
     [percentWidth]="percentString(container.width)"
     [percentMarginLeft]="percentString(container.startX)"
