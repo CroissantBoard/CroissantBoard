@@ -1,15 +1,16 @@
 @import 'variables';
 
 .header {
-  padding: 1em 8em;
+  padding-top: 15px;
+  padding-bottom: 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
   &__nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
   &__actions {
@@ -20,16 +21,21 @@
 
 .logo {
   display: flex;
-  justify-content: center;
   align-items: center;
-
+  justify-content: center;
 
   &__text {
     font-family: 'Poppins', sans-serif;
-    color: $accent-light;
-    font-weight: 800;
-    font-size: 22px;
+    color: $accent;
+    font-weight: 600;
+    font-size: $font-extra-large;
     margin-left: 5px;
+
+    .hidden {
+      @media(max-width: 600px) {
+        display: none;
+      }
+    }
   }
 
   &__text--color {
@@ -49,9 +55,14 @@
 .nav {
 
   &__menu {
+    margin: 0;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+
+    @media(max-width: 600px) {
+      display: none;
+    }
   }
 
   &__menu-item {
@@ -76,9 +87,10 @@
 
   &__menu-item-link {
     color: $dark;
+    font-size: $font-middle;
 
     &:hover {
-      color: $primary-light;
+      color: $primary;
     }
   }
 }

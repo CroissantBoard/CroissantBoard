@@ -17,17 +17,16 @@ export class BoardPageComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-
   onResize(event) {
     const innerWidth: number = event.target.innerWidth;
 
-    if(!this.isDesktop && (innerWidth < 600)) {
+    if(innerWidth < 600) {
       this.showSidebar = false;
       this.isDesktop = false;
       return;
     }
 
-    if(this.isDesktop && (innerWidth => 600)) {
+    if(innerWidth => 600) {
       this.showSidebar = true;
       this.isDesktop = true;
     }

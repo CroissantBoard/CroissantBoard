@@ -1,24 +1,25 @@
-<header class="header">
+<header class="header container">
     <nav class="nav header__nav">
         <div class="header__logo">
             <a routerLink="/" class="logo">
                 <app-hot-drink-icon></app-hot-drink-icon>
-                <span class="logo__text">Croissant<span class="logo__text--color">Board</span></span>
+                <span class="logo__text">C<span class="hidden">roissant</span><span class="logo__text--color">B<span class="hidden">oard</span></span></span>
             </a>
         </div>
         <ul class="nav__menu">
-            <li class="nav__menu-item"><a routerLink="/why-us" class="nav__menu-item-link">Why CroissantBoard?</a></li>
+            <li class="nav__menu-item"><a routerLink="/why-us" class="nav__menu-item-link">Our Team</a></li>
             <li class="nav__menu-item"><a routerLink="/how-to-start" class="nav__menu-item-link">How to start</a></li>
         </ul>
     </nav>
     <div class="header__actions">
+        <app-mobile-menu [user]="user"></app-mobile-menu>
         <ul *ngIf="!user; else userMenu" class="nav__menu">
             <li class="nav__menu-item"><a routerLink="/auth/login" class="nav__menu-item-link">Sign In</a></li>
             <li class="nav__menu-item">
                 <a routerLink="/auth/register"
-                    class="nav__menu-item-link-button"
-                    mat-flat-button>Sign Up</a></li>
-        </ul>
+                class="nav__menu-item-link-button"
+                mat-flat-button>Sign Up</a></li>
+            </ul>
         <ng-template #userMenu>
             <app-user-menu [user]="user"></app-user-menu>
         </ng-template>

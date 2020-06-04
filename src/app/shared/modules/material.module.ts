@@ -20,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -42,6 +43,7 @@ const MaterialComponents = [
   MatRippleModule,
   MatCardModule,
   MatSnackBarModule,
+  MatSidenavModule,
 ];
 
 @NgModule({
