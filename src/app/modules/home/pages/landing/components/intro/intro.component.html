@@ -3,7 +3,7 @@
         <h1 class="intro__title">Keep your team coordinated, wherever you are</h1>
         <p class="intro__subtitle">With CroissantBoard, remote teams can organize projects, manage shifting priorities, and get work done.</p>
         <div>
-            <a class="intro__button-link" routerLink="/auth/register" mat-flat-button>Sign Up To Start</a>
+            <a class="intro__button-link" (click)="redirect()" mat-flat-button>{{ label}}</a>
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@ import { Observable, from } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
 import User from '../interfaces/User';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class UserService {
   users$: Observable<User[]>
   userDoc: AngularFirestoreDocument<User>
 
-  constructor(private afs: AngularFirestore) {
+  constructor(
+    private afs: AngularFirestore,
+    private notificationService: NotificationService,
+    ) {
     this.usersCollection = this.afs.collection('users')
     this.users$ = this.usersCollection.snapshotChanges().pipe(
       map(changes => {
@@ -104,6 +108,10 @@ export class UserService {
 
   updateUser(uid: string, edit: any): Promise<void> {
     this.userDoc = this.afs.doc(`users/${uid}`)
+
+    const message = 'User successfully updated.'
+    this.notificationService.openSnackBar(message);
+
     return this.userDoc.update(edit);
   }
 
@@ -129,6 +137,11 @@ export class UserService {
 
     this.userDoc = this.afs.doc(`users/${user.uid}`)
     this.userDoc.update({ projects: newProjects });
+
+    const message = `User ${user.name} was deleted from current project.`;
+
+    this.notificationService.openSnackBar(message);
+
   }
 
   isUsersRegistered(email: string) {

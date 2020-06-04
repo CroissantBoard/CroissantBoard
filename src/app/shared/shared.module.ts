@@ -13,6 +13,8 @@ import { LineSeparatorComponent } from "./icons/line-separator/line-separator.co
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -26,11 +28,13 @@ import { UserMenuComponent } from './components/user-menu/user-menu.component';
     AvatarComponent,
     ClickOutsideDirective,
     UserMenuComponent,
+    NotificationComponent,
   ],
   imports: [
     RouterModule,
     MatMenuModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   exports: [
     ExampleSvgIconComponent,
@@ -43,9 +47,11 @@ import { UserMenuComponent } from './components/user-menu/user-menu.component';
     AvatarComponent,
     ClickOutsideDirective,
     UserMenuComponent,
+    NotificationComponent,
 
     MatMenuModule,
     MatButtonModule,
+    MatSnackBarModule,
   ]
 })
 export class SharedModule { }
