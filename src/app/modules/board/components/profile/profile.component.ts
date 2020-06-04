@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import User from 'src/app/shared/interfaces/User';
@@ -10,7 +10,7 @@ import { ageValidator } from '../../../../shared/validators/age.validator';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnChanges {
   nameFormControl: FormControl;
   ageFormControl: FormControl;
   bioFormControl: FormControl;
@@ -23,34 +23,48 @@ export class ProfileComponent implements OnInit {
   message: string;
   error: string;
 
-  constructor(private userService: UserService) {}
-
-  ngOnInit(): void {
+  constructor(private userService: UserService) {
     this.nameFormControl = new FormControl({
-      value: this.user.name ? this.user.name : '',
+      value: '',
       disabled: true
     });
     this.ageFormControl = new FormControl(
-      { value: this.user.age ? this.user.age : '', disabled: true },
+      { value: '', disabled: true },
       ageValidator
     );
     this.bioFormControl = new FormControl({
-      value: this.user.bio ? this.user.bio : '',
+      value: '',
       disabled: true
     });
     this.emailFormControl = new FormControl({
-      value: this.user.email ? this.user.email : '',
+      value: '',
       disabled: true
     });
     this.skypeFormControl = new FormControl({
-      value: this.user.skype ? this.user.skype : '',
+      value: '',
       disabled: true
     });
+  }
 
-    if (this.currentUser.uid === this.user.uid) {
-      this.ageFormControl.enable();
-      this.bioFormControl.enable();
-      this.skypeFormControl.enable();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.user) {
+      const user: User = changes.user.currentValue;
+
+      this.nameFormControl.setValue(user.name ? user.name : ' ');
+      this.ageFormControl.setValue(user.age ? user.age : ' ');
+      this.bioFormControl.setValue(user.bio ? user.bio : ' ');
+      this.emailFormControl.setValue(user.email ? user.email : ' ');
+      this.skypeFormControl.setValue(user.skype ? user.skype : ' ');
+
+      if (this.currentUser.uid === user.uid) {
+        this.ageFormControl.enable();
+        this.bioFormControl.enable();
+        this.skypeFormControl.enable();
+      } else {
+        this.ageFormControl.disable();
+        this.bioFormControl.disable();
+        this.skypeFormControl.disable();
+      }
     }
   }
 
