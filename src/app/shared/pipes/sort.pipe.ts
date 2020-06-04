@@ -6,7 +6,7 @@ import { orderBy } from 'lodash';
 })
 export class SortPipe implements PipeTransform {
 
-  transform(value: any[], order = '', column: string = ''): any[] {
+  transform(value: any[], order, column: string = ''): any[] {
     if (!value || order === '' || !order) { return value; }
     if (value.length <= 1) { return value; }
     if (!column || column === '') {

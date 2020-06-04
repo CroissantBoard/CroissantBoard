@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { switchMap } from 'rxjs/operators';
 
-import { IProjectShort, IProject } from 'src/app/shared/interfaces/Project'
+import IProject from 'src/app/shared/interfaces/Project';
+import User from 'src/app/shared/interfaces/User';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 
@@ -14,6 +14,10 @@ export class ProjectsListComponent implements OnInit {
   projects: IProject[] = [];
   loading = true;
   showForm = false;
+  showEditForm = false;
+  user: User;
+  
+  selectedProject: IProject;
 
   constructor(
     private authService: AuthService,
@@ -24,15 +28,21 @@ export class ProjectsListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$
       .subscribe((user) => {
+        this.user = user;
         this.projectService.getProjectsByUserId(user.uid)
         // this.projectService.getAllProjects()
           .subscribe((data) => this.projects = data)
 
-        this.loading = false;
+        this.loading = false; 
       })
   }
 
   toggleForm(): void {
     this.showForm = !this.showForm;
+  }
+  
+  toggleEditForm(project: IProject): void {
+    this.selectedProject = project;
+    this.showEditForm = !this.showEditForm;
   }
 }

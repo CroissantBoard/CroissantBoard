@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { ProjectService } from 'src/app/shared/services/project.service';
 import User from 'src/app/shared/interfaces/User';
-import { IProjectShort, IProject } from 'src/app/shared/interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-project-select',
@@ -10,7 +10,7 @@ import { IProjectShort, IProject } from 'src/app/shared/interfaces/Project';
   styleUrls: ['./project-select.component.scss']
 })
 export class ProjectSelectComponent implements OnInit {
-  selected: IProjectShort;
+  selected: IProject;
   selectedShot: string;
 
   @Input() showSidebar: boolean;

@@ -59,6 +59,7 @@ ul {
 
   @media (max-width: 600px) {
     display: block;
+    margin-right: 10px;
   }
 }
 
@@ -75,4 +76,33 @@ ul {
   background-color: $white;
   border: 1px solid $border-error;
   color: $error;
+}
+
+.board-container {
+  padding: 16px;
+  min-height: calc(100vh - 72px);
+  box-sizing: border-box;
+}
+
+// Landing-container 
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 100%;
+
+  @media (min-width: 768px) {
+    max-width: 100%;
+  }
+  
+  @media (min-width: 992px) {
+    width: 980px;
+    max-width: 100%;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 1180px;
+  }
 }

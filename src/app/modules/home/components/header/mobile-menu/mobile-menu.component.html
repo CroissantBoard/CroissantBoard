@@ -1,0 +1,25 @@
+<div class="mobile-menu">
+    <button mat-icon-button
+          class="mobile-menu__trigger"
+          [matMenuTriggerFor]="menuProfile"
+          aria-label="User menu">
+      <span class="icon-menu"></span>
+    </button>
+    <mat-menu #menuProfile="matMenu" xPosition="before" class="mobile-menu__wrapper">
+        <button mat-menu-item
+            (click)="redirectHome()"
+            class="mobile-menu__item">Home</button>
+           <button mat-menu-item
+                (click)="redirectTeam()"
+                class="mobile-menu__item">Our Team</button>
+           <button mat-menu-item
+                (click)="redirectStart()"
+                class="mobile-menu__item">How to start</button>
+           <button *ngIf="!user" mat-menu-item
+                (click)="redirectLogin()"
+                class="mobile-menu__item--sign-in">Sign In</button>
+           <button *ngIf="!user" mat-menu-item
+                (click)="redirectRegister()"
+                class="mobile-menu__item--sign-up">Sign Up</button>
+    </mat-menu>
+</div>

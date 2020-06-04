@@ -6,8 +6,12 @@
     </mat-expansion-panel-header>
 
     <app-project-add *ngIf="showForm" (toggleForm)="toggleForm()"></app-project-add>
+    <app-project-edit *ngIf="showEditForm"
+        [project]="selectedProject"
+        (toggleEditForm)="toggleEditForm(null)">
+    </app-project-edit>
 
-    <div *ngIf="!showForm" class="projects__wrapper">
+    <div *ngIf="!showForm && !showEditForm" class="projects__wrapper">
         <button matRipple *ngIf="!projects"
             class="projects__create-btn no-projects"
             (click)="toggleForm()">
@@ -31,7 +35,7 @@
                 </button>
             </li>
             <li *ngFor="let project of projects" class="projects__item">
-                <app-project-item [project]="project"></app-project-item>
+                <app-project-item [user]="user" [project]="project" (toggleForm)="toggleEditForm(project)"></app-project-item>
             </li>
         </ul>
     </div>

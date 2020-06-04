@@ -1,7 +1,7 @@
-<div class="board-header">
+<div class="board-header"
+    [ngClass]="{showSearch: showSearch}">
     <div class="board-header__left">
         <button
-            *ngIf="showButton"
             mat-icon-button
             aria-label="Hide"
             class="hide-button"
@@ -11,13 +11,22 @@
         <h1 class="board-header__title">{{ title }}</h1>
     </div>
     <div class="board-header__actions">
-        <app-search></app-search>
-        <button
-            color="primary"
-            (click)="handleAddMenu()"
-            mat-flat-button>Add</button>
-        <div class="board-header__user-menu">
-            US
+        <button aria-label="Search"
+            mat-icon-button
+            *ngIf="!showSearch"
+            (click)="toggleSearch()"
+            class="board-header__search-icon">
+            <span class="icon-search"></span>
+        </button>
+        <div class="board-header__search-desktop">
+            <app-search (hideSearch)="toggleSearch()"></app-search>
         </div>
+        <div *ngIf="user" class="board-header__user-menu">
+            <app-user-menu [user]="user"></app-user-menu>
+        </div>
+    </div>
+    <div class="board-header__search-mobile"
+        [ngClass]="{showSearch: showSearch}">
+        <app-search (hideSearch)="toggleSearch()"></app-search>
     </div>
 </div>

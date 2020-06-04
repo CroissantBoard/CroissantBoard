@@ -1,4 +1,4 @@
-<div class="search">
+<div class="search" (clickOutside)="hideResults()">
   <div class="search__box">
     <input
       class="search__input common-input"
@@ -6,23 +6,22 @@
       [value]="searchService.query"
       (click)="showResults = true"
       (keyup)="searchService.onQuery($event)"
-      (blur)="showResults = false"
     />
-    <span class="icon-search" *ngIf="!searchService.query; else clear"></span>
-    <ng-template #clear>
-      <button
-        class="search-clear"
-        aria-label="Clear"
-        mat-icon-button
-        (click)="searchService.clear()"
-      >
-        <span class="icon-x"></span>
-      </button>
-    </ng-template>
+    <span class="icon-search search__icon-search" *ngIf="!searchService.query"></span>
+    <button
+      [ngClass]="{clear: !!searchService.query}"
+      class="search-clear"
+      aria-label="Clear"
+      mat-icon-button
+      (click)="closeSearch()"
+    >
+      <span class="icon-x"></span>
+    </button>
   </div>
   <div
     class="search__results"
     *ngIf="showResults && authService.user$ | async as user"
+    (click)="hideResults()"
   >
     <ais-instantsearch
       class="search__instantsearch"
@@ -33,11 +32,13 @@
       ></ais-configure>
       <ais-hits>
         <ng-template let-hits="hits" let-results="results">
-          <span
+          <a
             class="search__title"
             *ngIf="results.query !== '' && hits.length > 0"
-            >Projects</span
+            [routerLink]="['/board/projects']"
           >
+            Projects
+          </a>
           <ol
             class="search__hits ais-Hits-list"
             *ngIf="results.query !== '' && hits.length > 0"
@@ -85,11 +86,13 @@
       ></ais-configure>
       <ais-hits>
         <ng-template let-hits="hits" let-results="results">
-          <span
+          <a
             class="search__title"
             *ngIf="results.query !== '' && hits.length > 0"
-            >Tasks</span
+            [routerLink]="['/board/tasks']"
           >
+            Tasks
+          </a>
           <ol
             class="search__hits ais-Hits-list"
             *ngIf="results.query !== '' && hits.length > 0"
@@ -138,11 +141,13 @@
       ></ais-configure>
       <ais-hits>
         <ng-template let-hits="hits" let-results="results">
-          <span
+          <a
             class="search__title"
             *ngIf="results.query !== '' && hits.length > 0"
-            >Meetings</span
+            [routerLink]="['/board/meetings']"
           >
+            Meetings
+          </a>
           <ol
             class="search__hits ais-Hits-list"
             *ngIf="results.query !== '' && hits.length > 0"
@@ -173,7 +178,7 @@
                   attribute="name"
                   [hit]="hit"
                 ></ais-highlight>
-                <span class="search__note">{{ hit.project }}</span>
+                <span class="search__note">{{ hit.projectName }}</span>
               </a>
             </li>
           </ol>
@@ -193,11 +198,13 @@
       ></ais-configure>
       <ais-hits>
         <ng-template let-hits="hits" let-results="results">
-          <span
+          <a
             class="search__title"
             *ngIf="results.query !== '' && hits.length > 0"
-            >Users</span
+            [routerLink]="['/board/users']"
           >
+            Users
+          </a>
           <ol
             class="search__hits ais-Hits-list"
             *ngIf="results.query !== '' && hits.length > 0"

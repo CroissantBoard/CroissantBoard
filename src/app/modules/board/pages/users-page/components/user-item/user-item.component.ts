@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import User from 'src/app/shared/interfaces/User';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { IProject } from 'src/app/shared/interfaces/Project';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-user-item',
@@ -12,6 +12,7 @@ import { IProject } from 'src/app/shared/interfaces/Project';
 })
 export class UserItemComponent implements OnInit{
   pending: boolean;
+  isUserAuthor = false;
 
   constructor(
     private userService: UserService,
@@ -19,9 +20,11 @@ export class UserItemComponent implements OnInit{
   ) { }
 
   @Input() user: User;
+  @Input() currentProjectAuthorId: string;
 
   ngOnInit() {
     this.pending = this.isUserRegister(this.user);
+    this.isUserAuthor = this.checkAuthor(this.user, this.currentProjectAuthorId);
   }
 
   handelRemove(user: User):void {
@@ -39,5 +42,9 @@ export class UserItemComponent implements OnInit{
     }
 
     return true;
+  }
+
+  private checkAuthor(user: User, authorId: string): boolean {
+    return user.uid === authorId;
   }
 }

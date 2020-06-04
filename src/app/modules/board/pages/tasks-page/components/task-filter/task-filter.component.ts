@@ -14,7 +14,7 @@ export class TaskFilterComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
   }
 
   ngOnChanges() {
@@ -30,6 +30,8 @@ export class TaskFilterComponent implements OnInit, OnChanges {
   }
 
   remaining() {
-    this.count = this.tasks.filter(todo => !todo.completed).length;
+    if (this.tasks) {
+      this.count = this.tasks.filter(todo => !todo.completed).length;
+    }
   }
 }

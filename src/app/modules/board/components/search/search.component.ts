@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Output, EventEmitter } from '@angular/core';
 
-import User from 'src/app/shared/interfaces/User';
-import { searchClient } from '../../../../configs/algolia';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { SearchService } from '../../services/search.service';
 
@@ -18,6 +15,18 @@ export class SearchComponent {
     public authService: AuthService,
     public searchService: SearchService
   ) {
+    this.showResults = false;
+  }
+
+  @Output() hideSearch = new EventEmitter();
+
+  closeSearch(): void {
+    this.searchService.clear();
+    this.hideSearch.emit();
+    this.showResults = false;
+  }
+
+  hideResults(): void {
     this.showResults = false;
   }
 }

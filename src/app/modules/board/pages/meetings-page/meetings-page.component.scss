@@ -1,0 +1,72 @@
+@import '../../../../styles/mixins';
+@import '../../../../styles/variables';
+
+.meeting {
+  @include fill-parent;
+
+  padding: $meeting-padding-vertical;
+  box-sizing: border-box;
+
+  background-color: $light;
+
+  &--loading {
+    @include flex-center;
+  }
+
+  &__container {
+    @include fill-parent;
+    @include dis-flex-column(flex-start, stretch);
+
+    position: relative;
+    box-sizing: border-box;
+
+    background-color: $white;
+  }
+
+  &__header,
+  &__bar,
+  &__lines,
+  &__hours {
+    padding: $meeting-padding-vertical $meeting-padding-horizontal;
+    box-sizing: border-box;
+  }
+
+  &__header {
+    @include dis-flex-column(flex-start, stretch);
+  }
+
+  &__info {
+    @include dis-flex(space-between, center);
+  }
+
+  &__name,
+  &__time {
+    @include marpad-0-0;
+  }
+
+  &__bar {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    z-index: 10;
+  }
+
+  &__lines {
+    @include dis-flex-column(flex-start, stretch);
+    @include fill-parent;
+
+    position: relative;
+  }
+
+  &__ruler {
+    @include basic(100%,
+      calc(100% - #{$timeline-list-margin-left} - #{$meeting-padding-horizontal} * 2));
+    @include dis-flex(stretch, stretch);
+    @include absolute-0-0-right;
+
+    transform: translateX(-$meeting-padding-horizontal);
+  }
+}

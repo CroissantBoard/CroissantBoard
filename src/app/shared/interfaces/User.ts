@@ -7,4 +7,6 @@ export default interface User {
   age?: number;
   bio?: string;
   skype?: string;
+  tasks?: string[];
+  meetings?: string[];
 }

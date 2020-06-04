@@ -6,6 +6,19 @@
     position: relative;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid $border-color;
+
+    @media (max-width: 600px) {
+        padding: 12px 20px;
+        transition: padding-bottom .2s ease-in-out;
+    }
+
+    &.showSearch {
+        @media (max-width: 600px) {
+            padding-bottom: 60px;
+            transition: padding-bottom .2s ease-in-out;
+        }
+    }
 
     &__left {
         display: flex;
@@ -15,19 +28,61 @@
     &__title {
         margin: 0;
         font-size: $font-subheading;
+
+        @media (max-width: 600px) {
+            font-size: $font-middle;
+        }
     }
 
     &__actions {
+        width: 50%;
+        height: 100%;
         display: flex;
         align-self: center;
+        justify-content: flex-end;
     }
 
-    &__user-menu {
-        width: 20px;
-        height: 20px;
-        padding: 5px;
-        margin-left: 20px;
-        border: 1px solid grey;
-        border-radius: 30px;
+    &__search-desktop {
+        display: block;
+
+        @media(max-width: 600px) {
+            display: none;
+        }
+    }
+
+    &__search-icon {
+        display: none;
+        color: $font-grey;
+        font-size: $font-large;
+        margin-right: 14px;
+
+        @media(max-width: 600px) {
+            display: block;
+        }
+    }
+
+    &__search-mobile {
+        display: none;
+
+        @media(max-width: 600px) {
+            width: calc(100% - 30px);
+            height: 0;
+            display: block;
+            position: absolute;
+            overflow: hidden;
+            opacity: 0;
+            bottom: 15px;
+            left: 15px;
+            transition: height .2s ease-in-out;
+        }
+
+        &.showSearch {
+            @media(max-width: 600px) {
+                height: 36px;
+                opacity: 1;
+                overflow: unset;
+                transition: height opacity .2s ease-in-out;
+            }
+        }
     }
 }

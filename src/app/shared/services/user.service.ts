@@ -40,8 +40,15 @@ export class UserService {
     return this.users$;
   }
 
+  getUserById(uid: string): Observable<any> {
+    this.userDoc = this.afs.doc(`users/${uid}`);
+    return from(this.userDoc.get()
+      .toPromise().then(doc => doc.data())
+    );
+  }
+
   getUsersByProject(workspaceId: string) {
-    return this.afs.collection('users', ref => ref.where('projects', 'array-contains', workspaceId ))
+    return this.afs.collection('users', ref => ref.where('projects', 'array-contains', workspaceId))
       .snapshotChanges()
       .pipe(
         map(changes => {
@@ -84,12 +91,12 @@ export class UserService {
               newProjects.push(projectUid);
             }
 
-            batch.update(userRef, {'projects': newProjects});
+            batch.update(userRef, { 'projects': newProjects });
           })
 
           return from(batch.commit())
             .pipe(
-              map(() => [ usersIds, newUsers ])
+              map(() => [usersIds, newUsers])
             );
         })
       );
@@ -102,7 +109,7 @@ export class UserService {
 
   setNewProject(user: User, projectRef: string): void {
     let newProject: string[] = [];
-    if(user.projects) {
+    if (user.projects) {
       newProject.push(projectRef, ...user.projects);
     } else {
       newProject.push(projectRef);
@@ -122,5 +129,19 @@ export class UserService {
 
     this.userDoc = this.afs.doc(`users/${user.uid}`)
     this.userDoc.update({ projects: newProjects });
+  }
+
+  isUsersRegistered(email: string) {
+    return this.afs.collection('users', ref => ref.where('email', '==', email))
+      .snapshotChanges()
+      .pipe(
+        map(changes => {
+          return changes.map(a => {
+            const data = a.payload.doc.data() as User
+            data.uid = a.payload.doc.id
+            return data
+          })
+        })
+      )
   }
 }

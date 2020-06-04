@@ -7,11 +7,7 @@
     min-height: calc(100vh - 68px);
     flex-direction: column;
     background-color: $grey-background;
-    
-    &__container {
-        padding: 10px 0;
-        // TODO add container
-    }
+    box-sizing: border-box;
 
     &__section {
         margin-bottom: 20px;

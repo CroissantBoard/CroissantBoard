@@ -1,0 +1,15 @@
+<div class="ruler">
+  <div class="ruler__item" *ngFor="let num of ruler">
+    <div class="ruler__row"></div>
+    <span class="ruler__count">
+      {{num}}
+    </span>
+  </div>
+
+  <div class="ruler__item ruler__item--last">
+    <div class="ruler__row"></div>
+    <span class="ruler__count">
+      {{length}}
+    </span>
+  </div>
+</div>

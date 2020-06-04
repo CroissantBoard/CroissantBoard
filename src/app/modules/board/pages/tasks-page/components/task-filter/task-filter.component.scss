@@ -5,13 +5,34 @@
   padding: 0 24px;
   @include dis-flex(space-between, center);
   background-color: $white;
-  height: 40px;
+  min-height: 40px;
   box-shadow: $shadow-main;
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
   color: $font-grey;
 
-  &__filter{
+  &__column {
+    @media (max-width: 414px) {
+      max-width: 50%;
+      flex-direction: column;
+    }
+  }
+
+  &__filter {
     margin-left: 16px;
+
+    @media (max-width: 414px) {
+      font-size: $font-extra-extra-small;
+      margin-left: 0;
+    }
+  }
+}
+::ng-deep .task-filter .mat-form-field-infix {
+  @media (max-width: 414px) {
+    width: 160px;
+  }
+
+  @media (max-width: 320px) {
+    width: 140px;
   }
 }

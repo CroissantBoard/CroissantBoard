@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { PAGE_TITLES } from './pages.titles';
+import { AuthService } from 'src/app/core/authentification/auth.service';
+import User from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-board-header',
@@ -10,29 +12,36 @@ import { PAGE_TITLES } from './pages.titles';
 })
 export class BoardHeaderComponent implements OnInit {
   title: string;
-  @Input() showButton = true;
-
+  user: User;
+  showSearch = false;
+  
   constructor(
     private router: Router,
-  ) {
-    this.router.events.forEach((event) => {
-      if(event instanceof NavigationEnd) {
-        this.title = this.getCurrentPageTitle(event.url);
-      }
-    });
-  }
-
-  ngOnInit(): void {
-  }
-
+    private authService: AuthService,
+    ) {
+      this.router.events.forEach((event) => {
+        if(event instanceof NavigationEnd) {
+          this.title = this.getCurrentPageTitle(event.url);
+        }
+      });
+    }
+    
+    ngOnInit(): void {
+      this.authService.user$
+      .subscribe((user) => {
+        this.user = user;
+      })
+    }
+    
+  @Input() showButton = true;
   @Output() toggleSidebar = new EventEmitter();
 
   hideSidebar(): void {
     this.toggleSidebar.emit();
   }
 
-  handleAddMenu(): void {
-    
+  toggleSearch(): void {
+    this.showSearch = !this.showSearch;
   }
 
   private getCurrentPageTitle(url: string): string {

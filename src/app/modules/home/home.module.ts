@@ -22,8 +22,7 @@ import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 
 import {HomeRoutingModule} from "./home-routing.module";
-
-
+import { MobileMenuComponent } from './components/header/mobile-menu/mobile-menu.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,8 @@ import {HomeRoutingModule} from "./home-routing.module";
       HowToStartComponent,
       PricingComponent,
       StepperComponent,
-      TeamComponent
+      TeamComponent,
+      MobileMenuComponent,
   ],
     imports: [
         MaterialModule,

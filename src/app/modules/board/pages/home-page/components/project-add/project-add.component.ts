@@ -39,7 +39,7 @@ export class ProjectAddComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
       ]),
-      iconColor: new FormControl(COLORS[3])
+      iconColor: new FormControl(COLORS[0])
     })
   }
 
@@ -54,6 +54,7 @@ export class ProjectAddComponent implements OnInit {
 
     const project = {
       ...this.projectForm.value,
+      createdBy: this.user.uid,
       participants: [
         this.user.uid,
       ]
