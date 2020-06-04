@@ -2,7 +2,6 @@
 
 .mobile-menu {
     display: none;
-    margin-right: 20px;
 
     @media(max-width: 600px) {
         display: block;
@@ -10,5 +9,16 @@
 
     &__trigger {
         font-size: $font-large;
+    }
+
+    &__item--sign-in {
+        color: $primary;
+        font-weight: 500;
+    }
+
+    &__item--sign-up {
+        color: $white;
+        font-weight: 500;
+        background-color: $primary;
     }
 }
