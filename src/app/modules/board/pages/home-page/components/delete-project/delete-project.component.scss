@@ -1,0 +1,29 @@
+@import 'variables';
+
+.delete {
+
+    &__container {
+        padding: 20px 0;
+    }
+
+    &__warn {
+        font-size: $font-main;
+        color: $accent-black;
+        margin-bottom: 10px;
+
+        span {
+            font-weight: 600;
+        }
+    }
+
+    &__warn-info {
+        font-size: $font-small;
+        color: $font-grey;
+    }
+
+    &__icon {
+        font-size: 26px;
+        color: $accent-red;
+        margin-right: 20px;
+    }
+}

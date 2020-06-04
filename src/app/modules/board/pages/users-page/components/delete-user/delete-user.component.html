@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>
+    <span class="icon-trash-2 delete__icon"></span>
+    <span>Delete User</span></h1>
+<div mat-dialog-content>
+    <div class="delete__container">
+        <div class="delete__warn">Are you sure you want to delete user?</div>
+        <div class="delete__user">
+            <div class="delete__name">{{ user.name }}</div>
+            <div class="delete__email">{{ user.email }}</div>
+        </div>
+        <div class="delete__warn-info">User will be removed from list of participants of current project. You can add him to the project again.</div> 
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="warn" (click)="handelRemove()">Delete</button>
+    <button mat-stroked-button color="primary" (click)="handleCancel()">Cancel</button>
+</div>

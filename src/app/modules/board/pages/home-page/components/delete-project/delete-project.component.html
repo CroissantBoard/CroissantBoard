@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>
+    <span class="icon-trash-2 delete__icon"></span>
+    <span>Delete Project</span></h1>
+<div mat-dialog-content>
+    <div class="delete__container">
+        <div class="delete__warn">As you sure you want to delete <span>"{{ project.name }}"</span>?</div>
+        <div class="delete__warn-info">All related tasks and meetings will be also deleted. You can't undo this action.</div> 
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="warn" (click)="deleteProject()">Delete</button>
+    <button mat-stroked-button color="primary" (click)="handleCancel()">Cancel</button>
+</div>
