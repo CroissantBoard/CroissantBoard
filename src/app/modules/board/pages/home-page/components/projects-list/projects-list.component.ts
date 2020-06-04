@@ -14,7 +14,10 @@ export class ProjectsListComponent implements OnInit {
   projects: IProject[] = [];
   loading = true;
   showForm = false;
+  showEditForm = false;
   user: User;
+  
+  selectedProject: IProject;
 
   constructor(
     private authService: AuthService,
@@ -30,11 +33,16 @@ export class ProjectsListComponent implements OnInit {
         // this.projectService.getAllProjects()
           .subscribe((data) => this.projects = data)
 
-        this.loading = false;
+        this.loading = false; 
       })
   }
 
   toggleForm(): void {
     this.showForm = !this.showForm;
+  }
+  
+  toggleEditForm(project: IProject): void {
+    this.selectedProject = project;
+    this.showEditForm = !this.showEditForm;
   }
 }

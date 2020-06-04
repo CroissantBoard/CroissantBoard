@@ -38,7 +38,8 @@ import { TimelineMainContainerComponent } from './pages/meetings-page/components
 import { TimelineGhostContainerComponent } from './pages/meetings-page/components/timeline-ghost-container/timeline-ghost-container.component';
 import { TimelineHandleComponent } from './pages/meetings-page/components/timeline-handle/timeline-handle.component';
 import { HourPickerComponent } from './pages/meetings-page/components/hour-picker/hour-picker.component';
-
+import { BackgroundRulerComponent } from './pages/meetings-page/components/background-ruler/background-ruler.component';
+import { ProjectEditComponent } from './pages/home-page/components/project-edit/project-edit.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,8 @@ import { HourPickerComponent } from './pages/meetings-page/components/hour-picke
     TimelineGhostContainerComponent,
     TimelineHandleComponent,
     HourPickerComponent,
+    BackgroundRulerComponent,
+    ProjectEditComponent,
   ],
   imports: [
     MaterialModule,

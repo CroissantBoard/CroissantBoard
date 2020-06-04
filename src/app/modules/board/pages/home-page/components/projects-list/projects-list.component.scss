@@ -49,6 +49,10 @@
         padding: 0;
         list-style: none;
         overflow-x: hidden;
+
+        @media (max-width: 460px) {
+            flex-direction: column;
+        }
     }
 
     &__item {
@@ -68,7 +72,8 @@
         }
 
         @media (max-width: 460px) {
-            flex: 0 0.50 50%;
+            flex: 0 auto;
+            padding: 0 0 16px;
         }
     }
 }

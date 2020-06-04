@@ -1,43 +1,6 @@
 @import '../../../../styles/mixins';
 @import '../../../../styles/variables';
 
-.vr {
-  @include fill-parent;
-  @include dis-flex-column(flex-end, flex-start);
-
-  &-wrapper {
-    @include basic(100%,
-      calc(100% - #{$timeline-list-margin-left} - #{$meeting-padding-horizontal} * 2));
-    @include dis-flex(stretch, stretch);
-    @include absolute-0-0-right;
-
-    transform: translateX(-$meeting-padding-horizontal);
-  }
-
-  &--last {
-    width: 1px;
-  }
-
-  &__row {
-    @include basic(85%, 1px);
-
-    background-color: $dark;
-
-    border-radius: 1px;
-  }
-
-  &__count {
-    color: $dark;
-  }
-  
-  &__row,
-  &__count {
-    opacity: 0.5;
-
-    transform: translateX(-50%);
-  }
-}
-
 .meeting {
   @include fill-parent;
 
@@ -96,5 +59,14 @@
     @include fill-parent;
 
     position: relative;
+  }
+
+  &__ruler {
+    @include basic(100%,
+      calc(100% - #{$timeline-list-margin-left} - #{$meeting-padding-horizontal} * 2));
+    @include dis-flex(stretch, stretch);
+    @include absolute-0-0-right;
+
+    transform: translateX(-$meeting-padding-horizontal);
   }
 }

@@ -3,5 +3,16 @@
         <app-avatar [name]="project.name" [iconColor]="project.iconColor"></app-avatar>
     </div>
     <div class="project-item__title">{{ project.name }}</div>
-    <button *ngIf="isUserAuthor" (click)="deleteProject(project)">delete</button>
+    <div *ngIf="isUserAuthor" class="project-item__actions">
+        <button matRipple
+            class="project-item__button edit"
+            (click)="editProject($event)">
+            <span class="icon-edit"></span>
+        </button>
+        <button matRipple
+            class="project-item__button delete"
+            (click)="deleteProject(project)">
+            <span class="icon-trash"></span>
+        </button>
+    </div>
 </div>
