@@ -30,13 +30,15 @@
     background-color: $white;
     box-shadow: $shadow-main;
     position: relative;
-    height: calc(100vh - 150px);
-    overflow: hidden;
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 200px);
+    overflow: scroll;
     display: flex;
     flex-direction: column;
 
     @media (max-width: 768px) {
       z-index: 0;
+      max-height: 100vh;
     }
   }
 
@@ -46,7 +48,7 @@
     font-size: $font-extra-small;
 
     @media (max-width: 414px) {
-      padding: 0 0 0 10px;
+      padding: 0 0 0 30px;
     }
   }
 
@@ -114,7 +116,6 @@
   @include dis-flex(center, flex-start);
   flex-direction: column;
   position: relative;
-  max-height: calc(100vh - 150px);
 
   &__header {
     width: calc(100% - 52px);
@@ -183,7 +184,7 @@
     @include dis-flex(center, flex-start);
     flex-direction: column;
     align-self: flex-start;
-    margin: 10px 0;
+    margin: 10px 0 5px 0;
   }
 
   &__field {
@@ -198,7 +199,7 @@
 
   &__button {
     align-self: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   &__icon {
