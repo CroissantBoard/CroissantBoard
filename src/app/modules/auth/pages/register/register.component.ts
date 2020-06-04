@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/core/authentification/auth.service';
-import { fullNameValidator } from '../../shared/validators/input.validator';
+import { fullNameValidator } from '../../../../shared/validators/name.validator';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +43,6 @@ export class RegisterComponent {
       this.passwordFormControl.invalid ||
       this.confirmPasswordFormControl.invalid
     ) {
-      console.log('nope');
       return;
     }
 

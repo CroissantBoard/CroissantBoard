@@ -1,0 +1,6 @@
+<div *ngIf="user && currentUser" class="user-page">
+  <h2 class="user-page__name">{{ user.name }}</h2>
+  <div class="user-page__profile">
+    <app-profile [currentUser]="currentUser" [user]="user"></app-profile>
+  </div>
+</div>

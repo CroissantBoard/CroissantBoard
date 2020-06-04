@@ -31,6 +31,8 @@ import { ProjectsListComponent } from './pages/home-page/components/projects-lis
 import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectSelectComponent } from './components/project-select/project-select.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 import { TimelineComponent } from './pages/meetings-page/components/timeline/timeline.component';
 import { TimelineBarComponent } from './pages/meetings-page/components/timeline-bar/timeline-bar.component';
@@ -65,6 +67,8 @@ import { TaskPageComponent } from './pages/tasks-page/task-page/task-page.compon
     ProjectsListComponent,
     ProjectAddComponent,
     ProjectSelectComponent,
+    UserPageComponent,
+    ProfileComponent,
     TimelineComponent,
     TimelineBarComponent,
     TimelineMainContainerComponent,

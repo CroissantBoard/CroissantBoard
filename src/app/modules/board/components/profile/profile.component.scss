@@ -1,0 +1,62 @@
+@import 'variables';
+
+.profile {
+  width: 100%;
+  font-size: $font-middle;
+
+  & .mat-form-field {
+    display: block;
+    width: 100%;
+    font-size: $font-middle;
+  }
+
+  &__icon {
+    color: $primary;
+    font-size: 20px;
+  }
+
+  &__header {
+    padding: 40px 0;
+    font-size: $font-heading;
+    color: $font-grey;
+    text-align: center;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__field {
+    margin-top: 14px;
+  }
+
+  &__button {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  &__message {
+    margin-top: 12px;
+    display: block;
+    text-align: center;
+    
+    &--success {
+      color: $font-grey;
+    }
+
+    &--error {
+      color: $error;
+    }
+  }
+}
+
+.profile .mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+::ng-deep .mat-input-element:disabled {
+  color: $black;
+}

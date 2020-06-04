@@ -5,7 +5,7 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { map, tap, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import User from '../interfaces/User';
 
@@ -30,6 +30,10 @@ export class UserService {
     )
 
     this.users$.subscribe();
+  }
+
+  getUser(uid: string): Observable<User> {
+    return this.usersCollection.doc(uid).valueChanges();
   }
 
   getAllUsers(): Observable<any> {
@@ -98,9 +102,9 @@ export class UserService {
       );
   }
 
-  updateUser(uid: string, edit: any): void {
+  updateUser(uid: string, edit: any): Promise<void> {
     this.userDoc = this.afs.doc(`users/${uid}`)
-    this.userDoc.update(edit)
+    return this.userDoc.update(edit);
   }
 
   setNewProject(user: User, projectRef: string): void {

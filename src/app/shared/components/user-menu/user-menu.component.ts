@@ -27,8 +27,7 @@ export class UserMenuComponent implements OnInit {
   }
 
   redirectProfile(): void {
-    // TODO replace with link to user page
-    this.router.navigate([`/board/profile/{user.uid}`]);
+    this.router.navigate([`/board/users/${this.user.uid}`]);
   }
 
   logout(): void {
