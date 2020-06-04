@@ -20,6 +20,9 @@ export class ProfileComponent implements OnInit {
   @Input() currentUser: User;
   @Input() user: User;
 
+  message: string;
+  error: string;
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -51,15 +54,25 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
+    if (this.ageFormControl.invalid) {
+      return;
+    }
+
     try {
-      this.userService.updateUser(this.currentUser.uid, {
-        age: this.ageFormControl.value.trim(),
+      await this.userService.updateUser(this.currentUser.uid, {
+        age: parseInt(this.ageFormControl.value.trim()).toString(),
         bio: this.bioFormControl.value.trim(),
         skype: this.skypeFormControl.value.trim()
       });
+
+      this.message = 'Your profile has been successfully updated';
+
+      setTimeout(() => {
+        this.message = null;
+      }, 3000);
     } catch (err) {
-      console.log(err);
+      this.error = err.message;
     }
   }
 }

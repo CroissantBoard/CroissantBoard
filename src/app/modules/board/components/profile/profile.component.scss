@@ -27,10 +27,28 @@
     flex-direction: column;
   }
 
+  &__field {
+    margin-top: 14px;
+  }
+
   &__button {
     display: block;
     width: 100%;
     margin-top: 16px;
+  }
+
+  &__message {
+    margin-top: 12px;
+    display: block;
+    text-align: center;
+    
+    &--success {
+      color: $font-grey;
+    }
+
+    &--error {
+      color: $error;
+    }
   }
 }
 

@@ -15,23 +15,33 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
+      <mat-form-field class="profile__field">
         <mat-label>Full name</mat-label>
         <input matInput [formControl]="nameFormControl" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="profile__field">
         <mat-label>Age</mat-label>
         <input matInput [formControl]="ageFormControl" />
-        <mat-error *ngIf="ageFormControl.hasError('invalidAge')">
-          Please enter a valid age
-        </mat-error>
         <mat-error *ngIf="ageFormControl.hasError('notInteger')">
           Age must be an integer
         </mat-error>
+        <mat-error *ngIf="ageFormControl.hasError('invalidAge')">
+          Please enter a valid age
+        </mat-error>
+        <mat-error *ngIf="ageFormControl.hasError('tooYoung')">
+          You are too young to use this app.
+          <a
+            href="https://www.privacypolicies.com/privacy/view/2d6ff9087d0d3e0cbe3d10b484384cd9"
+            >Please read the policy</a
+          >
+        </mat-error>
+        <mat-error *ngIf="ageFormControl.hasError('tooOld')">
+          You can't be that old...
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="profile__field">
         <mat-label>Bio</mat-label>
         <textarea
           matInput
@@ -51,11 +61,11 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-form-field>
+      <mat-form-field class="profile__field">
         <mat-label>Email</mat-label>
         <input matInput [formControl]="emailFormControl" />
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="profile__field">
         <mat-label>Skype</mat-label>
         <input matInput [formControl]="skypeFormControl" />
       </mat-form-field>
@@ -69,4 +79,10 @@
   >
     Save
   </button>
+  <span *ngIf="message" class="profile__message profile__message--success">{{
+    message
+  }}</span>
+  <span *ngIf="error" class="profile__message profile__message--error">{{
+    error
+  }}</span>
 </form>

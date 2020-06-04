@@ -102,9 +102,9 @@ export class UserService {
       );
   }
 
-  updateUser(uid: string, edit: any): void {
+  updateUser(uid: string, edit: any): Promise<void> {
     this.userDoc = this.afs.doc(`users/${uid}`)
-    this.userDoc.update(edit)
+    return this.userDoc.update(edit);
   }
 
   setNewProject(user: User, projectRef: string): void {
