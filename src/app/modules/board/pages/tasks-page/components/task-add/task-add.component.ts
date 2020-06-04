@@ -61,6 +61,12 @@ export class TaskAddComponent implements OnInit {
       const formData = { ...this.form.value };
     }
 
+    if (this.form.value.name.trim() == '') {
+      this.form.controls['name'].setValue(this.form.value.name.trim());
+    } else {
+      this.form.controls['name'].setErrors(null);
+    }
+
     if ((this.form.value.name || '').trim()) {
       this.taskService.addTask({
         name,
@@ -74,20 +80,11 @@ export class TaskAddComponent implements OnInit {
         project,
         IsPrivate
       })
-
-      this.form.controls['name'].setValue('')
-      this.form.controls['deadline'].setValue('')
-      this.form.controls['completed'].setValue('')
-      this.form.controls['assignee'].setValue('')
-      this.form.controls['project'].setValue('')
-      this.form.controls['description'].setValue('')
+      this.form.reset();
       this.form.controls['priority'].setValue('low')
-      this.form.controls['name'].setErrors(null);
       this.form.controls['deadline'].setErrors(null);
     }
-
     this.added.emit();
-    this.form.controls['name'].setValue(this.form.value.name.trim());
   }
 
   closeWindow() {

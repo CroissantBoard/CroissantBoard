@@ -4,8 +4,7 @@
       <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
       <div>
         <span class="form__icon icon-trash-2" (click)="deleteTask($event, task)"></span>
-        <span class="form__icon icon-more-horizontal" [routerLink]="['/board/tasks', task.id]"></span>
-        <span class="form__icon icon-x" (click)="closeWindow()"></span>
+        <span class="form__icon icon-x" [routerLink]="['/board/tasks']"></span>
       </div>
     </div>
     <div class="form__scroll">
