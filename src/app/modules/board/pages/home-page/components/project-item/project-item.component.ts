@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import IProject from 'src/app/shared/interfaces/Project';
 import User from 'src/app/shared/interfaces/User';
-import { ProjectService } from 'src/app/shared/services/project.service';
+import { DeleteProjectComponent } from 'src/app/modules/board/pages/home-page/components/delete-project/delete-project.component';
 
 @Component({
   selector: 'app-project-item',
@@ -13,7 +14,7 @@ export class ProjectItemComponent implements OnInit {
   isUserAuthor = false;
 
   constructor(
-    private projectsService: ProjectService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -24,13 +25,16 @@ export class ProjectItemComponent implements OnInit {
   @Input() user: User;
   @Output() toggleForm = new EventEmitter();
 
-  //temp button
-  deleteProject(project: IProject): void {
-    this.projectsService.deleteProject(project);
-  }
 
   editProject(project: IProject): void {
     this.toggleForm.emit(project);
+  }
+
+  openDialog(project: IProject): void {
+    this.dialog.open(DeleteProjectComponent, {
+      width: '500px',
+      data: project,
+    });
   }
 
   private checkAuthor(user: User, project: IProject): boolean {

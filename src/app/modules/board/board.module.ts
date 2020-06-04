@@ -43,6 +43,8 @@ import { HourPickerComponent } from './pages/meetings-page/components/hour-picke
 import { BackgroundRulerComponent } from './pages/meetings-page/components/background-ruler/background-ruler.component';
 import { ProjectEditComponent } from './pages/home-page/components/project-edit/project-edit.component';
 import { TaskPageComponent } from './pages/tasks-page/task-page/task-page.component';
+import { DeleteProjectComponent } from './pages/home-page/components/delete-project/delete-project.component';
+import { DeleteUserComponent } from './pages/users-page/components/delete-user/delete-user.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { TaskPageComponent } from './pages/tasks-page/task-page/task-page.compon
     BackgroundRulerComponent,
     ProjectEditComponent,
     TaskPageComponent,
+    DeleteProjectComponent,
+    DeleteUserComponent,
   ],
   imports: [
     MaterialModule,
