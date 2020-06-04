@@ -43,7 +43,6 @@ export class RegisterComponent {
       this.passwordFormControl.invalid ||
       this.confirmPasswordFormControl.invalid
     ) {
-      console.log('nope');
       return;
     }
 
