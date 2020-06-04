@@ -33,6 +33,7 @@ import { ProjectAddComponent } from './pages/home-page/components/project-add/pr
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectSelectComponent } from './components/project-select/project-select.component';
 import { UserPageComponent } from './pages/user-page/user-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
     ProjectAddComponent,
     ProjectSelectComponent,
     UserPageComponent,
+    ProfileComponent,
   ],
   imports: [
     MaterialModule,

@@ -1,0 +1,72 @@
+<form
+  class="profile"
+  *ngIf="user && currentUser"
+  class="profile"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          About
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="profile__icon icon-user"></span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>Full name</mat-label>
+        <input matInput [formControl]="nameFormControl" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput [formControl]="ageFormControl" />
+        <mat-error *ngIf="ageFormControl.hasError('invalidAge')">
+          Please enter a valid age
+        </mat-error>
+        <mat-error *ngIf="ageFormControl.hasError('notInteger')">
+          Age must be an integer
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Bio</mat-label>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          [formControl]="bioFormControl"
+        ></textarea>
+      </mat-form-field>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Contacts
+        </mat-panel-title>
+        <mat-panel-description>
+          <span class="profile__icon icon-phone"></span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="emailFormControl" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Skype</mat-label>
+        <input matInput [formControl]="skypeFormControl" />
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <button
+    class="profile__button"
+    mat-raised-button
+    color="primary"
+    *ngIf="currentUser.uid === user.uid"
+  >
+    Save
+  </button>
+</form>
