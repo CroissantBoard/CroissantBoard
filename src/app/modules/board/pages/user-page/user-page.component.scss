@@ -1,0 +1,58 @@
+@import 'variables';
+
+.profile .mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+::ng-deep .mat-input-element:disabled {
+  color: $black;
+}
+
+.user-page {
+  min-height: calc(100vh - 100px);
+  padding: 16px;
+  background-color: $grey-background;
+
+  &__user {
+    padding: 20px 0;
+    color: $font-grey;
+    text-align: center;
+    font-size: $font-heading;
+  }
+}
+
+.profile {
+  max-width: 440px;
+  margin: 0 auto;
+  font-size: $font-middle;
+
+  & .mat-form-field {
+    display: block;
+    width: 100%;
+    font-size: $font-middle;
+  }
+
+  &__icon {
+    color: $primary;
+    font-size: 20px;
+  }
+
+  &__header {
+    padding: 40px 0;
+    font-size: $font-heading;
+    color: $font-grey;
+    text-align: center;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__button {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+  }
+}
