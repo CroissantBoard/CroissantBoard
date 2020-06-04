@@ -96,22 +96,12 @@
 }
 
 
-@media (max-width: 1140px) {
-  .header {
-    padding: 1em 3em;
-  }
-
-}
-
-
 @media (max-width: 576px) {
   .header {
-    padding: 1em 2em;
 
     &__menu {
       display: none;
     }
   }
-  
 }
 

@@ -1,1 +1,83 @@
-@import 'variables';.footer {  display: flex;  justify-content: space-between;  align-items: center;  padding: 2em 8em;  background-color: $dark;  color: #e9e9e9;  &__menu,  &__socials-menu{    padding: 0;    display: flex;    justify-content: center;    align-items: center;  }  &__menu-item,  &__socials-menu-item {    cursor: pointer;    margin: 0 5px;    white-space: nowrap;    &:hover {      color: $accent-light;    }  }  &__menu-item {    margin: 0 20px 0 0;  }  &__copyright {    white-space: nowrap;    color: $accent-light;  }}@media (max-width: 768px) {  .footer {    font-size: 20px;    flex-direction: column;    &__menu-item {      margin: 0 10px;    }    &__copyright {    margin-top: 20px;    }  }}
+@import 'variables';
+
+.footer {
+  background-color: $dark;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__menu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__menu-item {
+    padding: 0 15px;
+  }
+  
+  &__menu-link {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $font-second-grey;
+    font-size: $font-large;
+    cursor: pointer;
+    
+    &:hover {
+      color: $font-light-grey;
+    }
+  }
+  
+  &__privacy {
+    padding: 5px 0;
+    display: inline-block;
+    color: $font-second-grey;
+  
+    &:hover {
+      color: $font-light-grey;
+    }
+  }
+
+  &__copyright {
+    margin: 0;
+    color: $font-grey;
+    font-weight: 300;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    &__container {
+      padding-top: 26px;
+      padding-bottom: 30px;
+      flex-direction: column;
+    }
+
+    &__menu {
+      width: 60%;
+      margin: 14px 0;
+      padding: 10px 0;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      border-color: #292e35;
+    }
+
+    &__menu-item {
+      width: 25%;
+    }
+
+    &__menu-link {
+      padding: 10px 0;
+    }
+  }
+}
