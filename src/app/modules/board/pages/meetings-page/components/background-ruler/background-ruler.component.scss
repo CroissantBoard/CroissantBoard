@@ -6,10 +6,10 @@
   @include dis-flex(space-between, stretch);
 
   padding-top: $meeting-padding-vertical;
-  box-sizing: border-box;
 
   @media (max-width: 900px) {
     padding-bottom: $meeting-padding-vertical;
+    box-sizing: border-box;
   }
 
   &__item {

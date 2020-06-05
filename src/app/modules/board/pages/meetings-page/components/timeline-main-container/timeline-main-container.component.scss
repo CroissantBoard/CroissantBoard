@@ -93,7 +93,7 @@
         background-color: $timeline-container-border-color-red;
       }
     }
-  
+
     &--undesirable {
       color: $timeline-container-border-color-amber;
 
@@ -101,7 +101,7 @@
         background-color: $timeline-container-border-color-amber;
       }
     }
-  
+
     &--free {
       color: $timeline-container-border-color-green;
 
@@ -113,5 +113,14 @@
 
   &__content {
     @include marpad-0-0;
+
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+
+    max-width: 100%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
