@@ -1,0 +1,23 @@
+@import 'variables';
+
+
+
+.user-page {
+  min-height: calc(100vh - 100px);
+  padding: 16px;
+  background-color: $grey-background;
+
+  &__name {
+    padding: 20px 0;
+    color: $font-grey;
+    text-align: center;
+    font-size: $font-heading;
+  }
+
+  &__profile {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+}
+
+

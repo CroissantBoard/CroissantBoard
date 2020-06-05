@@ -7,17 +7,19 @@
       (click)="showResults = true"
       (keyup)="searchService.onQuery($event)"
     />
-    <span class="icon-search" *ngIf="!searchService.query; else clear"></span>
-    <ng-template #clear>
-      <button
-        class="search-clear"
-        aria-label="Clear"
-        mat-icon-button
-        (click)="searchService.clear()"
-      >
-        <span class="icon-x"></span>
-      </button>
-    </ng-template>
+    <span
+      class="icon-search search__icon-search"
+      *ngIf="!searchService.query"
+    ></span>
+    <button
+      [ngClass]="{ clear: !!searchService.query }"
+      class="search-clear"
+      aria-label="Clear"
+      mat-icon-button
+      (click)="closeSearch()"
+    >
+      <span class="icon-x"></span>
+    </button>
   </div>
   <div
     class="search__results"
@@ -44,26 +46,14 @@
             class="search__hits ais-Hits-list"
             *ngIf="results.query !== '' && hits.length > 0"
           >
-            <li
-              class="ais-Hits-item search__hit"
-              *ngFor="let hit of hits"
-              [ngSwitch]="hit.active"
-            >
+            <li class="ais-Hits-item search__hit" *ngFor="let hit of hits">
               <a
                 class="search__link"
                 [routerLink]="['/board/projects/', hit.objectID]"
               >
                 <span
+                  [style.color]="hit.iconColor"
                   class="search__icon icon-folder icon-folder--active"
-                  *ngSwitchCase="true"
-                ></span>
-                <span
-                  class="search__icon icon-folder icon-folder--not-active"
-                  *ngSwitchCase="false"
-                ></span>
-                <span
-                  class="search__icon icon-folder icon-folder--not-active"
-                  *ngSwitchCase="undefined"
                 ></span>
                 <ais-highlight
                   class="search__hit-text"

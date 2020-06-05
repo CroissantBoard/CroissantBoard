@@ -13,6 +13,7 @@ import { map, filter } from 'rxjs/operators';
 import { uniq, without } from 'lodash';
 
 import IProject from 'src/app/shared/interfaces/Project';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class ProjectService {
 
   constructor(
     private afs: AngularFirestore,
-  ) {
+    private notificationService: NotificationService,
+    ) {
     this.projectsCollection = this.afs.collection('projects')
     this.projects$ = this.projectsCollection.snapshotChanges().pipe(
       map(changes => {
@@ -73,7 +75,10 @@ export class ProjectService {
   }
 
   setCurrentProject(project: IProject) {
+    const message = `Switched to ${project.name}`;
+
     this.currentProjectSub.next(project);
+    this.notificationService.openSnackBar(message);
   }
 
   setUsersToProject(usersUids: string[]): void {
@@ -86,10 +91,15 @@ export class ProjectService {
 
         this.projectDoc = this.afs.doc(`projects/${project.uid}`);
         this.projectDoc.update({ participants: participants });
+
+        const message = 'Users list successfully updated.'
+        this.notificationService.openSnackBar(message);
       })
   }
 
   addProject(project: IProject): Promise<DocumentReference> {
+    const message = `Project successfully created with name ${project.name}`
+    this.notificationService.openSnackBar(message);
     return this.projectsCollection.add(project);
   }
 
@@ -116,9 +126,12 @@ export class ProjectService {
       });
   }
 
+  
   deleteProject(project: IProject): void {
+    const message = `Project ${project.name} was deleted`
     this.projectDoc = this.afs.doc(`projects/${project.uid}`)
     this.projectDoc.delete()
+    this.notificationService.openSnackBar(message);
   }
 
   removeParticipant(uid: string): void {

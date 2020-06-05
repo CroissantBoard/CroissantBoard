@@ -31,8 +31,15 @@ export class SidebarComponent implements OnInit {
       })
   }
 
-  @Input() showSidebar = true;
+  @Input() showSidebar: boolean;
+  @Input() isDesktop: boolean;
   @Output() toggleSidebar = new EventEmitter();
+
+  hideSidebarForMobile(): void {
+    if (!this.isDesktop) {
+      this.toggleSidebar.emit();
+    }
+  }
 
   hideSidebar(): void {
     this.toggleSidebar.emit();

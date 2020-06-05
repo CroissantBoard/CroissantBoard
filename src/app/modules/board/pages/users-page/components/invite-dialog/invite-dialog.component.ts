@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -28,7 +28,8 @@ export class InviteDialogComponent {
   selectable = true;
   removable = true;
   addOnBlur = true;
-  notRegistered: string[];
+  notRegistered: string[] = [];
+  response = false;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
@@ -58,6 +59,8 @@ export class InviteDialogComponent {
     if (input) {
       this.inviteForm.reset();
     }
+
+    this.validateEmails();
   }
 
   remove(email: IEmail): void {
@@ -75,7 +78,8 @@ export class InviteDialogComponent {
   handleInvite(): void {
     this.notValidEmails = this.emails.filter((el) => !el.valid );
     this.validateEmails();
-
+    this.submitted = true;
+    
     if (this.valid) {
       const usersList = this.emails.map((el) => el.value);
 
@@ -83,14 +87,17 @@ export class InviteDialogComponent {
         .pipe(
           switchMap((project: IProject) => {
             return this.usersService.setUsers([...new Set(usersList)], project.uid)
-          }),
-          tap(() => this.dialogRef.close()),
+          })
         )
         .subscribe(([userUids, notRegistered]) => {
           this.notRegistered = notRegistered;
-          // Add snackbar notification service
-          console.log('User not registered on the app', notRegistered);
+          this.response = true;
+
           this.projectService.setUsersToProject(userUids);
+
+          if (!this.notRegistered.length) {
+            this.dialogRef.close();
+          }
         });
     }
   }
@@ -100,17 +107,14 @@ export class InviteDialogComponent {
   }
 
   private validateEmails():void {
-    this.notValidEmails = this.emails.filter((el) => !el.valid );
+    this.notValidEmails = this.emails.filter((el) => !el.valid);
 
     if (this.notValidEmails.length) {
       this.valid = false;
-      this.submitted = true;
-
       return;
     }
 
     this.valid = true;
-    this.submitted = true;
   }
 
   private buildForm() {

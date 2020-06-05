@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -46,6 +47,7 @@ const MaterialComponents = [
   MatSnackBarModule,
   MatListModule,
   MatProgressSpinnerModule,
+  MatSidenavModule,
 ];
 
 @NgModule({

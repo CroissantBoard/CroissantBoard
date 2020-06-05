@@ -1,0 +1,31 @@
+<div class="project-add">
+    <form [formGroup]="projectForm"
+        (ngSubmit)="onSubmit()" 
+        class="project-add__form">
+        <div class="project-add__inputs">
+            <div class="color"
+                #tooltip="matTooltip"
+                matTooltip="Color for project avatar">
+                <div class="color__selected"
+                    [style.background-color]="selected">
+                    <span class="icon-box"></span>
+                </div>
+                <mat-form-field class="color__select">
+                    <mat-select [(value)]="selected" formControlName="iconColor">
+                    <mat-option *ngFor="let color of colors" [value]="color" class="color__option">
+                        <div class="color__label" [style.background-color]="color">Color</div>
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <input placeholder="Project name..."
+                class="project-add__input common-input"
+                [ngClass]="{error: (!valid && submitted)}"
+                formControlName="name">
+        </div> 
+        <div class="project-add__actions">
+            <button mat-flat-button color="accent" class="project-add__button create">Save</button>
+            <button mat-stroked-button (click)="close()" color="warn" class="project-add__button">Cancel</button>
+        </div>
+    </form>
+</div>

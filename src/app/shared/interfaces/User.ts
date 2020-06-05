@@ -4,6 +4,9 @@ export default interface User {
   email?: string;
   role?: string;
   projects?: string[];
+  age?: number;
+  bio?: string;
+  skype?: string;
   tasks?: string[];
   meetings?: string[];
 }

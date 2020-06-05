@@ -31,6 +31,8 @@ import { ProjectsListComponent } from './pages/home-page/components/projects-lis
 import { ProjectAddComponent } from './pages/home-page/components/project-add/project-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProjectSelectComponent } from './components/project-select/project-select.component';
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 import { TimelineComponent } from './pages/meetings-page/components/timeline/timeline.component';
 import { TimelineBarComponent } from './pages/meetings-page/components/timeline-bar/timeline-bar.component';
@@ -42,6 +44,10 @@ import { BackgroundRulerComponent } from './pages/meetings-page/components/backg
 import { MeetingsListComponent } from './pages/meetings-page/components/meetings-list/meetings-list.component';
 import { MeetingsCalendarComponent } from './pages/meetings-page/components/meetings-calendar/meetings-calendar.component';
 
+import { ProjectEditComponent } from './pages/home-page/components/project-edit/project-edit.component';
+import { TaskPageComponent } from './pages/tasks-page/task-page/task-page.component';
+import { DeleteProjectComponent } from './pages/home-page/components/delete-project/delete-project.component';
+import { DeleteUserComponent } from './pages/users-page/components/delete-user/delete-user.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +72,8 @@ import { MeetingsCalendarComponent } from './pages/meetings-page/components/meet
     ProjectsListComponent,
     ProjectAddComponent,
     ProjectSelectComponent,
+    UserPageComponent,
+    ProfileComponent,
     TimelineComponent,
     TimelineBarComponent,
     TimelineMainContainerComponent,
@@ -75,6 +83,10 @@ import { MeetingsCalendarComponent } from './pages/meetings-page/components/meet
     BackgroundRulerComponent,
     MeetingsListComponent,
     MeetingsCalendarComponent,
+    ProjectEditComponent,
+    TaskPageComponent,
+    DeleteProjectComponent,
+    DeleteUserComponent,
   ],
   imports: [
     MaterialModule,

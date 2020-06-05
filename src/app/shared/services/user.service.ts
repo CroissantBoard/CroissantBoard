@@ -5,11 +5,12 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { map, tap, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 import { uniq, without } from 'lodash';
 
 import User from '../interfaces/User';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,10 @@ export class UserService {
   users$: Observable<User[]>
   userDoc: AngularFirestoreDocument<User>
 
-  constructor(private afs: AngularFirestore) {
+  constructor(
+    private afs: AngularFirestore,
+    private notificationService: NotificationService,
+    ) {
     this.usersCollection = this.afs.collection('users')
     this.users$ = this.usersCollection.snapshotChanges().pipe(
       map(changes => {
@@ -32,6 +36,10 @@ export class UserService {
     )
 
     this.users$.subscribe();
+  }
+
+  getUser(uid: string): Observable<User> {
+    return this.usersCollection.doc(uid).valueChanges();
   }
 
   getAllUsers(): Observable<any> {
@@ -100,9 +108,13 @@ export class UserService {
       );
   }
 
-  updateUser(uid: string, edit: any): void {
+  updateUser(uid: string, edit: any): Promise<void> {
     this.userDoc = this.afs.doc(`users/${uid}`)
-    this.userDoc.update(edit)
+
+    const message = 'User successfully updated.'
+    this.notificationService.openSnackBar(message);
+
+    return this.userDoc.update(edit);
   }
 
   addMeetingToUser(meetingId: string, userId: string): void {
@@ -150,10 +162,15 @@ export class UserService {
 
     this.userDoc = this.afs.doc(`users/${user.uid}`)
     this.userDoc.update({ projects: newProjects });
+
+    const message = `User ${user.name} was deleted from current project.`;
+
+    this.notificationService.openSnackBar(message);
+
   }
 
   isUsersRegistered(email: string) {
-    return this.afs.collection('users', ref => ref.where('projects', '==', email))
+    return this.afs.collection('users', ref => ref.where('email', '==', email))
       .snapshotChanges()
       .pipe(
         map(changes => {
