@@ -1,6 +1,7 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
 import { Meeting } from 'src/app/shared/interfaces/meeting';
+
 import formatTime from 'src/app/shared/helpers/formatTime';
 
 @Component({
@@ -11,6 +12,9 @@ import formatTime from 'src/app/shared/helpers/formatTime';
 export class MeetingsListComponent implements OnChanges {
 
   @Input() meetings: Meeting[] = [];
+  @Input() isProjectCreator: boolean = false;
+
+  @Output() deleteMeetingEvent: EventEmitter<string> = new EventEmitter(); 
 
   finished: Meeting[] = [];
   upcoming: Meeting[] = [];
@@ -28,6 +32,8 @@ export class MeetingsListComponent implements OnChanges {
         this.upcoming.push(meeting);
       }
     });
+
+    if (!this.isProjectCreator) this.upcoming.filter(meeting => meeting.isInit === false);
   }
 
   getDate(date): Date {
@@ -36,6 +42,10 @@ export class MeetingsListComponent implements OnChanges {
 
   formatTime(hour: number): string {
     return formatTime(hour);
+  }
+
+  deleteMeeting(meetingId: string): void {
+    this.deleteMeetingEvent.emit(meetingId);
   }
 
 }

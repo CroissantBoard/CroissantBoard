@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import getToday from 'src/app/shared/helpers/getToday';
+
 @Component({
   selector: 'app-meetings-calendar',
   templateUrl: './meetings-calendar.component.html',
@@ -8,8 +10,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class MeetingsCalendarComponent implements OnInit {
   
   @Input() filter: Function = () => true;
-  @Input() minDate: Date = new Date();
-  @Input() meetingDay: Date = new Date();
+  @Input() minDate: Date = getToday();
+  @Input() meetingDay: Date = getToday();
 
   @Output() dayChangeEvent: EventEmitter<Date> = new EventEmitter();
 
@@ -23,7 +25,7 @@ export class MeetingsCalendarComponent implements OnInit {
   }
 
   onReset(): void {
-    this.meetingDay = new Date();
+    this.meetingDay = getToday();
 
     this.onDayChange();
   }

@@ -65,7 +65,7 @@
     cursor: pointer;
     overflow: hidden;
 
-    transform: translate(-$timeline-container-icon-size, $timeline-container-padding);
+    transform: translate(-$timeline-container-icon-size, $timeline-container-padding + $timeline-container-padding / 3);
 
     &::ng-deep .mat-button-wrapper {
       @include fill-parent;

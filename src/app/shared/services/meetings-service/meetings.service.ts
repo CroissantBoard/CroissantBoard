@@ -12,6 +12,9 @@ import { map } from 'rxjs/operators';
 import { Meeting } from '../../interfaces/meeting';
 
 import getToday from '../../helpers/getToday';
+import { UserService } from '../user.service';
+import { ProjectService } from '../project.service';
+import { TimelineObject } from '../../interfaces/timeline/timeline-object';
 
 
 @Injectable({
@@ -25,7 +28,11 @@ export class MeetingsService {
 
   today: Date = getToday();
 
-  constructor(private afs: AngularFirestore) {
+  constructor(
+    private afs: AngularFirestore,
+    private userService: UserService,
+    private projectService: ProjectService,
+  ) {
     this.meetingsCollection = this.afs.collection('meetings')
     this.meetings = this.meetingsCollection.snapshotChanges().pipe(
       map(changes => {
@@ -54,11 +61,28 @@ export class MeetingsService {
   }
 
   addMeeting(meeting: Meeting) {
-    this.meetingsCollection.add(meeting);
+    this.meetingsCollection.add(meeting).then(doc => {
+      this.meetingDoc = this.afs.doc(`meetings/${doc.id}`);
+
+      this.meetingDoc.get().subscribe(meetingData => {
+        this.projectService.addMeetingToProject(doc.id);
+
+        meetingData.data().timelines.forEach((line: TimelineObject) =>
+          this.userService.addMeetingToUser(doc.id, line.userId));
+      });
+    });
   }
 
-  deleteMeeting(meetingId: Meeting) {
+  deleteMeeting(meetingId: string) {
     this.meetingDoc = this.afs.doc(`meetings/${meetingId}`);
+
+    this.meetingDoc.get().subscribe(meetingData => {
+      this.projectService.deleteMeetingFromProject(meetingId);
+
+      meetingData.data().timelines.forEach((line: TimelineObject) =>
+        this.userService.deleteMeetingFromUser(meetingId, line.userId));
+    });
+
     this.meetingDoc.delete();
   }
 

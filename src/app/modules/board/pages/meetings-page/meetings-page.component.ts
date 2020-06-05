@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { intersection, union, without } from 'lodash';
+import { FormControl, Validators } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 
+import { AuthService } from 'src/app/core/authentification/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
@@ -13,10 +13,11 @@ import { ProjectService } from 'src/app/shared/services/project.service';
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
 
-import formatTime from 'src/app/shared/helpers/formatTime';
+import { intersection, union, without } from 'lodash';
+
 import generateRange from 'src/app/shared/helpers/generateRange';
-import { AuthService } from 'src/app/core/authentification/auth.service';
-import { FormControl, Validators } from '@angular/forms';
+import getToday from 'src/app/shared/helpers/getToday';
+import formatTime from 'src/app/shared/helpers/formatTime';
 
 @Component({
   selector: 'app-meetings-page',
@@ -65,7 +66,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.meetingDay = this.formatDate(new Date());
+    this.meetingDay = getToday();
 
     this.auth.getCurrentUser()
       .subscribe(user => this.currentUserId = user.uid);
@@ -166,6 +167,11 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     this.possibleMeetingHours = this.calculatePossibleMeetingHours(
       freeHours, allFreeHours, busyHours, undesirableHours, notGivenHours, isAllUsersfree
     );
+
+    if (this.meetingDay.getTime() === getToday().getTime()) {
+      this.bestMeetingHours = this.bestMeetingHours.filter(hour => hour > new Date().getHours())
+      this.possibleMeetingHours = this.possibleMeetingHours.filter(hour => hour > new Date().getHours())
+    }
   }
 
   sortHoursInDifferentArrays(): Array<number[]> {
@@ -241,10 +247,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
   }
 
-  formatDate(date: Date): Date {
-    return new Date(date.setHours(0, 0, 0, 0));
-  }
-
   formatTime(num: number): string {
     return formatTime(num);
   }
@@ -272,7 +274,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return this.currentUserId === this.projectCreatorId
       ? true
       : !!this.allProjectMeetings.find(meeting =>
-        date === meeting.meetingDay);
+        (!meeting.isInit && date.getTime() === meeting.meetingDay.toDate().getTime()));
   }
 
   addMeeting() {
@@ -281,11 +283,20 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     if (name) {
       this.meetingsService.addMeeting(this.createNewMeeting(name));
 
+      this.meetingNameFormControl.setValue('');
+      this.meetingNameFormControl.setErrors([]);
+
       this.fetchMeeting();
     } else {
       this.meetingNameFormControl.setValue('');
       this.meetingNameFormControl.setErrors(['invalid', 'required']);
     }
+  }
+
+  deleteMeeting(meetingId: string): void {
+    this.meetingsService.deleteMeeting(meetingId);
+
+    this.fetchMeeting();
   }
 
   getAddingDropListId(timelineId: number): string {

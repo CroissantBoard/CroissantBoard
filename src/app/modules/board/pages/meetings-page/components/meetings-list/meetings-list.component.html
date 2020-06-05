@@ -38,7 +38,12 @@
           <span> {{meeting.name}} </span>
 
           <span> {{getDate(meeting.meetingDay) | date}} </span>
-        </div> 
+        </div>
+
+        <button mat-icon-button *ngIf="isProjectCreator" 
+          (click)="deleteMeeting(meeting.id)">
+            <mat-icon>delete</mat-icon>
+        </button>
       </mat-list-item>
     </mat-list>
   </mat-expansion-panel>

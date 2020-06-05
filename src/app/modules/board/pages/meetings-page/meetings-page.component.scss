@@ -74,11 +74,22 @@
   }
 
   &__bar {
+    @include fill-parent;
+
     position: sticky;
     top: 0;
     left: 0;
 
-    width: 100%;
+    background-color: rgba($white, 0.85);
+    background: linear-gradient(0deg, rgba($white, 0) 0%, rgba($white, 0.85) 75%);
+
+    border-radius: 4px;
+
+    z-index: 2;
+  }
+
+  &__timelines {
+    @include fill-parent;
   }
 
   &__lines {

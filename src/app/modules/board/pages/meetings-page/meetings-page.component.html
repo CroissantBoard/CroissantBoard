@@ -1,6 +1,6 @@
-<div class="meeting" *ngIf="meeting && !isLoading else noMeeting">
+<div class="meeting" *ngIf="!isLoading else loadingMeeting">
 
-  <div class="meeting__container">
+  <div class="meeting__container" [class.meeting__container--nolines]="!meeting">
     <div class="meeting__header">
 
       <app-meetings-calendar
@@ -8,88 +8,14 @@
         (dayChangeEvent)="changeMeetingDay($event)"
       ></app-meetings-calendar>
       
-      <div class="meeting__info">
+      <div class="meeting__info" *ngIf="meeting else noMeetingInfo">
         <h1 class="meeting__name">Meeting topic: {{meeting.name}}</h1>
   
         <h2 class="meeting__time">Time: {{formatTime(meeting.hour)}}</h2>
       </div>
-    </div>
-    
-    <mat-divider></mat-divider>
-
-    <app-timeline-bar
-      class="meeting__bar"
-      [addingDropListIds]="getAllAddingDropListIds()"
-      [timelineBarId]="timelineBarId">
-    </app-timeline-bar>
-  
-    <mat-divider></mat-divider>
-  
-    <div class="meeting__lines">
-      <app-background-ruler
-        class="meeting__ruler"
-        [length]="rulerLength"
-      ></app-background-ruler>
-
-      <app-timeline *ngFor="let timeline of meeting.timelines"
-        [isDisabled]="currentUserId === projectCreatorId
-          ? false
-          : timeline.userId !== currentUserId"
-        [timelineObject]="timeline"
-        [timelineBarId]="timelineBarId"
-        [addingDropListId]="getAddingDropListId(timeline.timelineId)"
-        (changedTimelineEvent)="onChangedTimelineEvent($event)">
-      </app-timeline>
-    </div>
-    
-    <mat-divider></mat-divider>
-  
-    <mat-accordion *ngIf="currentUserId === projectCreatorId">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Best Meeting Hours
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <app-hour-picker
-          [hoursArray]="bestMeetingHours"
-          (hourPickedEvent)="setMeetingHour($event)"
-        ></app-hour-picker>
-      </mat-expansion-panel>
       
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Possible Meeting Hours
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-    
-        <app-hour-picker
-          [hoursArray]="possibleMeetingHours"
-          (hourPickedEvent)="setMeetingHour($event)"
-        ></app-hour-picker>
-      </mat-expansion-panel>
-    </mat-accordion>
-    
-    <mat-divider></mat-divider>
-
-    <app-meetings-list
-      [meetings]="allProjectMeetings"
-    ></app-meetings-list>
-  </div>
-</div>
-
-<ng-template #noMeeting>
-  <div class="meeting" *ngIf="!isLoading else loadingMeeting">
-    <div class="meeting__container meeting__container--nolines">
-      <div class="meeting__header" *ngIf="currentUserId === projectCreatorId">
-        <app-meetings-calendar
-          [filter]="datepickerFilter"
-          (dayChangeEvent)="changeMeetingDay($event)"
-        ></app-meetings-calendar>
-        
-        <div class="meeting__info">
+      <ng-template #noMeetingInfo>
+        <div class="meeting__info" *ngIf="currentUserId === projectCreatorId">
           <h1 class="meeting__name">Meeting topic: </h1>
           
           <mat-form-field class="meeting__form" appearance="standard">
@@ -109,20 +35,88 @@
 
           <button mat-flat-button color="primary" (click)="addMeeting()">Create meeting</button>
         </div>
-      </div>
-
-      <mat-divider></mat-divider>
-  
-      <h2 class="meeting__empty">
-        There is no meeting. Find another or create some.
-      </h2>
-  
-      <app-meetings-list
-        [meetings]="allProjectMeetings"
-      ></app-meetings-list>
+      </ng-template>
     </div>
+    
+    <mat-divider></mat-divider>
+
+    <app-timeline-bar *ngIf="meeting"
+      class="meeting__bar"
+      [addingDropListIds]="getAllAddingDropListIds()"
+      [timelineBarId]="timelineBarId">
+    </app-timeline-bar>
+
+    <div class="meeting__timelines" *ngIf="meeting else noMeetingTimelines">
+    
+      <mat-divider></mat-divider>
+    
+      <div class="meeting__lines">
+        <app-background-ruler
+          class="meeting__ruler"
+          [length]="rulerLength"
+        ></app-background-ruler>
+  
+        <app-timeline *ngFor="let timeline of meeting.timelines"
+          [isDisabled]="currentUserId === projectCreatorId
+            ? false
+            : timeline.userId !== currentUserId"
+          [timelineObject]="timeline"
+          [timelineBarId]="timelineBarId"
+          [addingDropListId]="getAddingDropListId(timeline.timelineId)"
+          (changedTimelineEvent)="onChangedTimelineEvent($event)">
+        </app-timeline>
+      </div>
+    
+      <mat-divider></mat-divider>
+    </div>
+
+    <ng-template #noMeetingTimelines>
+      <h2 class="meeting__empty">
+        There is no meeting. Find
+          <span *ngIf="currentUserId === projectCreatorId">&nbsp;or create&nbsp;</span>
+        another one.
+      </h2>
+    </ng-template>
+  
+    <mat-accordion *ngIf="meeting && currentUserId === projectCreatorId">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Best Meeting Hours
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <app-hour-picker
+          [hoursArray]="bestMeetingHours"
+          [pickedHour]="meeting.hour"
+          (hourPickedEvent)="setMeetingHour($event)"
+        ></app-hour-picker>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Possible Meeting Hours
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <app-hour-picker
+          [hoursArray]="possibleMeetingHours"
+          [pickedHour]="meeting.hour"
+          (hourPickedEvent)="setMeetingHour($event)"
+        ></app-hour-picker>
+      </mat-expansion-panel>
+    </mat-accordion>
+    
+    <mat-divider></mat-divider>
+
+    <app-meetings-list
+      [meetings]="allProjectMeetings"
+      [isProjectCreator]="currentUserId === projectCreatorId"
+      (deleteMeetingEvent)="deleteMeeting($event)"
+    ></app-meetings-list>
   </div>
-</ng-template>
+</div>
 
 <ng-template #loadingMeeting>
   <div class="meeting">
