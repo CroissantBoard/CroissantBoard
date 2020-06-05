@@ -17,15 +17,19 @@
   @include basic($timeline-height, 100%);
   @include dis-flex(space-between, center);
 
-  z-index: 2;
+  &--disabled {
+    pointer-events: none;
+    user-select: none;
+  }
 
   &__user {
     @include basic-square($timeline-user-avatar-size);
     @include flex-center;
   }
 
-  &__username {
+  &__avatar {
     @include basic-square($timeline-user-avatar-size * 0.75);
+    @include flex-center;
 
     border-radius: 50%;
 

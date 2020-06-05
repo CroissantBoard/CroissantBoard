@@ -47,7 +47,6 @@
     @include flex-center;
 
     background-color: $light;
-    // background-color: transparent;
     color: $dark;
 
     border-radius: $timeline-container-border-radius / 2;
@@ -66,7 +65,7 @@
     cursor: pointer;
     overflow: hidden;
 
-    transform: translate(-$timeline-container-icon-size, $timeline-container-padding);
+    transform: translate(-$timeline-container-icon-size, $timeline-container-padding + $timeline-container-padding / 3);
 
     &::ng-deep .mat-button-wrapper {
       @include fill-parent;
@@ -94,7 +93,7 @@
         background-color: $timeline-container-border-color-red;
       }
     }
-  
+
     &--undesirable {
       color: $timeline-container-border-color-amber;
 
@@ -102,7 +101,7 @@
         background-color: $timeline-container-border-color-amber;
       }
     }
-  
+
     &--free {
       color: $timeline-container-border-color-green;
 
@@ -114,5 +113,14 @@
 
   &__content {
     @include marpad-0-0;
+
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+
+    max-width: 100%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

@@ -10,6 +10,7 @@ import formatTime from 'src/app/shared/helpers/formatTime';
 export class HourPickerComponent {
 
   @Input() hoursArray: number[] = [];
+  @Input() pickedHour: number = 0;
 
   @Output() hourPickedEvent: EventEmitter<number> = new EventEmitter();
 

@@ -12,7 +12,6 @@
   @include basic(100%, 40%);
   @include flex-center;
 
-  // padding: $timeline-container-padding;
   box-sizing: border-box;
 
   background-color: transparent;
@@ -21,7 +20,7 @@
 
   overflow: hidden;
   cursor: pointer;
-  z-index: 100;
+  z-index: 1;
 
   &--hidden {
     opacity: 0;
@@ -44,12 +43,11 @@
     
     padding: $timeline-container-padding;
 
-    transform: translate(50%, $timeline-container-padding);
+    transform: translate(20%, $timeline-container-padding);
 
     transition: 0.125s ease-out;
 
     cursor: move;
-    z-index: 100;
   }
 
   &--add {
@@ -78,6 +76,9 @@
 
       font-size: $timeline-icon-size * 0.75;
       font-weight: 300;
+
+      border: 1px solid rgba($light, 0.75);
+      box-sizing: border-box;
     }
 
     &--busy {

@@ -7,6 +7,8 @@ import {
 import { Observable, from } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
+import { uniq, without } from 'lodash';
+
 import User from '../interfaces/User';
 import { NotificationService } from './notification.service';
 
@@ -113,6 +115,29 @@ export class UserService {
     this.notificationService.openSnackBar(message);
 
     return this.userDoc.update(edit);
+  }
+
+  addMeetingToUser(meetingId: string, userId: string): void {
+    this.afs.doc(`users/${userId}`).get().subscribe(user => {
+
+      const meetings = user.data().meetings && user.data().meetings.length
+        ? uniq([
+          ...user.data().meetings,
+          meetingId,
+        ])
+        : [meetingId];
+
+      this.afs.doc(`users/${userId}`).update({ meetings });
+    });
+  }
+
+  deleteMeetingFromUser(meetingId: string, userId: string): void {
+    this.afs.doc(`users/${userId}`).get().subscribe(user => {
+
+      const meetings = without(user.data().meetings, meetingId);
+
+      this.afs.doc(`users/${userId}`).update({ meetings });
+    });
   }
 
   setNewProject(user: User, projectRef: string): void {

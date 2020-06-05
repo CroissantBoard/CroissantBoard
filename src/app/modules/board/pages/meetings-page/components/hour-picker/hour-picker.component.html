@@ -2,7 +2,7 @@
   <button *ngFor="let hour of hoursArray"
     mat-mini-fab
     class="picker__button"
-    color="primary"
+    [color]="hour === pickedHour ? 'accent' : 'primary'"
     (click)="onHourPicked(hour)">
       {{ formatTime(hour) }}
   </button>

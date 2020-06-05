@@ -11,6 +11,8 @@
         overflow-x: hidden;
         transition: width ease-out 80ms;
 
+        z-index: 10;
+
         @media (max-width: 600px) {
             width: 0;
             height: 100%;

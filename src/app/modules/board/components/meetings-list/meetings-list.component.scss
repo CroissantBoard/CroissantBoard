@@ -1,0 +1,32 @@
+@import 'mixins';
+
+.meeting {
+  @include fill-parent;
+  @include dis-flex(space-between, center);
+
+  margin-left: 1rem;
+
+  &__project,
+  &__topic {
+    @include dis-flex(flex-start, baseline);
+
+    width: 50%;
+
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__title {
+    @include marpad-0-0;
+  }
+
+  &__name {
+    margin-left: 5px;
+    
+    max-width: 100%;
+  }
+}
