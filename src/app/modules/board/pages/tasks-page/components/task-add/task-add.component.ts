@@ -5,6 +5,8 @@ import User from 'src/app/shared/interfaces/User';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { TaskService } from 'src/app/shared/services/task.service';
 import Task from 'src/app/shared/interfaces/Task';
+import { ProjectService } from 'src/app/shared/services/project.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-task-add',
@@ -26,11 +28,16 @@ export class TaskAddComponent implements OnInit {
   followingDay = +(new Date(this.current.getTime() + 86400000));
   isAdd: boolean = true;
   isPublic: boolean = false;
+  projects;
+  project;
+  users;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private projectService: ProjectService,
+    private userService: UserService,
   ) {
     this.form = this.formBuilder.group({
       name: new FormControl('', [
@@ -51,9 +58,12 @@ export class TaskAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe((user) => {
-      this.user = user;
-    });
+    this.authService.user$.subscribe(user => this.user = user);
+    setTimeout(() => {
+      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects => this.projects = projects)
+      this.projectService.getCurrentProject().subscribe(project => this.project = project)
+      this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
+    }, 300);
   }
 
   onSubmit({ name, deadline, priority, description, assignee, project, completed, IsPrivate }): void {

@@ -7,6 +7,8 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 import * as moment from 'moment';
 import { User } from 'firebase';
 import { Observable } from 'rxjs';
+import { ProjectService } from 'src/app/shared/services/project.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-task-page',
@@ -18,6 +20,9 @@ export class TaskPageComponent implements OnInit {
   isPublic: boolean = false;
   user$: Observable<User>;
   user;
+  users;
+  projects;
+  project;
   form: FormGroup;
   minDate: Date;
 
@@ -25,7 +30,9 @@ export class TaskPageComponent implements OnInit {
     private router: Router,
     private taskService: TaskService,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private projectService: ProjectService,
+    private userService: UserService,
   ) {
     this.form = this.formBuilder.group({
       name: new FormControl('', [
@@ -48,8 +55,10 @@ export class TaskPageComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe(user => this.user = user);
     this.route.params.subscribe((params: Params) => this.taskService.getOneTask(params).subscribe(task => this.task = task));
-
     setTimeout(() => {
+      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects=> this.projects = projects);
+      this.projectService.getCurrentProject().subscribe(project => this.project = project)
+      this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
       this.form.setValue({
         name: this.task.name,
         deadline: moment(new Date(this.task.deadline)).format('YYYY-MM-DD'),
@@ -60,9 +69,8 @@ export class TaskPageComponent implements OnInit {
         completed: this.task.completed,
         IsPrivate: this.task.IsPrivate,
       });
-
       this.isPublic = this.task.IsPrivate ? true : false;
-    }, 1000)
+    }, 500)
   }
 
   updateItem(task: Task, edit) {

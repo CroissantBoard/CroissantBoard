@@ -4,6 +4,7 @@ import { TaskService } from 'src/app/shared/services/task.service';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
   selector: 'app-task-list',
@@ -18,23 +19,19 @@ export class TaskListComponent implements OnInit {
   @Input() sortVal;
   @Input() filter;
   sortPriorVal = 'asc';
-
+  project
   constructor(
     private authService: AuthService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private projectService: ProjectService,
   ) { }
 
   ngOnInit(): void {
+    this.projectService.getCurrentProject().subscribe(project => this.project = project)
     this.authService.user$
-      .pipe(
-        switchMap((user) => {
-          return this.taskService.getTasks(user.uid);
-        })
-      )
-      .subscribe((tasks) => {
-        return this.tasks = tasks;
-      });
-      this.filter = 'all';
+      .pipe(switchMap(user => this.taskService.getTasks(user.uid)))
+      .subscribe(tasks => this.tasks = tasks.filter(task => this.project.uid == task.project));
+    this.filter = 'all';
   }
 
   drop(event: CdkDragDrop<string[]>) {

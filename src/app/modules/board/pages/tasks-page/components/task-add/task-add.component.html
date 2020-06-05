@@ -1,29 +1,20 @@
 <div class="add-task">
   <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
     <div class="form__header form__container">
-      <mat-checkbox class="form__checkbox" formControlName="completed">Mark complete</mat-checkbox>
+      <div></div>
       <div>
-        <span class="form__icon icon-more-horizontal"></span>
         <span class="form__icon icon-x" (click)="closeWindow()"></span>
       </div>
     </div>
 
     <div class="form__scroll">
       <div class="form__sub-header form__container">
-        <div *ngIf="!isPublic; else isPrivate">
-          <span class="form__icon icon-lock"></span>
-          <span>This task is private to you.</span>
+        <div>
+          <span>Have something in mind?</span>
         </div>
-        <ng-template #isPrivate>
-          <div>
-            <span>This task is visible to everyone.</span>
-          </div>
-        </ng-template>
-
-        <mat-checkbox class="private" formControlName="IsPrivate" (click)="togglePublic()">
-          <span class="form__sub-header--underline" *ngIf="!isPublic"> Make public</span>
-          <span class="form__sub-header--underline" *ngIf="isPublic">Make private</span>
-        </mat-checkbox>
+        <div class="private">
+          <span class="form__sub-header--underline">Create a task!</span>
+        </div>
       </div>
 
       <div class="form__container">
@@ -42,7 +33,11 @@
           <div class="form__field">
             <label class="form__label">Assignee</label>
             <mat-form-field>
-              <input matInput placeholder="Name" name="assignee" formControlName="assignee" id="assignee">
+              <mat-select formControlName="assignee">
+                <mat-option *ngFor="let user of users" [value]="user.uid">
+                  {{user.name}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 
@@ -73,7 +68,11 @@
           <div class="form__field">
             <label class="form__label">Project</label>
             <mat-form-field>
-              <input matInput placeholder="Project" name="project" formControlName="project" id="project">
+              <mat-select formControlName="project">
+                <mat-option *ngFor="let project of projects" [value]="project.uid">
+                  {{project.name}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 
