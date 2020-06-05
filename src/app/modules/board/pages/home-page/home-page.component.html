@@ -1,6 +1,10 @@
 <div class="board-home board-container">
-    <div class="board-home__container">
-        <app-projects-list></app-projects-list>
+  <div class="board-home__container">
+    <app-projects-list></app-projects-list>
 
-    </div>
+    <app-meetings-list
+      [meetings]="meetings"
+      [isHomePage]="true"
+    ></app-meetings-list>
+  </div>
 </div>

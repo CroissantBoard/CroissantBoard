@@ -6,7 +6,7 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Meeting } from '../../interfaces/meeting';
@@ -15,6 +15,7 @@ import getToday from '../../helpers/getToday';
 import { UserService } from '../user.service';
 import { ProjectService } from '../project.service';
 import { TimelineObject } from '../../interfaces/timeline/timeline-object';
+import { AuthService } from 'src/app/core/authentification/auth.service';
 
 
 @Injectable({
@@ -22,14 +23,17 @@ import { TimelineObject } from '../../interfaces/timeline/timeline-object';
 })
 export class MeetingsService {
 
-  meetingsCollection: AngularFirestoreCollection<Meeting>
-  meetings: Observable<Meeting[]>
-  meetingDoc: AngularFirestoreDocument<Meeting>
+  meetingsCollection: AngularFirestoreCollection<Meeting>;
+  meetings: Observable<Meeting[]>;
+  meetingDoc: AngularFirestoreDocument<Meeting>;
+
+  currentUserMeetings: BehaviorSubject<Meeting[]> = new BehaviorSubject<Meeting[]>([]);
 
   today: Date = getToday();
 
   constructor(
     private afs: AngularFirestore,
+    private auth: AuthService,
     private userService: UserService,
     private projectService: ProjectService,
   ) {
@@ -52,11 +56,20 @@ export class MeetingsService {
           || (!meeting.isInit && day === this.today && meeting.hour + 1 <= new Date().getHours())
         ) {
           meeting.isFinished = true;
-          
+
           this.meetingDoc = this.afs.doc(`meetings/${meeting.id}`);
           this.meetingDoc.update(meeting);
         }
       });
+    });
+
+    this.auth.getCurrentUser().subscribe(user => {
+      let meetings: Meeting[] = [];
+      user.meetings.forEach(meetingId => this.getMeetingById(meetingId).subscribe(meeting => {
+        if (!meeting.isFinished && !meeting.isInit) meetings.push(meeting);
+      }));
+
+      this.currentUserMeetings.next(meetings);
     });
   }
 
@@ -106,12 +119,16 @@ export class MeetingsService {
     return this.afs
       .collection('meetings', (ref) =>
         ref.where('projectId', '==', projectId)
-        .where('meetingDay', '==', meetingDay)
-        .where('isFinished', '==', false))
+          .where('meetingDay', '==', meetingDay)
+          .where('isFinished', '==', false))
       .valueChanges({ idField: 'id' });
   }
 
-  getAllMeetings(): Observable<any> {
+  getAllMeetings(): Observable<Meeting[]> {
     return this.meetings;
+  }
+
+  getCurrentUserMeetings(): Observable<Meeting[]> {
+    return this.currentUserMeetings;
   }
 }

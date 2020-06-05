@@ -18,6 +18,7 @@ import { intersection, union, without } from 'lodash';
 import generateRange from 'src/app/shared/helpers/generateRange';
 import getToday from 'src/app/shared/helpers/getToday';
 import formatTime from 'src/app/shared/helpers/formatTime';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-meetings-page',
@@ -35,9 +36,8 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   addingDropListIdPrefix: string = 'addingDropListId_';
 
   currentUserId: string = '';
-  projectCreatorId: string = '';
-  projectId: string = '';
-  userIds: string[] = [];
+
+  project: IProject;
 
   allProjectMeetings: Meeting[] = [];
 
@@ -74,36 +74,25 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     this.projectService.getCurrentProject().pipe(
       takeUntil(this.destroy$)
     ).subscribe(project => {
-      this.userIds = [];
-
       if (!project) {
         this.router.navigate(['/board/home']);
         return;
       }
 
-      console.log(project)
+      this.project = project;
 
-      this.projectCreatorId = project.createdBy;
-      this.projectId = project.uid;
-
-      this.meetingsService.getMeetings(this.projectId).pipe(
+      this.meetingsService.getMeetings(this.project.uid).pipe(
         takeUntil(this.destroy$)
       ).subscribe(meetings => {
         this.allProjectMeetings = meetings;
       });
 
-      this.userService.getUsersByProject(this.projectId).pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(users => {
-        this.userIds = users.map(user => user.uid)
-
-        this.fetchMeeting();
-      });
+      this.fetchMeeting();
     });
   }
 
   fetchMeeting(): void {
-    this.meetingsService.getMeetingByDay(this.projectId, this.meetingDay).pipe(
+    this.meetingsService.getMeetingByDay(this.project.uid, this.meetingDay).pipe(
       take(1)
     ).subscribe(meeting => {
       this.meeting = meeting[0];
@@ -257,21 +246,20 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       meetingDay: this.meetingDay,
       hour: 0,
       name,
-      projectId: this.projectId,
+      projectId: this.project.uid,
+      projectName: this.project.name,
       isFinished: false,
       isInit: true,
-      timelines: this.userIds
-        ? this.userIds.map((id, index) => ({
+      timelines: this.project.participants.map((id, index) => ({
           timelineId: index,
           userId: id,
           data: [],
         }))
-        : [],
     }
   }
 
   datepickerFilter = (date: Date | null): boolean => {
-    return this.currentUserId === this.projectCreatorId
+    return this.currentUserId === this.project.createdBy
       ? true
       : !!this.allProjectMeetings.find(meeting =>
         (!meeting.isInit && date.getTime() === meeting.meetingDay.toDate().getTime()));
@@ -304,11 +292,11 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   }
 
   getAllAddingDropListIds(): string[] {
-    return this.currentUserId === this.projectCreatorId
+    const foundLine = this.meeting.timelines.find(line => this.currentUserId === line.userId);
+
+    return this.currentUserId === this.project.createdBy
       ? this.meeting.timelines.map(line => this.getAddingDropListId(line.timelineId))
-      : [this.getAddingDropListId(
-          this.meeting.timelines.find(line => this.currentUserId === line.userId).timelineId
-        )];
+      : foundLine ? [this.getAddingDropListId(foundLine.timelineId)] : [];
   }
 
 }

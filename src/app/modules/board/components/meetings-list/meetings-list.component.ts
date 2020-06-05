@@ -14,7 +14,9 @@ export class MeetingsListComponent implements OnChanges {
   @Input() meetings: Meeting[] = [];
   @Input() isProjectCreator: boolean = false;
 
-  @Output() deleteMeetingEvent: EventEmitter<string> = new EventEmitter(); 
+  @Input() isHomePage: boolean = false;
+
+  @Output() deleteMeetingEvent: EventEmitter<string> = new EventEmitter();
 
   finished: Meeting[] = [];
   upcoming: Meeting[] = [];

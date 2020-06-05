@@ -1,4 +1,4 @@
-<div class="meeting board-container" *ngIf="!isLoading else loadingMeeting">
+<div class="meeting board-container" *ngIf="!isLoading && project else loadingMeeting">
 
   <div class="meeting__container" [class.meeting__container--nolines]="!meeting">
     <div class="meeting__header">
@@ -15,7 +15,7 @@
       </div>
       
       <ng-template #noMeetingInfo>
-        <div class="meeting__info" *ngIf="currentUserId === projectCreatorId">
+        <div class="meeting__info" *ngIf="currentUserId === project.createdBy">
           <h1 class="meeting__name">Meeting topic: </h1>
           
           <mat-form-field class="meeting__form" appearance="standard">
@@ -57,7 +57,7 @@
         ></app-background-ruler>
   
         <app-timeline *ngFor="let timeline of meeting.timelines"
-          [isDisabled]="currentUserId === projectCreatorId
+          [isDisabled]="currentUserId === project.createdBy
             ? false
             : timeline.userId !== currentUserId"
           [timelineObject]="timeline"
@@ -73,12 +73,12 @@
     <ng-template #noMeetingTimelines>
       <h2 class="meeting__empty">
         There is no meeting. Find
-          <span *ngIf="currentUserId === projectCreatorId">&nbsp;or create&nbsp;</span>
+          <span *ngIf="currentUserId === project.createdBy">&nbsp;or create&nbsp;</span>
         another one.
       </h2>
     </ng-template>
   
-    <mat-accordion *ngIf="meeting && currentUserId === projectCreatorId">
+    <mat-accordion *ngIf="meeting && currentUserId === project.createdBy">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -112,7 +112,7 @@
 
     <app-meetings-list
       [meetings]="allProjectMeetings"
-      [isProjectCreator]="currentUserId === projectCreatorId"
+      [isProjectCreator]="currentUserId === project.createdBy"
       (deleteMeetingEvent)="deleteMeeting($event)"
     ></app-meetings-list>
   </div>
