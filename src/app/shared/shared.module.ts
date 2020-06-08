@@ -15,6 +15,9 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HeaderComponent } from './components/header/header.component';
+import { MobileMenuComponent } from './components/header/mobile-menu/mobile-menu.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -29,8 +32,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ClickOutsideDirective,
     UserMenuComponent,
     NotificationComponent,
+    HeaderComponent,
+    MobileMenuComponent,
+    FooterComponent
   ],
   imports: [
+    CommonModule,
     RouterModule,
     MatMenuModule,
     MatButtonModule,
@@ -48,6 +55,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ClickOutsideDirective,
     UserMenuComponent,
     NotificationComponent,
+    HeaderComponent,
+    MobileMenuComponent,
+    FooterComponent,
 
     MatMenuModule,
     MatButtonModule,
