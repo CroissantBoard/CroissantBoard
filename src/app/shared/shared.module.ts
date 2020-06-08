@@ -17,6 +17,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HeaderComponent } from './components/header/header.component';
 import { MobileMenuComponent } from './components/header/mobile-menu/mobile-menu.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MobileMenuComponent } from './components/header/mobile-menu/mobile-menu
     UserMenuComponent,
     NotificationComponent,
     HeaderComponent,
-    MobileMenuComponent
+    MobileMenuComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { MobileMenuComponent } from './components/header/mobile-menu/mobile-menu
     NotificationComponent,
     HeaderComponent,
     MobileMenuComponent,
+    FooterComponent,
 
     MatMenuModule,
     MatButtonModule,

@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 
 import { MaterialModule } from '../../shared/modules/material.module';
 
-import {FooterComponent} from "./components/footer/footer.component";
-
 import { LandingComponent } from './pages/landing/landing.component';
 import { IntroComponent } from './pages/landing/components/intro/intro.component';
 import { ReviewComponent } from './pages/landing/components/review/review.component';
@@ -26,7 +24,6 @@ import {HomeRoutingModule} from "./home-routing.module";
   declarations: [
       LandingComponent,
       AboutUsComponent,
-      FooterComponent,
       IntroComponent,
       ServicesComponent,
       ReviewComponent,
