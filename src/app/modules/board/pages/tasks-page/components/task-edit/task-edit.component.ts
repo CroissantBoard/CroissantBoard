@@ -55,12 +55,12 @@ export class TaskEditComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(user => this.user = user);
-    setTimeout(()=>{
-      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects=> this.projects = projects);
+    setTimeout(() => {this.authService.user$.subscribe(user => this.user = user);}, 300);
+    setTimeout(() => {
+      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects => this.projects = projects);
       this.projectService.getCurrentProject().subscribe(project => this.project = project)
       this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
-    }, 500);
+    }, 700);
   }
 
   ngOnChanges() {
@@ -70,11 +70,10 @@ export class TaskEditComponent implements OnInit, OnChanges {
       priority: this.task.priority,
       description: this.task.description,
       assignee: this.task.assignee,
-      project: this.task.project,
+      project: this.task.projectFull,
       completed: this.task.completed,
       IsPrivate: this.task.IsPrivate,
     });
-
     this.isPublic = this.task.IsPrivate ? true : false;
   }
 
@@ -85,7 +84,11 @@ export class TaskEditComponent implements OnInit, OnChanges {
 
     if ((this.form.value.name || '').trim()) {
       edit.deadline = new Date(edit.deadline).getTime()
+      edit.projectFull = this.form.value.project
+      edit.project = edit.projectFull.name;
+      edit.projectId = edit.projectFull.uid;
       this.taskService.updateTask(this.task.id, edit);
+      this.closeWindow();
     }
 
     this.form.controls['name'].setValue(this.form.value.name.trim());

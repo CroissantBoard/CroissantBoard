@@ -68,7 +68,7 @@
             <label class="form__label">Project</label>
             <mat-form-field>
               <mat-select formControlName="project">
-                <mat-option *ngFor="let project of projects" [value]="project.uid">
+                <mat-option *ngFor="let project of projects" [value]="project">
                   {{project.name}}
                 </mat-option>
               </mat-select>

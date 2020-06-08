@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router';
 import { TaskService } from 'src/app/shared/services/task.service';
 import Task from 'src/app/shared/interfaces/Task';
 import { AuthService } from 'src/app/core/authentification/auth.service';
@@ -25,6 +25,7 @@ export class TaskPageComponent implements OnInit {
   project;
   form: FormGroup;
   minDate: Date;
+  taskId: string;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -54,9 +55,12 @@ export class TaskPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => this.user = user);
-    this.route.params.subscribe((params: Params) => this.taskService.getOneTask(params).subscribe(task => this.task = task));
+    this.route.params.subscribe((params: Params) => {
+      this.taskService.getOneTask(params).subscribe(task => this.task = task)
+      this.taskId = params.id;
+    });
     setTimeout(() => {
-      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects=> this.projects = projects);
+      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects => this.projects = projects);
       this.projectService.getCurrentProject().subscribe(project => this.project = project)
       this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
       this.form.setValue({
@@ -65,7 +69,7 @@ export class TaskPageComponent implements OnInit {
         priority: this.task.priority,
         description: this.task.description,
         assignee: this.task.assignee,
-        project: this.task.project,
+        project: this.task.projectFull,
         completed: this.task.completed,
         IsPrivate: this.task.IsPrivate,
       });
@@ -79,7 +83,10 @@ export class TaskPageComponent implements OnInit {
     }
     if ((this.form.value.name || '').trim()) {
       edit.deadline = new Date(edit.deadline).getTime()
-      this.taskService.updateTask(this.task.id, edit);
+      edit.projectFull = this.form.value.project
+      edit.project = edit.projectFull.name;
+      edit.projectId = edit.projectFull.uid;
+      this.taskService.updateTask(this.taskId, edit);
     }
     this.form.controls['name'].setValue(this.form.value.name.trim());
   }
@@ -89,6 +96,7 @@ export class TaskPageComponent implements OnInit {
   }
 
   deleteTask(event, task: Task) {
+    task.id = this.taskId;
     this.taskService.deleteTask(task);
     this.router.navigate(['/board/tasks']);
   }

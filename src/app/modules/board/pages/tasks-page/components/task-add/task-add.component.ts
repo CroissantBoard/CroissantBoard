@@ -50,7 +50,9 @@ export class TaskAddComponent implements OnInit {
       priority: 'low',
       description: '',
       assignee: '',
+      projectFull: '',
       project: '',
+      projectId: '',
       completed: false,
       IsPrivate: true,
     });
@@ -87,7 +89,9 @@ export class TaskAddComponent implements OnInit {
         completed,
         description,
         assignee,
-        project,
+        projectFull: this.form.value.project,
+        project: this.form.value.project.name,
+        projectId: this.form.value.project.uid,
         IsPrivate
       })
       this.form.reset();
