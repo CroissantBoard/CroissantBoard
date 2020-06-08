@@ -1,22 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Task from 'src/app/shared/interfaces/Task';
 import { TaskService } from 'src/app/shared/services/task.service';
-import { AuthService } from 'src/app/core/authentification/auth.service';
-import { switchMap } from 'rxjs/operators';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ProjectService } from 'src/app/shared/services/project.service';
-import { Subject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
-import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
-
+export class TaskListComponent implements OnInit {
   tasks: Task[];
   isEdit: boolean = false;
   @Output() editShown = new EventEmitter<boolean>();
@@ -30,15 +23,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
     private projectService: ProjectService,
   ) { }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   ngOnInit(): void {
     this.projectService.getCurrentProject()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(project => {console.log(project); this.taskService.getTasksByProject(project.uid).subscribe(tasks => {this.tasks = tasks; console.log(project);})});
+      .subscribe(project => this.taskService.getTasksByProject(project.uid).subscribe(tasks => this.tasks = tasks));
     this.filter = 'all';
   }
 

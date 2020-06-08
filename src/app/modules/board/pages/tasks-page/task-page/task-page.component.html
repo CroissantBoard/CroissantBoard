@@ -33,7 +33,7 @@
             <label class="form__label">Assignee</label>
             <mat-form-field>
               <mat-select formControlName="assignee">
-                <mat-option *ngFor="let user of users" [value]="user.uid">
+                <mat-option *ngFor="let user of users" [value]="user.name">
                   {{user.name}}
                 </mat-option>
               </mat-select>
