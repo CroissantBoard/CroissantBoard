@@ -75,16 +75,14 @@ export class MeetingsService {
   }
 
   deleteMeeting(meetingId: string) {
-    this.meetingDoc = this.afs.doc(`meetings/${meetingId}`);
-
-    this.meetingDoc.get().subscribe(meetingData => {
+    this.afs.doc(`meetings/${meetingId}`).get().subscribe(meetingDoc => {
       this.projectService.deleteMeetingFromProject(meetingId);
 
-      meetingData.data().timelines.forEach((line: TimelineObject) =>
+      meetingDoc.data().timelines.forEach((line: TimelineObject) =>
         this.userService.deleteMeetingFromUser(meetingId, line.userId));
-    });
 
-    this.meetingDoc.delete();
+      meetingDoc.ref.delete();
+    });
   }
 
   updateMeeting(meeting: Meeting) {

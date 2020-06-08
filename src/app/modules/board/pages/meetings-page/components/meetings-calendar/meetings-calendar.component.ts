@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import getToday from 'src/app/shared/helpers/getToday';
 
@@ -7,7 +7,7 @@ import getToday from 'src/app/shared/helpers/getToday';
   templateUrl: './meetings-calendar.component.html',
   styleUrls: ['./meetings-calendar.component.scss']
 })
-export class MeetingsCalendarComponent implements OnInit {
+export class MeetingsCalendarComponent {
   
   @Input() filter: Function = () => true;
   @Input() minDate: Date = getToday();
@@ -16,9 +16,6 @@ export class MeetingsCalendarComponent implements OnInit {
   @Output() dayChangeEvent: EventEmitter<Date> = new EventEmitter();
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
   
   onDayChange(): void {
     this.dayChangeEvent.emit(this.meetingDay);

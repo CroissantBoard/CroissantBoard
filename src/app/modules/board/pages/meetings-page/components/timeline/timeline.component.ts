@@ -21,6 +21,7 @@ import User from 'src/app/shared/interfaces/User';
 })
 export class TimelineComponent implements OnInit {
 
+  @Input() timelineLength: number = 24;
   @Input() isDisabled: boolean = false;
 
   @Input() timelineObject: TimelineObject;
@@ -48,8 +49,12 @@ export class TimelineComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService
-      .getUserById(this.timelineObject.userId)
+    this.timelineStarts = new Array(this.timelineLength).fill(null);
+    this.timelineEnds = new Array(this.timelineLength).fill(null);
+    this.timelineSwaps = new Array(this.timelineLength).fill(null);
+    this.timelineAddingItems = new Array(this.timelineLength - 1).fill(null);
+
+    this.userService.getUserById(this.timelineObject.userId)
       .subscribe(user => this.user = user);
 
     this.mainContainers = this.timelineObject.data;

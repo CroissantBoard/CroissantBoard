@@ -53,8 +53,8 @@ export class UserService {
     );
   }
 
-  getUsersByProject(workspaceId: string) {
-    return this.afs.collection('users', ref => ref.where('projects', 'array-contains', workspaceId))
+  getUsersByProject(projectId: string) {
+    return this.afs.collection('users', ref => ref.where('projects', 'array-contains', projectId))
       .snapshotChanges()
       .pipe(
         map(changes => {

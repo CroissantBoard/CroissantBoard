@@ -37,11 +37,14 @@
   }
 
   &__header {
-    @include dis-flex-column(flex-start, stretch);
+    @include dis-flex(space-between, flex-start);
+    flex-wrap: wrap;
   }
 
   &__info {
     @include dis-flex(space-between, center);
+
+    width: 100%;
   }
 
   &__name,

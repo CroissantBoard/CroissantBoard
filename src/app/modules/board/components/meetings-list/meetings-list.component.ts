@@ -12,6 +12,7 @@ import formatTime from 'src/app/shared/helpers/formatTime';
 export class MeetingsListComponent implements OnChanges {
 
   @Input() meetings: Meeting[] = [];
+  @Input() currentUserId: string;
   @Input() isProjectCreator: boolean = false;
 
   @Input() isHomePage: boolean = false;
@@ -27,6 +28,9 @@ export class MeetingsListComponent implements OnChanges {
     this.finished = [];
     this.upcoming = [];
 
+    if (this.currentUserId && !this.isProjectCreator)
+      this.meetings = this.meetings.filter(meeting => meeting.users.includes(this.currentUserId));
+
     this.meetings.forEach(meeting => {
       if (meeting.isFinished) {
         this.finished.push(meeting);
@@ -35,7 +39,9 @@ export class MeetingsListComponent implements OnChanges {
       }
     });
 
-    if (this.isHomePage || !this.isProjectCreator) this.upcoming = this.upcoming.filter(meeting => meeting.isInit === false);
+    if (this.isHomePage || !this.isProjectCreator)
+      this.upcoming = this.upcoming.filter(meeting => meeting.isInit === false);
+    
     if (this.isHomePage) this.upcoming = this.upcoming.splice(0, 6);
   }
 
