@@ -1,4 +1,4 @@
-<mat-accordion>
+<mat-accordion class="meetings-accordion">
   <mat-expansion-panel *ngIf="!isHomePage">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -44,17 +44,18 @@
           <div class="meeting">
             <span> {{formatTime(meeting.hour)}} </span>
 
-            <div class="meeting__project">
-              <h2 class="meeting__title">Project:</h2>
-              <span class="meeting__name"> {{meeting.projectName}} </span>
+            <div class="meeting__info">
+              <div mat-line>
+                <h3 class="meeting__title">Project:</h3>
+                <span>{{meeting.projectName}}</span>
+              </div>
+              <div mat-line>
+                <h4 class="meeting__title">Topic:</h4>
+                <span>{{meeting.name}}</span>
+              </div>
             </div>
 
-            <div class="meeting__topic">
-              <h2 class="meeting__title">Topic:</h2>
-              <span class="meeting__name"> {{meeting.name}} </span>
-            </div>
-
-            <span class="meeting__date"> {{getDate(meeting.meetingDay) | date}} </span>
+            <span> {{getDate(meeting.meetingDay) | date}} </span>
           </div>
         </ng-template>
 

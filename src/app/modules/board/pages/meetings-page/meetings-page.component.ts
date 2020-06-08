@@ -6,19 +6,18 @@ import { Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/authentification/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
+import IProject from 'src/app/shared/interfaces/Project';
 
 import { intersection, union, without } from 'lodash';
 
 import generateRange from 'src/app/shared/helpers/generateRange';
 import getToday from 'src/app/shared/helpers/getToday';
 import formatTime from 'src/app/shared/helpers/formatTime';
-import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-meetings-page',
@@ -56,7 +55,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private auth: AuthService,
     private meetingsService: MeetingsService,
-    private userService: UserService,
     private projectService: ProjectService,
   ) { }
 
@@ -110,6 +108,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   }
 
   updateMeeting() {
+    this.meeting.isInit = false;
     this.meetingsService.updateMeeting(this.meeting);
   }
 
@@ -250,6 +249,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       projectName: this.project.name,
       isFinished: false,
       isInit: true,
+      users: this.project.participants,
       timelines: this.project.participants.map((id, index) => ({
           timelineId: index,
           userId: id,

@@ -17,4 +17,10 @@
   &__content {
     padding: 10px;
   }
+
+  &__meetings {
+    @include basic(max-content, 100%);
+
+    margin-top: 16px;
+  }
 }
