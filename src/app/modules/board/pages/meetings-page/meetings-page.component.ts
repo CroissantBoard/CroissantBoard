@@ -80,6 +80,8 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
         return;
       }
 
+      if (!this.isLoading && this.project && project.uid !== this.project.uid) this.isLoading = true;
+
       this.project = project;
 
       this.meetingsService.getMeetings(this.project.uid).pipe(
@@ -104,15 +106,58 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeMeetingDay(day: Date): void {
-    this.meetingDay = day;
+  createNewMeeting(name: string): Meeting {
+    return {
+      id: null,
+      meetingDay: this.meetingDay,
+      hour: 0,
+      name,
+      projectId: this.project.uid,
+      projectName: this.project.name,
+      isFinished: false,
+      isInit: true,
+      users: this.newMeetingParticipans,
+      timelines: this.newMeetingParticipans.map((id, index) => ({
+          timelineId: index,
+          userId: id,
+          data: [],
+        }))
+    }
+  }
 
-    this.fetchMeeting();
+  addMeeting() {
+    const name = (this.meetingNameFormControl.value || '').trim();
+
+    if (name) {
+      if (this.newMeetingParticipans.length) {
+        this.meetingsService.addMeeting(this.createNewMeeting(name));
+  
+        this.meetingNameFormControl.reset();
+        this.meetingNameFormControl.setValue('');
+  
+        this.fetchMeeting();
+      }
+    } else {
+      this.meetingNameFormControl.setValue('');
+      this.meetingNameFormControl.setErrors(['invalid', 'required']);
+    }
   }
 
   updateMeeting() {
     this.meeting.isInit = false;
     this.meetingsService.updateMeeting(this.meeting);
+  }
+
+  deleteMeeting(meetingId: string): void {
+    this.meetingsService.deleteMeeting(meetingId);
+
+    this.fetchMeeting();
+  }
+
+  changeMeetingDay(day: Date): void {
+    this.meetingDay = day;
+
+    this.fetchMeeting();
   }
 
   onChangedTimelineEvent($event: TimelineObject): void {
@@ -237,29 +282,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
   }
 
-  formatTime(num: number): string {
-    return formatTime(num);
-  }
-
-  createNewMeeting(name: string): Meeting {
-    return {
-      id: null,
-      meetingDay: this.meetingDay,
-      hour: 0,
-      name,
-      projectId: this.project.uid,
-      projectName: this.project.name,
-      isFinished: false,
-      isInit: true,
-      users: this.newMeetingParticipans,
-      timelines: this.newMeetingParticipans.map((id, index) => ({
-          timelineId: index,
-          userId: id,
-          data: [],
-        }))
-    }
-  }
-
   datepickerFilter = (date: Date | null): boolean => {
     return this.currentUserId === this.project.createdBy
       ? true
@@ -267,32 +289,12 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
         (!meeting.isInit && meeting.users.includes(this.currentUserId) && date.getTime() === meeting.meetingDay.toDate().getTime()));
   }
 
-  addMeeting() {
-    const name = (this.meetingNameFormControl.value || '').trim();
-
-    if (name) {
-      if (this.newMeetingParticipans.length) {
-        this.meetingsService.addMeeting(this.createNewMeeting(name));
-  
-        this.meetingNameFormControl.setValue('');
-        this.meetingNameFormControl.setErrors([]);
-  
-        this.fetchMeeting();
-      }
-    } else {
-      this.meetingNameFormControl.setValue('');
-      this.meetingNameFormControl.setErrors(['invalid', 'required']);
-    }
-  }
-
-  deleteMeeting(meetingId: string): void {
-    this.meetingsService.deleteMeeting(meetingId);
-
-    this.fetchMeeting();
-  }
-
   changeSelectedUsers(users: string[]): void {
     this.newMeetingParticipans = users;
+  }
+
+  formatTime(num: number): string {
+    return formatTime(num);
   }
 
   getAddingDropListId(timelineId: number): string {
