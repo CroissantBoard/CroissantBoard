@@ -6,9 +6,16 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Meeting } from '../../interfaces/meeting';
+
+import getToday from '../../helpers/getToday';
+import { UserService } from '../user.service';
+import { ProjectService } from '../project.service';
+import { TimelineObject } from '../../interfaces/timeline/timeline-object';
+import { AuthService } from 'src/app/core/authentification/auth.service';
 
 
 @Injectable({
@@ -16,11 +23,20 @@ import { Meeting } from '../../interfaces/meeting';
 })
 export class MeetingsService {
 
-  meetingsCollection: AngularFirestoreCollection<Meeting>
-  meetings: Observable<Meeting[]>
-  meetingDoc: AngularFirestoreDocument<Meeting>
+  meetingsCollection: AngularFirestoreCollection<Meeting>;
+  meetings: Observable<Meeting[]>;
+  meetingDoc: AngularFirestoreDocument<Meeting>;
 
-  constructor(private afs: AngularFirestore) {
+  currentUserMeetings: BehaviorSubject<Meeting[]> = new BehaviorSubject<Meeting[]>([]);
+
+  today: Date = getToday();
+
+  constructor(
+    private afs: AngularFirestore,
+    private auth: AuthService,
+    private userService: UserService,
+    private projectService: ProjectService,
+  ) {
     this.meetingsCollection = this.afs.collection('meetings')
     this.meetings = this.meetingsCollection.snapshotChanges().pipe(
       map(changes => {
@@ -31,14 +47,55 @@ export class MeetingsService {
         })
       })
     );
+
+    this.meetings.subscribe(meetings => {
+      meetings.forEach(meeting => {
+        const day = meeting.meetingDay.toDate();
+        if (
+          day < this.today
+          || (!meeting.isInit && day === this.today && meeting.hour + 1 <= new Date().getHours())
+        ) {
+          meeting.isFinished = true;
+
+          this.meetingDoc = this.afs.doc(`meetings/${meeting.id}`);
+          this.meetingDoc.update(meeting);
+        }
+      });
+    });
+
+    this.auth.getCurrentUser().subscribe(user => {
+      let meetings: Meeting[] = [];
+      user.meetings.forEach(meetingId => this.getMeetingById(meetingId).subscribe(meeting => {
+        if (!meeting.isFinished && !meeting.isInit) meetings.push(meeting);
+      }));
+
+      this.currentUserMeetings.next(meetings);
+    });
   }
 
   addMeeting(meeting: Meeting) {
-    this.meetingsCollection.add(meeting);
+    this.meetingsCollection.add(meeting).then(doc => {
+      this.meetingDoc = this.afs.doc(`meetings/${doc.id}`);
+
+      this.meetingDoc.get().subscribe(meetingData => {
+        this.projectService.addMeetingToProject(doc.id);
+
+        meetingData.data().timelines.forEach((line: TimelineObject) =>
+          this.userService.addMeetingToUser(doc.id, line.userId));
+      });
+    });
   }
 
-  deleteMeeting(meetingId: Meeting) {
+  deleteMeeting(meetingId: string) {
     this.meetingDoc = this.afs.doc(`meetings/${meetingId}`);
+
+    this.meetingDoc.get().subscribe(meetingData => {
+      this.projectService.deleteMeetingFromProject(meetingId);
+
+      meetingData.data().timelines.forEach((line: TimelineObject) =>
+        this.userService.deleteMeetingFromUser(meetingId, line.userId));
+    });
+
     this.meetingDoc.delete();
   }
 
@@ -47,9 +104,10 @@ export class MeetingsService {
     this.meetingDoc.update(meeting);
   }
 
-  getMeetings(workspaceId: string): Observable<any> {
+  getMeetings(projectId: string): Observable<any> {
     return this.afs
-      .collection('meetings', (ref) => ref.where('workspaceId', '==', workspaceId))
+      .collection('meetings', (ref) =>
+        ref.where('projectId', '==', projectId))
       .valueChanges({ idField: 'id' });
   }
 
@@ -61,16 +119,16 @@ export class MeetingsService {
     return this.afs
       .collection('meetings', (ref) =>
         ref.where('projectId', '==', projectId)
-        .where('meetingDay', '==', meetingDay))
+          .where('meetingDay', '==', meetingDay)
+          .where('isFinished', '==', false))
       .valueChanges({ idField: 'id' });
-
-    // return this.afs
-    //   .collection('meetings', (ref) => ref.where('workspaceId', '==', workspaceId)
-    //   .where('meetingDay', '==', meetingDay))
-    //   .valueChanges({ idField: 'id' });
   }
 
-  getAllMeetings(): Observable<any> {
+  getAllMeetings(): Observable<Meeting[]> {
     return this.meetings;
+  }
+
+  getCurrentUserMeetings(): Observable<Meeting[]> {
+    return this.currentUserMeetings;
   }
 }

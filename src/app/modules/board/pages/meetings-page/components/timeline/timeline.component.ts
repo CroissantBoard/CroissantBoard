@@ -21,6 +21,8 @@ import User from 'src/app/shared/interfaces/User';
 })
 export class TimelineComponent implements OnInit {
 
+  @Input() isDisabled: boolean = false;
+
   @Input() timelineObject: TimelineObject;
 
   @Input() addingDropListId: string;
@@ -47,7 +49,7 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService
-      .getUserById(this.timelineObject.uid)
+      .getUserById(this.timelineObject.userId)
       .subscribe(user => this.user = user);
 
     this.mainContainers = this.timelineObject.data;

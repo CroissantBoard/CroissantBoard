@@ -85,4 +85,8 @@ export class AuthService {
       .doc(firebaseUser.uid)
       .set(userData, { merge: true });
   }
+
+  getCurrentUser(): Observable<User> {
+    return this.user$;
+  }
 }

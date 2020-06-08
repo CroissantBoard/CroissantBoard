@@ -10,7 +10,7 @@ import {
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { uniq } from 'lodash';
+import { uniq, without } from 'lodash';
 
 import IProject from 'src/app/shared/interfaces/Project';
 import { NotificationService } from './notification.service';
@@ -25,9 +25,9 @@ export class ProjectService {
 
   currentProjectSub = new BehaviorSubject<IProject>(null);
   currentProject$ = this.currentProjectSub.asObservable()
-    .pipe(filter(user => !!user));  
+    .pipe(filter(user => !!user));
 
-  constructor (
+  constructor(
     private afs: AngularFirestore,
     private notificationService: NotificationService,
     ) {
@@ -42,7 +42,13 @@ export class ProjectService {
       })
     )
 
-    this.projects$.subscribe();
+    this.projects$.subscribe(projects => {
+      if (this.currentProjectSub.getValue()) {
+        this.currentProjectSub.next(
+          projects.find(project => project.uid === this.currentProjectSub.getValue().uid)
+        );
+      }
+    });
 
   }
 
@@ -51,7 +57,7 @@ export class ProjectService {
   }
 
   getProjectsByUserId(userId: string) {
-    return this.afs.collection('projects', ref => ref.where('participants', 'array-contains', userId ))
+    return this.afs.collection('projects', ref => ref.where('participants', 'array-contains', userId))
       .snapshotChanges()
       .pipe(
         map(changes => {
@@ -96,6 +102,30 @@ export class ProjectService {
     this.notificationService.openSnackBar(message);
     return this.projectsCollection.add(project);
   }
+
+  addMeetingToProject(meetingId: string): void {
+    this.currentProject$
+      .subscribe((project: IProject) => {
+        const meetings: string[] = uniq([
+          ...project.meetings || [],
+          meetingId,
+        ]);
+
+        this.projectDoc = this.afs.doc(`projects/${project.uid}`);
+        this.projectDoc.update({ meetings });
+      });
+  }
+
+  deleteMeetingFromProject(meetingId: string): void {
+    this.currentProject$
+      .subscribe((project: IProject) => {
+        const meetings: string[] = without(project.meetings, meetingId);
+
+        this.projectDoc = this.afs.doc(`projects/${project.uid}`);
+        this.projectDoc.update({ meetings });
+      });
+  }
+
   
   deleteProject(project: IProject): void {
     const message = `Project ${project.name} was deleted`

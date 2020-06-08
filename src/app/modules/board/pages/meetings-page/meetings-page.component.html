@@ -1,56 +1,84 @@
-<div class="meeting board-container" *ngIf="meeting else loadingMeeting">
+<div class="meeting board-container" *ngIf="!isLoading && project else loadingMeeting">
 
-  <div class="meeting__container">
+  <div class="meeting__container" [class.meeting__container--nolines]="!meeting">
     <div class="meeting__header">
-    
-      <div class="meeting__calendar">
-        <mat-form-field>
-          <mat-label>Meeting date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="meetingDay" (ngModelChange)="onChangeMeetingDay()" />
-        
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="resetMeetingDay()">
-            <mat-icon>close</mat-icon>
-          </button>
-        
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
+
+      <app-meetings-calendar
+        [filter]="datepickerFilter"
+        (dayChangeEvent)="changeMeetingDay($event)"
+      ></app-meetings-calendar>
       
-      <div class="meeting__info">
+      <div class="meeting__info" *ngIf="meeting else noMeetingInfo">
         <h1 class="meeting__name">Meeting topic: {{meeting.name}}</h1>
   
         <h2 class="meeting__time">Time: {{formatTime(meeting.hour)}}</h2>
       </div>
+      
+      <ng-template #noMeetingInfo>
+        <div class="meeting__info" *ngIf="currentUserId === project.createdBy">
+          <h1 class="meeting__name">Meeting topic: </h1>
+          
+          <mat-form-field class="meeting__form" appearance="standard">
+            <mat-label>Topic</mat-label>
+            <input matInput
+              placeholder="Write topic here"
+              [formControl]="meetingNameFormControl"
+              required>
+
+            <mat-error *ngIf="meetingNameFormControl.invalid">
+              <span *ngIf="meetingNameFormControl.errors.required">Topic required!</span>
+              <span *ngIf="meetingNameFormControl.errors.minlength">
+                Topic must be at least {{meetingNameFormControl.errors.minlength.requiredLength}} characters.
+              </span>
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" (click)="addMeeting()">Create meeting</button>
+        </div>
+      </ng-template>
     </div>
     
     <mat-divider></mat-divider>
 
-    <app-timeline-bar
+    <app-timeline-bar *ngIf="meeting"
       class="meeting__bar"
       [addingDropListIds]="getAllAddingDropListIds()"
       [timelineBarId]="timelineBarId">
     </app-timeline-bar>
-  
-    <mat-divider></mat-divider>
-  
-    <div class="meeting__lines">
-      <app-background-ruler
-        class="meeting__ruler"
-        [length]="rulerLength"
-      ></app-background-ruler>
 
-      <app-timeline *ngFor="let timeline of meeting.timelines"
-        [timelineObject]="timeline"
-        [timelineBarId]="timelineBarId"
-        [addingDropListId]="getAddingDropListId(timeline.timelineId)"
-        (changedTimelineEvent)="onChangedTimelineEvent($event)">
-      </app-timeline>
-    </div>
+    <div class="meeting__timelines" *ngIf="meeting else noMeetingTimelines">
     
-    <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
+    
+      <div class="meeting__lines">
+        <app-background-ruler
+          class="meeting__ruler"
+          [length]="rulerLength"
+        ></app-background-ruler>
   
-    <mat-accordion>
+        <app-timeline *ngFor="let timeline of meeting.timelines"
+          [isDisabled]="currentUserId === project.createdBy
+            ? false
+            : timeline.userId !== currentUserId"
+          [timelineObject]="timeline"
+          [timelineBarId]="timelineBarId"
+          [addingDropListId]="getAddingDropListId(timeline.timelineId)"
+          (changedTimelineEvent)="onChangedTimelineEvent($event)">
+        </app-timeline>
+      </div>
+    
+      <mat-divider></mat-divider>
+    </div>
+
+    <ng-template #noMeetingTimelines>
+      <h2 class="meeting__empty">
+        There is no meeting. Find
+          <span *ngIf="currentUserId === project.createdBy">&nbsp;or create&nbsp;</span>
+        another one.
+      </h2>
+    </ng-template>
+  
+    <mat-accordion *ngIf="meeting && currentUserId === project.createdBy">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -60,6 +88,7 @@
     
         <app-hour-picker
           [hoursArray]="bestMeetingHours"
+          [pickedHour]="meeting.hour"
           (hourPickedEvent)="setMeetingHour($event)"
         ></app-hour-picker>
       </mat-expansion-panel>
@@ -73,15 +102,28 @@
     
         <app-hour-picker
           [hoursArray]="possibleMeetingHours"
+          [pickedHour]="meeting.hour"
           (hourPickedEvent)="setMeetingHour($event)"
         ></app-hour-picker>
       </mat-expansion-panel>
     </mat-accordion>
+    
+    <mat-divider></mat-divider>
+
+    <app-meetings-list
+      [meetings]="allProjectMeetings"
+      [isProjectCreator]="currentUserId === project.createdBy"
+      (deleteMeetingEvent)="deleteMeeting($event)"
+    ></app-meetings-list>
   </div>
 </div>
 
 <ng-template #loadingMeeting>
-  <div class="meeting--loading">
-    <h2>Meeting is loading. Please wait...</h2>
+  <div class="meeting">
+    <div class="meeting__container meeting__container--loading">
+      <h2>Meeting is loading. Please wait...</h2>
+
+      <mat-spinner></mat-spinner>
+    </div>
   </div>
 </ng-template>

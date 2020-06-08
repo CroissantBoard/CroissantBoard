@@ -2,6 +2,6 @@ import { MainContainer } from './main-container';
 
 export interface TimelineObject {
   timelineId: number,
-  uid: string,
+  userId: string,
   data: MainContainer[],
 }
