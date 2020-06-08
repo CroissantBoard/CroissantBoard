@@ -35,7 +35,8 @@ export class MeetingsListComponent implements OnChanges {
       }
     });
 
-    if (!this.isProjectCreator) this.upcoming.filter(meeting => meeting.isInit === false);
+    if (this.isHomePage || !this.isProjectCreator) this.upcoming = this.upcoming.filter(meeting => meeting.isInit === false);
+    if (this.isHomePage) this.upcoming = this.upcoming.splice(0, 6);
   }
 
   getDate(date): Date {
