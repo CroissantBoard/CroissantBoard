@@ -1,51 +1,114 @@
 @import "_variables";
 
 .schedule {
-    max-width: 100%;
-    background: transparent;
+   max-width: 100%;
+   background: transparent;
 }
 
 .schedule__header {
-    max-width: 100%;
-    margin: 0 1.5px;
-    padding: 1rem;
-    background: $primary-dark;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+   max-width: 100%;
+   margin: 0 1.5px;
+   padding: 1rem;
+   background: $grey-background;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+//    border: 1px solid $font-grey;
 
-    .schedule__header_title {
-        color: $white;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+   .schedule__header_title {
+       color: $font-grey;
+       font-size: $font-subheading;
+       font-weight: bold;
+   }
 
-    .schedule__header_date {
-        margin-left: 1rem;
-        color: $white;
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
+   .schedule__header_date {
+       margin-left: 1rem;
+       color: $font-grey;
+       font-size: $font-subheading;
+       font-weight: bold;
+   }
 }
 
 .schedule__body {
-    max-width: 100%;
-    margin: 1.5px 1.5px;
-    padding: 1rem;
-    background: $primary-light;
-    display: flex;
-    justify-content: space-between;
+   max-width: 100%;
+   min-height: 10px;
+   margin: 0 1.5px;
+//    padding: 1rem;
+   background: $grey-background;
+   display: flex;
+   justify-content: space-between;
+//    border: 1px solid $font-grey;
 
-        .schedule__list_task {
-            width: 100%;
-            padding: 0;
-            border: 1px solid $black;
-            background: $primary-light;
+       .schedule__list_task {
+           width: 100%;
+           margin: 0;
+           padding: 0;
 
-            .schedule__item_task {
-                list-style: none;
-                width: 100%;
-                background: $accent-dark;
-            }
-        }
+           .schedule__item_task {
+               list-style: none;
+               margin: 1.5px 0;
+               width: 100%;
+               background: transparent;
+               border: 1px solid $font-grey;
+               display: flex;
+               justify-content: space-between;
+
+                div {
+                    width: 45%;
+                    padding: 1%;
+                }
+
+                .schedule__item_task-name {
+                    font-size: $font-middle;
+                    font-weight: 500;
+                    color: $primary-dark;
+
+                        @media (max-width: 420px) {
+                            font-size: $font-small;
+                        }
+                }
+
+                .schedule__item_task-priority {
+                    font-size: $font-small;
+                    color: $font-grey;
+    
+                        @media (max-width: 420px) {
+                            font-size: $font-extra-small;
+                        }
+
+                        span {
+                            font-weight: 500;
+                            color: $primary-dark;
+                        }
+                }
+
+                .schedule__item_task-project {
+                    font-size: $font-small;
+                    color: $font-grey;
+   
+                        @media (max-width: 420px) {
+                            font-size: $font-extra-small;
+                        }
+
+                        span {
+                            font-weight: 500;
+                            color: $primary-dark;
+                        }
+                }
+
+                .schedule__item_task-description {
+                    font-size: $font-small;
+                    color: $font-grey;
+
+                        @media (max-width: 420px) {
+                            font-size: $font-extra-small;
+                        }
+
+                        span {
+                            font-weight: 500;
+                            color: $primary-dark;
+                        }
+                }
+           }
+       }
 }

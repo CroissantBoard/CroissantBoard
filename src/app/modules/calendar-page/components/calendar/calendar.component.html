@@ -1,7 +1,7 @@
 <div class="main-calendar">
 
     <div class="calendar">
-
+ 
         <div class="calendar__week">
             <div class="calendar__day_name">Monday</div>
             <div class="calendar__day_name">Tuesday</div>
@@ -11,7 +11,7 @@
             <div class="calendar__day_name">Saturday</div>
             <div class="calendar__day_name">Sunday</div>
         </div>
-
+ 
         <div 
         class="calendar__week" 
         *ngFor="let week of calendar"
@@ -21,23 +21,23 @@
             *ngFor="let day of week.days"
             [class.disabled]="day.disabled"
             (click)="select(day.value)"
+            [class.active]="day.active"
+            [class.selected]="day.selected"
             >
-                <div 
-                class="calendar__day_date"
-                [class.active]="day.active"
-                [class.selected]="day.selected"
-                >
-                    {{day.value | moment: 'ddd DD'}}
+                <div class="calendar__day_date">
+                {{day.value | date:'LLL d'}}
                 </div>
-
+ 
                 <div class="calendar__day_event">
                     <ul>
-                        <li></li>
+                        <li *ngFor="let task of getTodayTasks(day)">
+                        {{ task.name }}
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-
+ 
     </div>
-
-</div>
+ 
+ </div>

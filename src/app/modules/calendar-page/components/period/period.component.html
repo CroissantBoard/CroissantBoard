@@ -1,7 +1,24 @@
-<p>
-    <span class="arrow-left-circle control-icon" (click)="slide(-1)">&laquo;</span>
+<div class="container__period">
 
-    <span>{{dateService.date | async | moment}}</span>
+    <div class="container__period_header">
+        <p>
+            <span 
+            class="arrow-left-circle control-icon" 
+            (click)="slide(-1)"
+            >&laquo;</span>
 
-    <span class="arrow-right-circle control-icon" (click)="slide(1)">&raquo;</span>
-</p>
+            <span>{{dateService.date | async | moment}}</span>
+
+            <span 
+            class="arrow-right-circle control-icon" 
+            (click)="slide(1)"
+            >&raquo;</span>
+        </p>
+    </div>
+
+    <div class="container__period_header">
+        <p (click)="gotoTask()">go to tasks</p>
+    </div>
+</div>
+
+

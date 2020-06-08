@@ -4,13 +4,27 @@
         <span class="schedule__header_title">Schedule</span>
         <span class="schedule__header_date">{{dateService.date | async | moment: 'DD.MM.YYYY'}}</span>
     </div>
-
+ 
     <div class="schedule__body">
         <ul class="schedule__list_task">
-            <li class="schedule__item_task">
-                task item
+            <li 
+            class="schedule__item_task"
+            *ngFor="let task of getTodayTasks(day)"
+            >
+                <div class="">
+                    <p class="schedule__item_task-name">{{ task.name }}</p>
+                    <p class="schedule__item_task-priority"><span>Created:</span> {{ task.dateOfCreate | date: 'longDate' }}</p>
+                    <p class="schedule__item_task-priority"><span>Priority:</span> {{ task.priority }}</p>
+                    <p class="schedule__item_task-project"><span>Project:</span> {{ task.project }}</p>
+                    <p class="schedule__item_task-project"><span>Assignee:</span> {{ task.assignee }}</p>
+                </div>
+                
+                <div>
+                    <p class="schedule__item_task-description"><span>Description:</span> {{ task.description }}</p>
+                </div>
+                
             </li>
         </ul>
     </div>
-
-</section>
+ 
+ </section>
