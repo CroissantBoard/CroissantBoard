@@ -1,69 +1,74 @@
 <div class="login">
-  <form class="form" (ngSubmit)="onSubmit()">
-    <span class="form__title">Log in</span>
-    <button
-      class="form__button form__button--social"
-      mat-flat-button
-      type="button"
-      (click)="signInWithGoogle()"
-    >
-      Use Google Account <app-google-icon class="form__icon"></app-google-icon>
-    </button>
-    <button
-      class="form__button form__button--social"
-      mat-flat-button
-      type="button"
-      (click)="signInWithFacebook()"
-    >
-      Use Facebook Account
-      <app-facebook-icon class="form__icon"></app-facebook-icon>
-    </button>
-    <div class="form__devider">or</div>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        [formControl]="emailFormControl"
-        type="email"
-        placeholder="Ex. pat@example.com"
-      />
-      <mat-error
-        *ngIf="
-          emailFormControl.hasError('email') &&
-          !emailFormControl.hasError('required')
-        "
+  <app-header></app-header>
+  <div class="login__form">
+    <form class="form" (ngSubmit)="onSubmit()">
+      <span class="form__title">Log in</span>
+      <button
+        class="form__button form__button--social"
+        mat-flat-button
+        type="button"
+        (click)="signInWithGoogle()"
       >
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('notFound')">
-        User with this email does not exist
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        Enter your email please
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Password</mat-label>
-      <input
-        matInput
-        [formControl]="passwordFormControl"
-        type="password"
-        placeholder="Ex. pat@example.com"
-      />
-      <mat-error *ngIf="passwordFormControl.hasError('wrongPassword')">
-        Wrong password
-      </mat-error>
-    </mat-form-field>
-    <button
-      class="form__button form__button--submit"
-      mat-flat-button
-      color="primary"
-    >
-      Log In
-    </button>
-    <span class="form__text">
-      Don’t have an account?
-      <a class="form__link" [routerLink]="['/auth/register']">Sign up</a>
-    </span>
-  </form>
+        Use Google Account
+        <app-google-icon class="form__icon"></app-google-icon>
+      </button>
+      <button
+        class="form__button form__button--social"
+        mat-flat-button
+        type="button"
+        (click)="signInWithFacebook()"
+      >
+        Use Facebook Account
+        <app-facebook-icon class="form__icon"></app-facebook-icon>
+      </button>
+      <div class="form__devider">or</div>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [formControl]="emailFormControl"
+          type="email"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('notFound')">
+          User with this email does not exist
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Enter your email please
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [formControl]="passwordFormControl"
+          type="password"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error *ngIf="passwordFormControl.hasError('wrongPassword')">
+          Wrong password
+        </mat-error>
+      </mat-form-field>
+      <button
+        class="form__button form__button--submit"
+        mat-flat-button
+        color="primary"
+      >
+        Log In
+      </button>
+      <span class="form__text">
+        Don’t have an account?
+        <a class="form__link" [routerLink]="['/auth/register']">Sign up</a>
+      </span>
+    </form>
+  </div>
+  <app-footer></app-footer>
 </div>
