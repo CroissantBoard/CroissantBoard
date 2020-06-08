@@ -29,7 +29,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   isLoading: boolean = true;
 
-  rulerLength: number = 24;
+  timelineLength: number = 24;
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
@@ -51,6 +51,8 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     Validators.minLength(3),
   ]);
 
+  newMeetingParticipans: string[] = [];
+
   constructor(
     private router: Router,
     private auth: AuthService,
@@ -66,8 +68,9 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.meetingDay = getToday();
 
-    this.auth.getCurrentUser()
-      .subscribe(user => this.currentUserId = user.uid);
+    this.auth.getCurrentUser().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(user => this.currentUserId = user.uid);
 
     this.projectService.getCurrentProject().pipe(
       takeUntil(this.destroy$)
@@ -129,7 +132,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   setMeetingHour(hour: number): void {
     this.meeting.hour = hour;
-    this.meeting.isInit = false;
     this.updateMeeting();
   }
 
@@ -249,8 +251,8 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
       projectName: this.project.name,
       isFinished: false,
       isInit: true,
-      users: this.project.participants,
-      timelines: this.project.participants.map((id, index) => ({
+      users: this.newMeetingParticipans,
+      timelines: this.newMeetingParticipans.map((id, index) => ({
           timelineId: index,
           userId: id,
           data: [],
@@ -262,19 +264,21 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return this.currentUserId === this.project.createdBy
       ? true
       : !!this.allProjectMeetings.find(meeting =>
-        (!meeting.isInit && date.getTime() === meeting.meetingDay.toDate().getTime()));
+        (!meeting.isInit && meeting.users.includes(this.currentUserId) && date.getTime() === meeting.meetingDay.toDate().getTime()));
   }
 
   addMeeting() {
     const name = (this.meetingNameFormControl.value || '').trim();
 
     if (name) {
-      this.meetingsService.addMeeting(this.createNewMeeting(name));
-
-      this.meetingNameFormControl.setValue('');
-      this.meetingNameFormControl.setErrors([]);
-
-      this.fetchMeeting();
+      if (this.newMeetingParticipans.length) {
+        this.meetingsService.addMeeting(this.createNewMeeting(name));
+  
+        this.meetingNameFormControl.setValue('');
+        this.meetingNameFormControl.setErrors([]);
+  
+        this.fetchMeeting();
+      }
     } else {
       this.meetingNameFormControl.setValue('');
       this.meetingNameFormControl.setErrors(['invalid', 'required']);
@@ -285,6 +289,10 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     this.meetingsService.deleteMeeting(meetingId);
 
     this.fetchMeeting();
+  }
+
+  changeSelectedUsers(users: string[]): void {
+    this.newMeetingParticipans = users;
   }
 
   getAddingDropListId(timelineId: number): string {

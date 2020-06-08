@@ -43,6 +43,7 @@ import { HourPickerComponent } from './pages/meetings-page/components/hour-picke
 import { BackgroundRulerComponent } from './pages/meetings-page/components/background-ruler/background-ruler.component';
 import { MeetingsListComponent } from './components/meetings-list/meetings-list.component';
 import { MeetingsCalendarComponent } from './pages/meetings-page/components/meetings-calendar/meetings-calendar.component';
+import { UsersSelectComponent } from './pages/meetings-page/components/users-select/users-select.component';
 import { SortUpcomingMeetingsPipe } from 'src/app/shared/pipes/sort-upcoming-meetings-pipe/sort-upcoming-meetings.pipe';
 
 import { ProjectEditComponent } from './pages/home-page/components/project-edit/project-edit.component';
@@ -89,6 +90,7 @@ import { DeleteUserComponent } from './pages/users-page/components/delete-user/d
     DeleteProjectComponent,
     DeleteUserComponent,
     SortUpcomingMeetingsPipe,
+    UsersSelectComponent,
   ],
   imports: [
     MaterialModule,
