@@ -1,5 +1,5 @@
-<mat-accordion class="meetings-accordion">
-  <mat-expansion-panel *ngIf="!isHomePage">
+<mat-accordion *ngIf="!isHomePage else homePageList">
+  <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
         Finished Meetings
@@ -32,32 +32,13 @@
       <mat-list-item *ngFor="let meeting of upcoming | sortUpcomingMeetings">
         <mat-icon mat-list-icon>schedules</mat-icon>
 
-        <div class="meeting" *ngIf="!isHomePage else homePageMeeting">
+        <div class="meeting">
           <span> {{formatTime(meeting.hour)}} </span>
 
           <span> {{meeting.name}} </span>
 
           <span> {{getDate(meeting.meetingDay) | date}} </span>
         </div>
-
-        <ng-template #homePageMeeting>
-          <div class="meeting">
-            <span> {{formatTime(meeting.hour)}} </span>
-
-            <div class="meeting__info">
-              <div mat-line>
-                <h3 class="meeting__title">Project:</h3>
-                <span>{{meeting.projectName}}</span>
-              </div>
-              <div mat-line>
-                <h4 class="meeting__title">Topic:</h4>
-                <span>{{meeting.name}}</span>
-              </div>
-            </div>
-
-            <span> {{getDate(meeting.meetingDay) | date}} </span>
-          </div>
-        </ng-template>
 
         <button mat-icon-button *ngIf="isProjectCreator" (click)="deleteMeeting(meeting.id)">
           <mat-icon>delete</mat-icon>
@@ -66,3 +47,40 @@
     </mat-list>
   </mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #homePageList>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Upcoming Meetings
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-list>
+      <mat-list-item *ngFor="let meeting of upcoming | sortUpcomingMeetings">
+        <mat-icon mat-list-icon>schedules</mat-icon>
+
+        <div class="meeting">
+          <span> {{formatTime(meeting.hour)}} </span>
+
+          <div class="meeting__info">
+            <div mat-line>
+              <h3 class="meeting__title">Project:</h3>
+              <span>{{meeting.projectName}}</span>
+            </div>
+            <div mat-line>
+              <h4 class="meeting__title">Topic:</h4>
+              <span>{{meeting.name}}</span>
+            </div>
+          </div>
+
+          <span> {{getDate(meeting.meetingDay) | date}} </span>
+        </div>
+
+        <button mat-icon-button *ngIf="isProjectCreator" (click)="deleteMeeting(meeting.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</ng-template>

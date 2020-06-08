@@ -1,9 +1,5 @@
 @import 'mixins';
 
-.meetings-accordion {
-  @include fill-parent;
-}
-
 .meeting {
   @include fill-parent;
   @include dis-flex(space-between, center);
