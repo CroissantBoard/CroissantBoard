@@ -9,5 +9,6 @@ export interface Meeting {
   projectName: string,
   isFinished: boolean,
   isInit: boolean,
+  users: string[],
   timelines: TimelineObject[],
 }

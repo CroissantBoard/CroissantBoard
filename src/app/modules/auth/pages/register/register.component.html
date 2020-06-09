@@ -1,99 +1,103 @@
 <div class="register">
-  <form class="form" (ngSubmit)="onSubmit()">
-    <span class="form__title">Sign up</span>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Full Name</mat-label>
-      <input
-        matInput
-        [formControl]="nameFormControl"
-        type="text"
-        placeholder="Ex. React Angularov"
-      />
-      <mat-error
-        *ngIf="
-          nameFormControl.hasError('invalidName') &&
-          !nameFormControl.hasError('required')
-        "
+  <app-header></app-header>
+  <div class="register__form">
+    <form class="form" (ngSubmit)="onSubmit()">
+      <span class="form__title">Sign up</span>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Full Name</mat-label>
+        <input
+          matInput
+          [formControl]="nameFormControl"
+          type="text"
+          placeholder="Ex. React Angularov"
+        />
+        <mat-error
+          *ngIf="
+            nameFormControl.hasError('invalidName') &&
+            !nameFormControl.hasError('required')
+          "
+        >
+          Please enter a valid full name
+        </mat-error>
+        <mat-error *ngIf="nameFormControl.hasError('required')">
+          Enter your name please
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          [formControl]="emailFormControl"
+          type="email"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('inUse')">
+          The email address is already in use by another account
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Enter your email please
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [formControl]="passwordFormControl"
+          type="password"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            passwordFormControl.hasError('minlength') &&
+            !passwordFormControl.hasError('required')
+          "
+        >
+          Password must be at least 6 characters
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Enter your password please
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__field" appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          matInput
+          [formControl]="confirmPasswordFormControl"
+          type="password"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            confirmPasswordFormControl.hasError('matchPassword') &&
+            !confirmPasswordFormControl.hasError('required')
+          "
+        >
+          Passwords does not match
+        </mat-error>
+        <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
+          Confirm your password please
+        </mat-error>
+      </mat-form-field>
+      <button
+        class="form__button form__button--submit"
+        mat-flat-button
+        color="primary"
       >
-        Please enter a valid full name
-      </mat-error>
-      <mat-error *ngIf="nameFormControl.hasError('required')">
-        Enter your name please
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        [formControl]="emailFormControl"
-        type="email"
-        placeholder="Ex. pat@example.com"
-      />
-      <mat-error
-        *ngIf="
-          emailFormControl.hasError('email') &&
-          !emailFormControl.hasError('required')
-        "
-      >
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('inUse')">
-        The email address is already in use by another account
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        Enter your email please
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Password</mat-label>
-      <input
-        matInput
-        [formControl]="passwordFormControl"
-        type="password"
-        placeholder="Ex. pat@example.com"
-      />
-      <mat-error
-        *ngIf="
-          passwordFormControl.hasError('minlength') &&
-          !passwordFormControl.hasError('required')
-        "
-      >
-        Password must be at least 6 characters
-      </mat-error>
-      <mat-error *ngIf="passwordFormControl.hasError('required')">
-        Enter your password please
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="form__field" appearance="fill">
-      <mat-label>Confirm Password</mat-label>
-      <input
-        matInput
-        [formControl]="confirmPasswordFormControl"
-        type="password"
-        placeholder="Ex. pat@example.com"
-      />
-      <mat-error
-        *ngIf="
-          confirmPasswordFormControl.hasError('matchPassword') &&
-          !confirmPasswordFormControl.hasError('required')
-        "
-      >
-        Passwords does not match
-      </mat-error>
-      <mat-error *ngIf="confirmPasswordFormControl.hasError('required')">
-        Confirm your password please
-      </mat-error>
-    </mat-form-field>
-    <button
-      class="form__button form__button--submit"
-      mat-flat-button
-      color="primary"
-    >
-      Sign Up
-    </button>
-    <span class="form__text">
-      Already have an account?
-      <a class="form__link" [routerLink]="['/auth/login']">Sign in</a>
-    </span>
-  </form>
+        Sign Up
+      </button>
+      <span class="form__text">
+        Already have an account?
+        <a class="form__link" [routerLink]="['/auth/login']">Sign in</a>
+      </span>
+    </form>
+  </div>
+  <app-footer></app-footer>
 </div>

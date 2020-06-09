@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-label>Participants (required)</mat-label>
+  <mat-select [formControl]="usersControl" multiple (selectionChange)="onUserSelect()">
+    <mat-option *ngFor="let user of users" [value]="user.uid"> {{user.name}} </mat-option>
+  </mat-select>
+  <mat-error *ngIf="usersControl.hasError('required')">You must make a selection</mat-error>
+</mat-form-field>

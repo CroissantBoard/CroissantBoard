@@ -8,12 +8,11 @@ import { Meeting } from '../../interfaces/meeting';
 export class SortUpcomingMeetingsPipe implements PipeTransform {
 
   transform(meetings: Meeting[]): Meeting[] {
-    return meetings.sort((a, b) => {
-      return a.hour < b.hour
-        && a.meetingDay.toDate().getTime() < b.meetingDay.toDate().getTime()
-          ? -1
-          : 1; 
-    });
+    return meetings.sort((a, b) => a.meetingDay.toDate().getTime() - b.meetingDay.toDate().getTime())
+      .sort((a, b) => a.meetingDay.toDate().getTime() === b.meetingDay.toDate().getTime()
+        ? a.hour - b.hour
+        : 0
+      );
   }
 
 }

@@ -18,6 +18,8 @@ export class AvatarComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.getTitle(this.name);
+
+    if (!this.iconColor) this.iconColor = this.getColor();
   }
 
   private getTitle(val: string): string {
@@ -30,7 +32,7 @@ export class AvatarComponent implements OnInit {
     return valueArr[0][0].toUpperCase()
   }
 
-  private getColor(): string {
+  getColor(): string {
     return COLORS[this.getRandomInt(0, COLORS.length)]
   }
 

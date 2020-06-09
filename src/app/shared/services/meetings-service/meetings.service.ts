@@ -6,16 +6,16 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Meeting } from '../../interfaces/meeting';
-
-import getToday from '../../helpers/getToday';
 import { UserService } from '../user.service';
 import { ProjectService } from '../project.service';
+
+import { Meeting } from '../../interfaces/meeting';
 import { TimelineObject } from '../../interfaces/timeline/timeline-object';
-import { AuthService } from 'src/app/core/authentification/auth.service';
+
+import getToday from '../../helpers/getToday';
 
 
 @Injectable({
@@ -27,13 +27,10 @@ export class MeetingsService {
   meetings: Observable<Meeting[]>;
   meetingDoc: AngularFirestoreDocument<Meeting>;
 
-  currentUserMeetings: BehaviorSubject<Meeting[]> = new BehaviorSubject<Meeting[]>([]);
-
   today: Date = getToday();
 
   constructor(
     private afs: AngularFirestore,
-    private auth: AuthService,
     private userService: UserService,
     private projectService: ProjectService,
   ) {
@@ -62,15 +59,6 @@ export class MeetingsService {
         }
       });
     });
-
-    this.auth.getCurrentUser().subscribe(user => {
-      let meetings: Meeting[] = [];
-      user.meetings.forEach(meetingId => this.getMeetingById(meetingId).subscribe(meeting => {
-        if (!meeting.isFinished && !meeting.isInit) meetings.push(meeting);
-      }));
-
-      this.currentUserMeetings.next(meetings);
-    });
   }
 
   addMeeting(meeting: Meeting) {
@@ -87,16 +75,14 @@ export class MeetingsService {
   }
 
   deleteMeeting(meetingId: string) {
-    this.meetingDoc = this.afs.doc(`meetings/${meetingId}`);
-
-    this.meetingDoc.get().subscribe(meetingData => {
+    this.afs.doc(`meetings/${meetingId}`).get().subscribe(meetingDoc => {
       this.projectService.deleteMeetingFromProject(meetingId);
 
-      meetingData.data().timelines.forEach((line: TimelineObject) =>
+      meetingDoc.data().timelines.forEach((line: TimelineObject) =>
         this.userService.deleteMeetingFromUser(meetingId, line.userId));
-    });
 
-    this.meetingDoc.delete();
+      meetingDoc.ref.delete();
+    });
   }
 
   updateMeeting(meeting: Meeting) {
@@ -128,7 +114,9 @@ export class MeetingsService {
     return this.meetings;
   }
 
-  getCurrentUserMeetings(): Observable<Meeting[]> {
-    return this.currentUserMeetings;
+  getAllMeetingsByUser(userId: string): Observable<any> {
+    return this.afs.collection('meetings', ref =>
+      ref.where('users', 'array-contains', userId)
+    ).valueChanges();
   }
 }
