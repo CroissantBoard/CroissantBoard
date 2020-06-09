@@ -45,6 +45,10 @@ export class TaskService {
       .valueChanges({ idField: 'id' });
   }
 
+  getAllTasks(): Observable<any> {
+    return this.tasks;
+  }
+
   addTask(task: Task) {
     this.taskCollection.add(task)
   }
@@ -59,6 +63,19 @@ export class TaskService {
     this.taskDoc.update(task)
   }
 
+  getTasksByProject(workspaceId: string) {
+    return this.afs.collection('tasks', ref => ref.where('projectId', '==', workspaceId))
+      .snapshotChanges()
+      .pipe(
+        map(changes => {
+          return changes.map(a => {
+            const data = a.payload.doc.data() as Task
+            data.id = a.payload.doc.id
+            return data
+          })
+        })
+      )
+  }
   // getTasksByCurrentProject() {
   //   return forkJoin([
   //     this.projectService.getProject$(),

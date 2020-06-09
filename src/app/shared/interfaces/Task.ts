@@ -8,6 +8,8 @@ export default interface Task {
   deadline?: number;
   description?: string; 
   assignee?: string;
+  projectFull?;
   project?: string;
+  projectId?: string;
   IsPrivate?: boolean;
 }

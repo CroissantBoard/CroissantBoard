@@ -3,6 +3,7 @@ import Task from 'src/app/shared/interfaces/Task';
 import { TaskService } from 'src/app/shared/services/task.service';
 import { AuthService } from 'src/app/core/authentification/auth.service';
 import { switchMap } from 'rxjs/operators';
+import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
   selector: 'app-tasks-page',
@@ -19,19 +20,13 @@ export class TasksPageComponent implements OnInit {
   sortVal: string;
   filter: string;
 
-  constructor(private authService: AuthService, private taskService: TaskService) { }
+  constructor(private authService: AuthService, private taskService: TaskService, private projectService: ProjectService) { }
 
   ngOnInit(): void {
-    this.authService.user$
-      .pipe(
-        switchMap((user) => {
-          return this.taskService.getTasks(user.uid);
-        })
-      )
-      .subscribe((tasks) => {
-        return this.tasks = tasks;
-      });
-
+    setTimeout(()=>{
+      this.projectService.getCurrentProject()
+      .subscribe(project => this.taskService.getTasksByProject(project.uid).subscribe(tasks => this.tasks = tasks));
+    }, 1000)  
   }
 
   showAddMenu(): void {

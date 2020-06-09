@@ -18,6 +18,12 @@
     }
   }
 
+  &__submenu{
+    color: $font-grey;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   &__filter {
     margin-left: 16px;
 
