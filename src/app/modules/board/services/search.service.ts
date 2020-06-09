@@ -70,7 +70,7 @@ export class SearchService {
         }
         break;
       case 'meetings':
-        filter = `participants:${this.user.uid}`;
+        filter = `users:${this.user.uid}`;
         break;
       default:
         break;

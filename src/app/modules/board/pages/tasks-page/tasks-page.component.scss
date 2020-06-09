@@ -4,7 +4,6 @@
 .task-page {
   background-color: $light;
   display: flex;
-  height: calc(100vh - 70px);
   flex-direction: column;
 
   &__loading{
