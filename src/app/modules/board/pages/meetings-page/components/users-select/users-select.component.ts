@@ -31,6 +31,9 @@ export class UsersSelectComponent implements OnChanges {
         take(1)
       ).subscribe(users => this.users = users);
     }
+
+    if (this.currentUserId && !this.usersControl.value.length) this.usersControl.setValue([this.currentUserId]);
+    console.log(this.usersControl.value)
   }
 
   onUserSelect(): void {
