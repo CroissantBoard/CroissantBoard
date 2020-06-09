@@ -46,7 +46,9 @@ export class TaskPageComponent implements OnInit {
       priority: 'low',
       description: '',
       assignee: '',
-      project: '',
+      project: new FormControl('', [
+        Validators.required
+      ]),
       completed: false,
       IsPrivate: true,
     });

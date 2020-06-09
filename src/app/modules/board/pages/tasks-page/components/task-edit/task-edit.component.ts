@@ -47,7 +47,9 @@ export class TaskEditComponent implements OnInit, OnChanges {
       priority: 'low',
       description: '',
       assignee: '',
-      project: '',
+      project: new FormControl('', [
+        Validators.required
+      ]),
       completed: false,
       IsPrivate: true,
     });

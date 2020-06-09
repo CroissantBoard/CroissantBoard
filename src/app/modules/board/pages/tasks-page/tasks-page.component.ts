@@ -26,7 +26,7 @@ export class TasksPageComponent implements OnInit {
     setTimeout(()=>{
       this.projectService.getCurrentProject()
       .subscribe(project => this.taskService.getTasksByProject(project.uid).subscribe(tasks => this.tasks = tasks));
-    }, 2000)  
+    }, 1000)  
   }
 
   showAddMenu(): void {

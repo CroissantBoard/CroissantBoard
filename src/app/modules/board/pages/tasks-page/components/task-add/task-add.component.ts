@@ -51,7 +51,9 @@ export class TaskAddComponent implements OnInit {
       description: '',
       assignee: '',
       projectFull: '',
-      project: '',
+      project: new FormControl('', [
+        Validators.required
+      ]),
       projectId: '',
       completed: false,
       IsPrivate: true,
@@ -97,6 +99,8 @@ export class TaskAddComponent implements OnInit {
       this.form.reset();
       this.form.controls['priority'].setValue('low')
       this.form.controls['deadline'].setErrors(null);
+      this.form.controls['project'].setErrors(null);
+      this.closeWindow();
     }
     this.added.emit();
   }
