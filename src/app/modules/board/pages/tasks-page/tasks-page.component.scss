@@ -6,6 +6,11 @@
   display: flex;
   flex-direction: column;
 
+  &__loading{
+    @include dis-flex(center, center);
+    flex-direction: column;
+  }
+
   &__filter {
     width: 100%;
   }

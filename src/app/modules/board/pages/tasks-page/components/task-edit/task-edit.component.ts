@@ -8,6 +8,7 @@ import Task from 'src/app/shared/interfaces/Task';
 import * as moment from 'moment';
 import { ProjectService } from 'src/app/shared/services/project.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-task-edit',
@@ -24,7 +25,7 @@ export class TaskEditComponent implements OnInit, OnChanges {
   form: FormGroup;
   minDate: Date;
   projects;
-  project;
+  project: IProject;
   @Input() task: Task;
   @Output() edited = new EventEmitter();
   @Output() isShown = new EventEmitter<boolean>();
@@ -57,12 +58,16 @@ export class TaskEditComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {this.authService.user$.subscribe(user => this.user = user);}, 300);
     setTimeout(() => {
-      this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects => this.projects = projects);
-      this.projectService.getCurrentProject().subscribe(project => this.project = project)
-      this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
-    }, 700);
+      this.authService.user$.subscribe(user => {
+        this.user = user;
+        this.projectService.getProjectsByUserId(this.user.uid).subscribe(projects => this.projects = projects);
+        this.projectService.getCurrentProject().subscribe(project => {
+          this.project = project
+          this.userService.getUsersByProject(this.project.uid).subscribe(users => this.users = users);
+        })
+      });
+    }, 300);
   }
 
   ngOnChanges() {
