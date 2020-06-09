@@ -13,9 +13,9 @@
         <div class="meeting">
           <span> {{formatTime(meeting.hour)}} </span>
 
-          <span> {{meeting.name}} </span>
+          <span class="meeting__name"> {{meeting.name}} </span>
 
-          <span> {{getDate(meeting.meetingDay) | date}} </span>
+          <span class="meeting__date"> {{getDate(meeting.meetingDay) | date}} </span>
         </div>
       </mat-list-item>
     </mat-list>
@@ -35,9 +35,9 @@
         <div class="meeting">
           <span> {{formatTime(meeting.hour)}} </span>
 
-          <span> {{meeting.name}} </span>
+          <span class="meeting__name"> {{meeting.name}} </span>
 
-          <span> {{getDate(meeting.meetingDay) | date}} </span>
+          <span class="meeting__date"> {{getDate(meeting.meetingDay) | date}} </span>
         </div>
 
         <button mat-icon-button *ngIf="isProjectCreator" (click)="deleteMeeting(meeting.id)">
