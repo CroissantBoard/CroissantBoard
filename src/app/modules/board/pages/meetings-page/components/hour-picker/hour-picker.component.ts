@@ -22,7 +22,7 @@ export class HourPickerComponent {
     this.hourPickedEvent.emit(hour);
 
     const message = `Selected time: ${formatTime(hour)}`;
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
   }
   
   formatTime(num: number): string {

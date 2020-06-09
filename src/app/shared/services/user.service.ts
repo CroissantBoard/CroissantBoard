@@ -112,7 +112,7 @@ export class UserService {
     this.userDoc = this.afs.doc(`users/${uid}`)
 
     const message = 'User successfully updated.'
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
 
     return this.userDoc.update(edit);
   }
@@ -165,7 +165,7 @@ export class UserService {
 
     const message = `User ${user.name} was deleted from current project.`;
 
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
 
   }
 

@@ -78,7 +78,7 @@ export class ProjectService {
     const message = `Switched to ${project.name}`;
 
     this.currentProjectSub.next(project);
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
   }
 
   setUsersToProject(usersUids: string[]): void {
@@ -93,13 +93,13 @@ export class ProjectService {
         this.projectDoc.update({ participants: participants });
 
         const message = 'Users list successfully updated.'
-        this.notificationService.openSnackBar(message);
+        // this.notificationService.openSnackBar(message);
       })
   }
 
   addProject(project: IProject): Promise<DocumentReference> {
     const message = `Project successfully created with name ${project.name}`
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
     return this.projectsCollection.add(project);
   }
 
@@ -131,7 +131,7 @@ export class ProjectService {
     const message = `Project ${project.name} was deleted`
     this.projectDoc = this.afs.doc(`projects/${project.uid}`)
     this.projectDoc.delete()
-    this.notificationService.openSnackBar(message);
+    // this.notificationService.openSnackBar(message);
   }
 
   removeParticipant(uid: string): void {
