@@ -59,7 +59,7 @@ export class SearchService {
         filter = `participants:${this.user.uid}`;
         break;
       case 'tasks':
-        filter = `createdBy:${this.user.uid} OR assignee:${this.user.uid}`;
+        filter = `createdBy:${this.user.uid} OR assignee:"${this.user.name}"`;
         break;
       case 'users':
         const projects = this.user.projects;

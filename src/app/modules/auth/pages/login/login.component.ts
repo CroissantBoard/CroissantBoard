@@ -28,7 +28,7 @@ export class LoginComponent {
         this.passwordFormControl.value
       );
 
-      return this.router.navigate(['/board']);
+      return this.router.navigate(['/board/home']);
     } catch (err) {
       console.log(err);
       if (err.code === 'auth/user-not-found') {
@@ -44,7 +44,7 @@ export class LoginComponent {
     try {
       await this.authService.signInWithGoogle();
 
-      return this.router.navigate(['/board']);
+      return this.router.navigate(['/board/home']);
     } catch (err) {
       console.log(err);
     }
@@ -54,12 +54,9 @@ export class LoginComponent {
     try {
       await this.authService.signInWithFacebook();
 
-      return this.router.navigate(['/board']);
+      return this.router.navigate(['/board/home']);
     } catch (err) {
       console.log(err);
     }
   }
-
-  // {code: "auth/user-not-found", message: "There is no user record corresponding to this identifier. The user may have been deleted.", a: null}
-  // {code: "auth/wrong-password", message: "The password is invalid or the user does not have a password.", a: null}
 }

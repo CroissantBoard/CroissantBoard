@@ -56,7 +56,7 @@ export class RegisterComponent {
           this.passwordFormControl.value
         );
 
-        return this.router.navigate(['/board']);
+        return this.router.navigate(['/board/home']);
       } catch (err) {
         console.log(err);
         if (err.code === 'auth/email-already-in-use') {
