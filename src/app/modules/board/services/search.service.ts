@@ -18,7 +18,6 @@ export class SearchService {
   }
 
   onQuery($event) {
-    console.log('onQuery');
     this.query = $event.target.value;
   }
 
