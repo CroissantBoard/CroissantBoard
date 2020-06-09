@@ -4,7 +4,7 @@
   </div>
 
   <div class="task-page__main">
-    <div class="task-page__container">
+    <div class="task-page__container" *ngIf="!isLoading && project else loadingTasks">
       <div class="task-page__header">
         <button (click)="showAddMenu()" mat-flat-button color="primary">
           <span class="task-page__icon icon-plus"></span>
@@ -27,9 +27,18 @@
       </div>
 
       <ng-template #noTasks>
-        <span class="task-page__empty">Loading...</span>
+        <span class="task-page__empty">
+          There are no tasks for today. Hurry up and create some!
+        </span>
       </ng-template>
     </div>
+
+    <ng-template #loadingTasks>
+      <div class="task-page__loading">
+        <span class="task-page__empty">Loading...</span>
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
 
     <div *ngIf="isShown" class="task-page__container task-page__add-block">
       <app-task-add (isShown)="showAddMenu()"></app-task-add>
