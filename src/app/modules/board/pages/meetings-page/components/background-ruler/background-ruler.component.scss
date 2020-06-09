@@ -7,18 +7,9 @@
 
   padding-top: $meeting-padding-vertical;
 
-  @media (max-width: 900px) {
-    padding-bottom: $meeting-padding-vertical;
-    box-sizing: border-box;
-  }
-
   &__item {
     @include basic(calc(100% - #{$meeting-padding-vertical}), 100%);
     @include dis-flex-column(flex-end, flex-start);
-
-    @media (max-width: 900px) {
-      height: 100%;
-    }
 
     &--last {
       @include absolute-0-0-right;
@@ -27,10 +18,6 @@
       width: 1px;
 
       transform: translateX(100%);
-
-      @media (max-width: 900px) {
-        height: calc(100% - #{$meeting-padding-vertical} * 2);
-      }
     }
   }
 
@@ -44,10 +31,6 @@
 
   &__count {
     color: $dark;
-
-    @media (max-width: 900px) {
-      display: none;
-    }
   }
 
   &__row,

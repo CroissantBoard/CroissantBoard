@@ -54,7 +54,7 @@
 
     <div class="meeting__timelines" *ngIf="meeting else noMeetingTimelines">
     
-      <mat-divider></mat-divider>
+      <mat-divider class="meeting__timelines-divider"></mat-divider>
     
       <div class="meeting__lines">
         <app-background-ruler
@@ -74,7 +74,7 @@
         </app-timeline>
       </div>
     
-      <mat-divider></mat-divider>
+      <mat-divider class="meeting__timelines-divider--bottom"></mat-divider>
     </div>
 
     <ng-template #noMeetingTimelines>

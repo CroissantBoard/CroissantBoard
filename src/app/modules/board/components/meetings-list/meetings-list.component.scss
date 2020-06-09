@@ -6,6 +6,14 @@
 
   margin-left: 1rem;
 
+  &__name {
+    padding: 0 0.5rem;
+  }
+
+  &__date {
+    text-align: center;
+  }
+
   &__info {
     margin-left: 3rem;
 
@@ -18,5 +26,15 @@
     display: inline-block;
 
     margin-right: 0.5rem;
+  }
+
+  @media (max-width: 450px) {
+    margin-left: 0;
+
+    &__name {
+      padding: 0 1rem;
+
+      word-break: break-all;
+    }
   }
 }

@@ -18,13 +18,18 @@
 
     background-color: $white;
 
-    &--nolines,
-    &--loading {
-      height: calc(100vh - 70px - #{$meeting-padding-vertical} * 2);
+    &--nolines {
+      height: max-content;
     }
 
     &--loading {
       @include dis-flex-column(space-evenly, center);
+      height: calc(100vh - 72px - #{$meeting-padding-vertical} * 2);
+      
+      padding: $meeting-padding-vertical $meeting-padding-horizontal;
+      box-sizing: border-box;
+
+      text-align: center;
     }
   }
 
@@ -43,6 +48,7 @@
 
   &__info {
     @include dis-flex(space-between, center);
+    flex-wrap: wrap;
 
     width: 100%;
   }
@@ -68,17 +74,16 @@
 
   &__empty {
     @include flex-center;
+    flex-wrap: wrap;
 
     height: 100%;
 
     margin: 0;
-    padding: $meeting-padding-vertical $meeting-padding-horizontal;
+    padding: $meeting-padding-vertical * 2 $meeting-padding-horizontal;
     box-sizing: border-box;
   }
 
   &__bar {
-    @include fill-parent;
-
     position: sticky;
     top: 0;
     left: 0;
@@ -91,13 +96,8 @@
     z-index: 2;
   }
 
-  &__timelines {
-    @include fill-parent;
-  }
-
   &__lines {
     @include dis-flex-column(flex-start, stretch);
-    @include fill-parent;
 
     position: relative;
   }
@@ -109,5 +109,38 @@
     @include absolute-0-0-right;
 
     transform: translateX(-$meeting-padding-horizontal);
+  }
+
+  @media (max-width: 1000px) {
+    &__timelines {
+      overflow-y: hidden;
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        
+        border: 7px solid transparent;
+        box-sizing: border-box;
+
+        background-clip: padding-box;
+
+        background-color: rgba(0, 0, 0, .5);
+        box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+      }
+    }
+
+    &__timelines-divider,
+    &__lines {
+      width: 200%;
+    }
+    
+    &__timelines-divider--bottom {
+      display: none;
+    }
   }
 }
