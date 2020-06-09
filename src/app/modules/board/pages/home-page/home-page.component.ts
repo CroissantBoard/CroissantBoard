@@ -6,7 +6,7 @@ import { MeetingsService } from 'src/app/shared/services/meetings-service/meetin
 import { Meeting } from 'src/app/shared/interfaces/meeting';
 import { takeUntil } from 'rxjs/operators';
 
-import formatTime from 'src/app/shared/helpers/formatTime';
+import { AuthService } from 'src/app/core/authentification/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,12 +14,15 @@ import formatTime from 'src/app/shared/helpers/formatTime';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  
+
   private destroy$: Subject<void> = new Subject<void>();
 
   meetings: Meeting[] = [];
 
-  constructor(private meetingsService: MeetingsService) { }
+  constructor(
+    private auth: AuthService,
+    private meetingsService: MeetingsService,
+  ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -27,9 +30,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.meetingsService.getCurrentUserMeetings().pipe(
+    this.auth.getCurrentUser().pipe(
       takeUntil(this.destroy$)
-    ).subscribe(meetings => this.meetings = meetings);
+    ).subscribe(user => {
+      this.meetingsService.getAllMeetingsByUser(user.uid).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe(meetings => this.meetings = meetings);
+    });
   }
 
 }

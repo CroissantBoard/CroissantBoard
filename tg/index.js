@@ -1,12 +1,11 @@
 const admin = require('firebase-admin');
 const telegram = require('telegram-bot-api');
 const serviceAccount = require('./serviceAccountKey.json');
-const URL = require('./keys')
-const TOKEN = require('./keys')
+const key = require('./keys')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: URL
+  databaseURL: key.URL
 });
 
 const db = admin.firestore();
@@ -14,7 +13,7 @@ const db = admin.firestore();
 const ADD_USER_MSG_PREFIX = "/add_user";
 
 const api = new telegram({
-          token: TOKEN,
+          token: key.TOKEN,
           updates: {
         	enabled: true
             }

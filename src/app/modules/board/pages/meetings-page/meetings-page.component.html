@@ -7,14 +7,20 @@
         [filter]="datepickerFilter"
         (dayChangeEvent)="changeMeetingDay($event)"
       ></app-meetings-calendar>
+
+      <app-users-select *ngIf="currentUserId === project.createdBy && !meeting"
+        [projectId]="project.uid"
+        [currentUserId]="currentUserId"
+        (selectedUserIdsEvent)="changeSelectedUsers($event)"
+      ></app-users-select>
       
-      <div class="meeting__info" *ngIf="meeting else noMeetingInfo">
+      <div class="meeting__info" *ngIf="meeting else addMeetingInfo">
         <h1 class="meeting__name">Meeting topic: {{meeting.name}}</h1>
   
         <h2 class="meeting__time">Time: {{formatTime(meeting.hour)}}</h2>
       </div>
       
-      <ng-template #noMeetingInfo>
+      <ng-template #addMeetingInfo>
         <div class="meeting__info" *ngIf="currentUserId === project.createdBy">
           <h1 class="meeting__name">Meeting topic: </h1>
           
@@ -53,10 +59,11 @@
       <div class="meeting__lines">
         <app-background-ruler
           class="meeting__ruler"
-          [length]="rulerLength"
+          [length]="timelineLength"
         ></app-background-ruler>
   
         <app-timeline *ngFor="let timeline of meeting.timelines"
+          [timelineLength]="timelineLength"
           [isDisabled]="currentUserId === project.createdBy
             ? false
             : timeline.userId !== currentUserId"
@@ -112,6 +119,7 @@
 
     <app-meetings-list
       [meetings]="allProjectMeetings"
+      [currentUserId]="currentUserId"
       [isProjectCreator]="currentUserId === project.createdBy"
       (deleteMeetingEvent)="deleteMeeting($event)"
     ></app-meetings-list>

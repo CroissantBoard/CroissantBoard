@@ -6,19 +6,18 @@ import { Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/core/authentification/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { MeetingsService } from 'src/app/shared/services/meetings-service/meetings.service';
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 import { TimelineObject } from 'src/app/shared/interfaces/timeline/timeline-object';
 import { Meeting } from 'src/app/shared/interfaces/meeting';
+import IProject from 'src/app/shared/interfaces/Project';
 
 import { intersection, union, without } from 'lodash';
 
 import generateRange from 'src/app/shared/helpers/generateRange';
 import getToday from 'src/app/shared/helpers/getToday';
 import formatTime from 'src/app/shared/helpers/formatTime';
-import IProject from 'src/app/shared/interfaces/Project';
 
 @Component({
   selector: 'app-meetings-page',
@@ -30,7 +29,7 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   isLoading: boolean = true;
 
-  rulerLength: number = 24;
+  timelineLength: number = 24;
 
   timelineBarId: string = 'addingItemsList';
   addingDropListIdPrefix: string = 'addingDropListId_';
@@ -52,11 +51,12 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     Validators.minLength(3),
   ]);
 
+  newMeetingParticipans: string[] = [];
+
   constructor(
     private router: Router,
     private auth: AuthService,
     private meetingsService: MeetingsService,
-    private userService: UserService,
     private projectService: ProjectService,
   ) { }
 
@@ -68,8 +68,9 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.meetingDay = getToday();
 
-    this.auth.getCurrentUser()
-      .subscribe(user => this.currentUserId = user.uid);
+    this.auth.getCurrentUser().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(user => this.currentUserId = user.uid);
 
     this.projectService.getCurrentProject().pipe(
       takeUntil(this.destroy$)
@@ -78,6 +79,8 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
         this.router.navigate(['/board/home']);
         return;
       }
+
+      if (!this.isLoading && this.project && project.uid !== this.project.uid) this.isLoading = true;
 
       this.project = project;
 
@@ -103,14 +106,58 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeMeetingDay(day: Date): void {
-    this.meetingDay = day;
+  createNewMeeting(name: string): Meeting {
+    return {
+      id: null,
+      meetingDay: this.meetingDay,
+      hour: 0,
+      name,
+      projectId: this.project.uid,
+      projectName: this.project.name,
+      isFinished: false,
+      isInit: true,
+      users: this.newMeetingParticipans,
+      timelines: this.newMeetingParticipans.map((id, index) => ({
+          timelineId: index,
+          userId: id,
+          data: [],
+        }))
+    }
+  }
+
+  addMeeting() {
+    const name = (this.meetingNameFormControl.value || '').trim();
+
+    if (name) {
+      if (this.newMeetingParticipans.length) {
+        this.meetingsService.addMeeting(this.createNewMeeting(name));
+  
+        this.meetingNameFormControl.reset();
+        this.meetingNameFormControl.setValue('');
+  
+        this.fetchMeeting();
+      }
+    } else {
+      this.meetingNameFormControl.setValue('');
+      this.meetingNameFormControl.setErrors(['invalid', 'required']);
+    }
+  }
+
+  updateMeeting() {
+    this.meeting.isInit = false;
+    this.meetingsService.updateMeeting(this.meeting);
+  }
+
+  deleteMeeting(meetingId: string): void {
+    this.meetingsService.deleteMeeting(meetingId);
 
     this.fetchMeeting();
   }
 
-  updateMeeting() {
-    this.meetingsService.updateMeeting(this.meeting);
+  changeMeetingDay(day: Date): void {
+    this.meetingDay = day;
+
+    this.fetchMeeting();
   }
 
   onChangedTimelineEvent($event: TimelineObject): void {
@@ -130,7 +177,6 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
 
   setMeetingHour(hour: number): void {
     this.meeting.hour = hour;
-    this.meeting.isInit = false;
     this.updateMeeting();
   }
 
@@ -236,55 +282,19 @@ export class MeetingsPageComponent implements OnInit, OnDestroy {
     return hours.length ? intersection(hours).sort((a, b) => a - b) : [];
   }
 
-  formatTime(num: number): string {
-    return formatTime(num);
-  }
-
-  createNewMeeting(name: string): Meeting {
-    return {
-      id: null,
-      meetingDay: this.meetingDay,
-      hour: 0,
-      name,
-      projectId: this.project.uid,
-      projectName: this.project.name,
-      isFinished: false,
-      isInit: true,
-      timelines: this.project.participants.map((id, index) => ({
-          timelineId: index,
-          userId: id,
-          data: [],
-        }))
-    }
-  }
-
   datepickerFilter = (date: Date | null): boolean => {
     return this.currentUserId === this.project.createdBy
       ? true
       : !!this.allProjectMeetings.find(meeting =>
-        (!meeting.isInit && date.getTime() === meeting.meetingDay.toDate().getTime()));
+        (!meeting.isInit && meeting.users.includes(this.currentUserId) && date.getTime() === meeting.meetingDay.toDate().getTime()));
   }
 
-  addMeeting() {
-    const name = (this.meetingNameFormControl.value || '').trim();
-
-    if (name) {
-      this.meetingsService.addMeeting(this.createNewMeeting(name));
-
-      this.meetingNameFormControl.setValue('');
-      this.meetingNameFormControl.setErrors([]);
-
-      this.fetchMeeting();
-    } else {
-      this.meetingNameFormControl.setValue('');
-      this.meetingNameFormControl.setErrors(['invalid', 'required']);
-    }
+  changeSelectedUsers(users: string[]): void {
+    this.newMeetingParticipans = users;
   }
 
-  deleteMeeting(meetingId: string): void {
-    this.meetingsService.deleteMeeting(meetingId);
-
-    this.fetchMeeting();
+  formatTime(num: number): string {
+    return formatTime(num);
   }
 
   getAddingDropListId(timelineId: number): string {
