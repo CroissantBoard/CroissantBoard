@@ -16,7 +16,7 @@ export function ageValidator(control: AbstractControl) {
       return { 'invalidAge': true };
     } else if (value < 13) {
       return { 'tooYoung': true };
-    } else if (value > 112) {
+    } else if (value > 117) {
       return { 'tooOld': true };
     } else {
       return null;
